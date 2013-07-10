@@ -3,21 +3,23 @@ namespace ACache;
 
 /**
  * Cache namespace decorator.
+ *
+ * Not specifiying a namespace will make this class a no-op wrapper.
  */
 class NamespaceCache implements Cache {
     protected $cache;
-    protected $namespace;
+    protected $namespaceFormat;
 
 
     /**
      * Create new instance, decorating the given cache.
      *
      * @param Cache $cache The cache to decorate with a namespace.
-     * @param string $namespace The namespace.
+     * @param string $namespace The namespace; default is <code>null</code> for having no namespace at all.
      */
-    public function __construct(Cache $cache, $namespace) {
+    public function __construct(Cache $cache, $namespace = null) {
         $this->cache = $cache;
-        $this->namespace = $namespace;
+        $this->namespaceFormat = $namespace ? sprintf('%s==%%s', $namespace) : '%s';
     }
 
     /**
@@ -27,7 +29,7 @@ class NamespaceCache implements Cache {
      * @return string The namespace'ed string.
      */
     protected function appyNamespace($s) {
-        return sprintf('cns[%s]-%s', $this->namespace, $s);
+        return sprintf($this->namespaceFormat, $s);
     }
 
     /**
