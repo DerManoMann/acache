@@ -5,6 +5,7 @@ namespace ACache;
  * Cache interface
  */
 interface Cache {
+    const STATS_SIZE = 'size';
     const STATS_HITS = 'hits';
     const STATS_MISSES = 'misses';
     const STATS_UPTIME = 'uptime';
