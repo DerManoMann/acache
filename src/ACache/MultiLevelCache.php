@@ -6,7 +6,6 @@ use InvalidArgumentException;
 /**
  * Multi level cache.
  *
- * The <code>$bubbleOnFetch</code> option will re-add mssing
  * Using the $<code>$bubbleOnFetch</code> option allows to restore data from a lower stack element
  * in all higher elements again. The life time will be adjusted accordingly, however there might
  * be rounding differences (up to a second).
@@ -33,6 +32,7 @@ class MultiLevelCache implements Cache {
                 throw new InvalidArgumentException('All stack elements must implement the Cache interface');
             }
         }
+
         $this->stack = $stack;
         $this->bubbleOnFetch = $bubbleOnFetch;
     }
