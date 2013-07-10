@@ -96,7 +96,9 @@ class ArrayCache implements Cache {
      * {@inheritDoc}
      */
     public function getStats() {
-        return null;
+        return array(
+            Cache::STATS_SIZE => count($this->data),
+        );
     }
 
 }
