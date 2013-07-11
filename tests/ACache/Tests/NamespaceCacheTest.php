@@ -1,4 +1,14 @@
 <?php
+
+/*
+* This file is part of the ACache library.
+*
+* (c) Martin Rademacher <mano@radebatz.net>
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
+
 namespace ACache\Tests;
 
 use ACache\Cache;
@@ -9,6 +19,8 @@ use ACache\NamespaceCache;
 
 /**
  * NamespaceCache tests
+ *
+ * @author Martin Rademacher <mano@radebatz.net>
  */
 class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,18 +47,18 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
     protected function doTestNamespace(Cache $decoratedCache)
     {
         $cache = new NamespaceCache($decoratedCache, 'foo');
-        $this->assertFalse($cache->contains('ying'));
-        $this->assertNull($cache->fetch('ying'));
+        $this->assertFalse($cache->contains('yin'));
+        $this->assertNull($cache->fetch('yin'));
 
-        $this->assertTrue($cache->save('ying', 'yang'));
-        $this->assertTrue($cache->contains('ying'));
-        $this->assertEquals('yang', $cache->fetch('ying'));
+        $this->assertTrue($cache->save('yin', 'yang'));
+        $this->assertTrue($cache->contains('yin'));
+        $this->assertEquals('yang', $cache->fetch('yin'));
         // check decorated cache to make sure there is a namespace in the name...
-        $this->assertFalse($decoratedCache->contains('ying'));
+        $this->assertFalse($decoratedCache->contains('yin'));
 
-        $this->assertTrue($cache->delete('ying'));
-        $this->assertFalse($cache->contains('ying'));
-        $this->assertNull($cache->fetch('ying'));
+        $this->assertTrue($cache->delete('yin'));
+        $this->assertFalse($cache->contains('yin'));
+        $this->assertNull($cache->fetch('yin'));
 
         $stats = $decoratedCache->getStats();
         $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
@@ -83,14 +95,14 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
     protected function doTestEmptyNamespace(Cache $decoratedCache)
     {
         $cache = new NamespaceCache($decoratedCache);
-        $this->assertFalse($cache->contains('ying'));
-        $this->assertNull($cache->fetch('ying'));
+        $this->assertFalse($cache->contains('yin'));
+        $this->assertNull($cache->fetch('yin'));
 
-        $this->assertTrue($cache->save('ying', 'yang'));
-        $this->assertTrue($cache->contains('ying'));
-        $this->assertEquals('yang', $cache->fetch('ying'));
+        $this->assertTrue($cache->save('yin', 'yang'));
+        $this->assertTrue($cache->contains('yin'));
+        $this->assertEquals('yang', $cache->fetch('yin'));
         // check decorated cache as that should be the same
-        $this->assertTrue($decoratedCache->contains('ying'));
+        $this->assertTrue($decoratedCache->contains('yin'));
 
         $cache->flush();
         $stats = $decoratedCache->getStats();

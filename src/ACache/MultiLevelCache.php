@@ -1,4 +1,14 @@
 <?php
+
+/*
+* This file is part of the ACache library.
+*
+* (c) Martin Rademacher <mano@radebatz.net>
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
+
 namespace ACache;
 
 use InvalidArgumentException;
@@ -9,6 +19,8 @@ use InvalidArgumentException;
  * Using the $<code>$bubbleOnFetch</code> option allows to restore data from a lower stack element
  * in all higher elements again. The life time will be adjusted accordingly, however there might
  * be rounding differences (up to a second).
+ *
+ * @author Martin Rademacher <mano@radebatz.net>
  */
 class MultiLevelCache implements Cache
 {
