@@ -2,7 +2,9 @@ language: php
 
 before_script:
   - composer --dev install
+  - echo "extension = apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 php:
   - 5.3
   - 5.4
+  - 5.5
