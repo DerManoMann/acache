@@ -120,7 +120,7 @@ run the `php composer.phar install` command to install it:
 
     {
         "require": {
-            "radebatz/acache": "~1.0"
+            "radebatz/acache": "1.0.*@dev"
         }
     }
 
