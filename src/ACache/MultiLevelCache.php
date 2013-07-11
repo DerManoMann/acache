@@ -10,19 +10,20 @@ use InvalidArgumentException;
  * in all higher elements again. The life time will be adjusted accordingly, however there might
  * be rounding differences (up to a second).
  */
-class MultiLevelCache implements Cache {
+class MultiLevelCache implements Cache
+{
     protected $stack;
     protected $bubbleOnFetch;
-
 
     /**
      * Create new instance for the given cache instances.
      *
-     * @param array $stack List of <code>Cache</code> instances; default is an empty array.
+     * @param array   $stack         List of <code>Cache</code> instances; default is an empty array.
      * @param boolean $bubbleOnFetch Optional flag to restore cache entries further up the stack if an item was
      *  only found further down; default is <code>false</code>.
      */
-    public function __construct(array $stack = array(), $bubbleOnFetch = false) {
+    public function __construct(array $stack = array(), $bubbleOnFetch = false)
+    {
         if (!$stack) {
             throw new InvalidArgumentException('Need at least one cache in the stack');
         }
@@ -37,13 +38,13 @@ class MultiLevelCache implements Cache {
         $this->bubbleOnFetch = $bubbleOnFetch;
     }
 
-
     /**
      * Get the cache stack.
      *
      * @return array List of <code>Cache</code> instances.
      */
-    public function getStack() {
+    public function getStack()
+    {
         return $this->stack;
     }
 
@@ -52,14 +53,16 @@ class MultiLevelCache implements Cache {
      *
      * @return boolean <code>true</code> if bubble on fetch is enabled, <code>false</code> if not.
      */
-    public function isBubbleOnFetch() {
+    public function isBubbleOnFetch()
+    {
         return $this->bubbleOnFetch;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function fetch($id, $namespace = null) {
+    public function fetch($id, $namespace = null)
+    {
         foreach ($this->stack as $ii => $cache) {
             if (null !== ($data = $cache->fetch($id, $namespace))) {
                 if ($this->bubbleOnFetch && $ii) {
@@ -80,7 +83,8 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function contains($id, $namespace = null) {
+    public function contains($id, $namespace = null)
+    {
         foreach ($this->stack as $cache) {
             if ($cache->contains($id, $namespace)) {
                 return true;
@@ -93,7 +97,8 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id, $namespace = null) {
+    public function getTimeToLive($id, $namespace = null)
+    {
         foreach ($this->stack as $cache) {
             if (false !== ($timeToLive = $cache->getTimeToLive($id, $namespace))) {
                 return $timeToLive;
@@ -106,7 +111,8 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $namespace = null, $lifeTime = 0) {
+    public function save($id, $data, $namespace = null, $lifeTime = 0)
+    {
         foreach ($this->stack as $cache) {
             if (!$cache->save($id, $data, $namespace, $lifeTime)) {
                 return false;
@@ -119,7 +125,8 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function delete($id, $namespace = null) {
+    public function delete($id, $namespace = null)
+    {
         foreach ($this->stack as $cache) {
             if (!$cache->delete($id, $namespace)) {
                 return false;
@@ -132,7 +139,8 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function flush($namespace = null) {
+    public function flush($namespace = null)
+    {
         foreach ($this->stack as $cache) {
             if (!$cache->flush($namespace)) {
                 return false;
@@ -145,7 +153,8 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function getStats() {
+    public function getStats()
+    {
         $stats = array();
         foreach ($this->stack as $cache) {
             $stats[] = $cache->getStats();

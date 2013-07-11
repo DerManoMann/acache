@@ -18,6 +18,6 @@ class ArrayCacheTest extends \PHPUnit_Framework_TestCase
         $cache->save('foo', 'bar');
         $cache->save('ying', 'yang');
         $this->assertTrue($cache->contains('ying'));
-    }	
+    }
 
 }
