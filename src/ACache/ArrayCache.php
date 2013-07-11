@@ -5,6 +5,7 @@ namespace ACache;
  * Array cache.
  */
 class ArrayCache implements Cache {
+    const NAMESPACE_DELIMITER = '==';
     protected $data;
 
 
@@ -19,14 +20,27 @@ class ArrayCache implements Cache {
 
 
     /**
+     * Convert id and namespace to string.
+     *
+     * @param string $id The id.
+     * @param string|array $namespace The namespace.
+     * @return string The namespace as string.
+     */
+    protected function namespaceId($id, $namespace) {
+        $tmp = (array) $namespace;
+        $tmp[] = $id;
+        return implode(static::NAMESPACE_DELIMITER, $tmp);
+    }
+
+    /**
      * {@inheritDoc}
      */
-    public function fetch($id) {
-        if (!$this->contains($id)) {
+    public function fetch($id, $namespace = null) {
+        if (!$this->contains($id, $namespace)) {
             return null;
         }
 
-        $entry = $this->data[$id];
+        $entry = $this->data[$this->namespaceId($id, $namespace)];
 
         return $entry['data'];
     }
@@ -34,12 +48,13 @@ class ArrayCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function contains($id) {
-        if (!array_key_exists($id, $this->data)) {
+    public function contains($id, $namespace = null) {
+        $key = $this->namespaceId($id, $namespace);
+        if (!array_key_exists($key, $this->data)) {
             return false;
         }
 
-        $entry = $this->data[$id];
+        $entry = $this->data[$key];
 
         return 0 == $entry['expires'] || $entry['expires'] > time();
     }
@@ -47,9 +62,9 @@ class ArrayCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id) {
-        if ($this->contains($id)) {
-            $entry = $this->data[$id];
+    public function getTimeToLive($id, $namespace = null) {
+        if ($this->contains($id, $namespace)) {
+            $entry = $this->data[$this->namespaceId($id, $namespace)];
             return $entry['expires'] ? ($entry['expires'] - time()) : 0;
         }
 
@@ -59,9 +74,9 @@ class ArrayCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $lifeTime = 0) {
+    public function save($id, $data, $namespace = null, $lifeTime = 0) {
         $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
-        $this->data[$id] = $entry;
+        $this->data[$this->namespaceId($id, $namespace)] = $entry;
 
         return true;
     }
@@ -69,8 +84,8 @@ class ArrayCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function delete($id) {
-        unset($this->data[$id]);
+    public function delete($id, $namespace = null) {
+        unset($this->data[$this->namespaceId($id, $namespace)]);
 
         return true;
     }
@@ -82,6 +97,7 @@ class ArrayCache implements Cache {
         if (!$namespace) {
             $this->data = array();
         } else {
+            $namespace = implode(static::NAMESPACE_DELIMITER, (array) $namespace);
             foreach ($this->data as $id => $entry) {
                 if (0 === strpos($id, $namespace)) {
                     unset($this->data[$id]);

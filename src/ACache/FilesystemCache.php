@@ -34,23 +34,25 @@ class FilesystemCache implements Cache {
      * Convert an id into a filename.
      *
      * @param string $id The id.
+     * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
      * @return string The filename.
      */
-    protected function getFilenameForId($id) {
-        $path = implode(str_split(md5($id), 12), DIRECTORY_SEPARATOR);
+    protected function getFilenameForId($id, $namespace) {
+        $path = array_merge((array) $namespace, str_split(md5($id), 8));
 
-        return implode(DIRECTORY_SEPARATOR, array($this->directory, $path, $id));
+        return implode(DIRECTORY_SEPARATOR, array($this->directory, implode(DIRECTORY_SEPARATOR, $path), $id));
     }
 
     /**
      * Get a cache entry for the given id.
      *
      * @param string $id The id.
+     * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
      * @param boolean $full Flag to indicate whether to include data loading or meta data only; default is <code>false</code> for meta data only.
      * @return array The cache entry or <code>null</code>.
      */
-    protected function getEntryForId($id, $full = false) {
-        $filename = $this->getFilenameForId($id);
+    protected function getEntryForId($id, $namespace, $full = false) {
+        $filename = $this->getFilenameForId($id, $namespace);
 
         if (!is_file($filename)) {
             return null;
@@ -81,12 +83,12 @@ class FilesystemCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function fetch($id) {
-        if (!$this->contains($id)) {
+    public function fetch($id, $namespace = null) {
+        if (!$this->contains($id, $namespace)) {
             return null;
         }
 
-        $entry = $this->getEntryForId($id, true);
+        $entry = $this->getEntryForId($id, $namespace, true);
 
         return $entry['data'];
     }
@@ -94,8 +96,8 @@ class FilesystemCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function contains($id) {
-        if (!$entry = $this->getEntryForId($id, false)) {
+    public function contains($id, $namespace = null) {
+        if (!$entry = $this->getEntryForId($id, $namespace, false)) {
             return false;
         }
 
@@ -105,8 +107,8 @@ class FilesystemCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id) {
-        if (!$entry = $this->getEntryForId($id, false)) {
+    public function getTimeToLive($id, $namespace = null) {
+        if (!$entry = $this->getEntryForId($id, $namespace, false)) {
             return false;
         }
 
@@ -116,8 +118,8 @@ class FilesystemCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $lifeTime = 0) {
-        $filename = $this->getFilenameForId($id);
+    public function save($id, $data, $namespace = null, $lifeTime = 0) {
+        $filename = $this->getFilenameForId($id, $namespace);
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);
 
         if (!is_dir($filepath)) {
@@ -130,24 +132,24 @@ class FilesystemCache implements Cache {
 
         $expires = $lifeTime ? (time() + $lifeTime) : 0;
 
-        return file_put_contents($filename, $expires . PHP_EOL . serialize($data));
+        return (bool) file_put_contents($filename, $expires . PHP_EOL . serialize($data));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function delete($id) {
-        return @unlink($this->getFilenameForId($id));
+    public function delete($id, $namespace = null) {
+        return @unlink($this->getFilenameForId($id, $namespace));
     }
 
     /**
      * {@inheritDoc}
      */
     public function flush($namespace = null) {
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->directory));
-
+        $namespace = implode(DIRECTORY_SEPARATOR, array_merge(array($this->directory), (array) $namespace));
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($namespace));
         foreach ($iterator as $name => $file) {
-            if (!$namespace || ($file->isFile() && 0 === strpos($file->getFilename(), $namespace))) {
+            if ($file->isFile()) {
                 @unlink($name);
             }
         }
@@ -159,7 +161,17 @@ class FilesystemCache implements Cache {
      * {@inheritDoc}
      */
     public function getStats() {
-        return null;
+        $size = 0;
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->directory));
+        foreach ($iterator as $name => $file) {
+            if ($file->isFile()) {
+                ++$size;
+            }
+        }
+
+        return array(
+            Cache::STATS_SIZE => $size,
+        );;
     }
 
 }

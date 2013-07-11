@@ -5,26 +5,31 @@ namespace ACache;
  * APC cache.
  */
 class ApcCache implements Cache {
+    const NAMESPACE_DELIMITER = '==';
+
 
     /**
-     * Create instance.
+     * Convert id and namespace to string.
      *
-     * @param array $data Optional initial cache data; default is an empty array.
+     * @param string $id The id.
+     * @param string|array $namespace The namespace.
+     * @return string The namespace as string.
      */
-    public function __construct(array $data = array()) {
-        $this->data = $data;
+    protected function namespaceId($id, $namespace) {
+        $tmp = (array) $namespace;
+        $tmp[] = $id;
+        return implode(static::NAMESPACE_DELIMITER, $tmp);
     }
-
 
     /**
      * {@inheritDoc}
      */
-    public function fetch($id) {
-        if (!$this->contains($id)) {
+    public function fetch($id, $namespace = null) {
+        if (!$this->contains($id, $namespace)) {
             return null;
         }
 
-        $entry = apc_fetch($id);
+        $entry = apc_fetch($this->namespaceId($id, $namespace));
 
         return $entry['data'];
     }
@@ -32,16 +37,16 @@ class ApcCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function contains($id) {
-        return apc_exists($id);
+    public function contains($id, $namespace = null) {
+        return apc_exists($this->namespaceId($id, $namespace));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id) {
-        if ($this->contains($id)) {
-            $entry = apc_fetch($id);
+    public function getTimeToLive($id, $namespace = null) {
+        if ($this->contains($id, $namespace)) {
+            $entry = apc_fetch($this->namespaceId($id, $namespace));
             return $entry['expires'] ? ($entry['expires'] - time()) : 0;
         }
 
@@ -51,17 +56,17 @@ class ApcCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $lifeTime = 0) {
+    public function save($id, $data, $namespace = null, $lifeTime = 0) {
         $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
 
-        return (bool) apc_store($id, $entry, (int) $lifeTime);
+        return (bool) apc_store($this->namespaceId($id, $namespace), $entry, (int) $lifeTime);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function delete($id) {
-        return apc_delete($id);
+    public function delete($id, $namespace = null) {
+        return apc_delete($this->namespaceId($id, $namespace));
     }
 
     /**
@@ -71,6 +76,7 @@ class ApcCache implements Cache {
         if (!$namespace) {
             return apc_clear_cache('user');
         } else {
+            $namespace = implode(static::NAMESPACE_DELIMITER, (array) $namespace);
             // iterate over all entries and delete matching
             $cacheInfo = apc_cache_info('user');
             foreach ($cacheInfo['cache_list'] as $entry) {
@@ -87,15 +93,16 @@ class ApcCache implements Cache {
      * {@inheritDoc}
      */
     public function getStats() {
-        $cache = apc_cache_info();
-        $sma  = apc_sma_info();
+        $cacheInfo = apc_cache_info('user');
+        $smaInfo = apc_sma_info();
 
         return array(
-            Cache::STATS_HITS => $cache['num_hits'],
-            Cache::STATS_MISSES => $cache['num_misses'],
-            Cache::STATS_UPTIME => $cache['start_time'],
-            Cache::STATS_MEMORY_USAGE => $cache['mem_size'],
-            Cache::STATS_MEMORY_AVAILIABLE => $sma['avail_mem'],
+            Cache::STATS_SIZE => count($cacheInfo['cache_list']),
+            Cache::STATS_HITS => $cacheInfo['num_hits'],
+            Cache::STATS_MISSES => $cacheInfo['num_misses'],
+            Cache::STATS_UPTIME => $cacheInfo['start_time'],
+            Cache::STATS_MEMORY_USAGE => $cacheInfo['mem_size'],
+            Cache::STATS_MEMORY_AVAILIABLE => $smaInfo['avail_mem'],
         );
     }
 

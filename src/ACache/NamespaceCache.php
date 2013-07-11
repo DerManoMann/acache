@@ -8,7 +8,7 @@ namespace ACache;
  */
 class NamespaceCache implements Cache {
     protected $cache;
-    protected $namespaceFormat;
+    protected $namespace;
 
 
     /**
@@ -19,59 +19,60 @@ class NamespaceCache implements Cache {
      */
     public function __construct(Cache $cache, $namespace = null) {
         $this->cache = $cache;
-        $this->namespaceFormat = $namespace ? sprintf('%s==%%s', $namespace) : '%s';
+        // ensure we have an array
+        $this->namespace = (array) $namespace;
     }
 
     /**
-     * Apply namespace to a given string.
+     * Get the full namespace path.
      *
-     * @param string $s The string.
-     * @return string The namespace'ed string.
+     * @param string|array $namespace Namespace - may be <code>null</code>.
+     * @return array The full namespace path.
      */
-    protected function appyNamespace($s) {
-        return sprintf($this->namespaceFormat, $s);
+    protected function getNamespacePath($namespace) {
+        return array_merge($this->namespace, (array) $namespace);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function fetch($id) {
-        return $this->cache->fetch($this->appyNamespace($id));
+    public function fetch($id, $namespace = null) {
+        return $this->cache->fetch($id, $this->getNamespacePath($namespace));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function contains($id) {
-        return $this->cache->contains($this->appyNamespace($id));
+    public function contains($id, $namespace = null) {
+        return $this->cache->contains($id, $this->getNamespacePath($namespace));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id) {
-        return $this->cache->getTimeToLive($this->appyNamespace($id));
+    public function getTimeToLive($id, $namespace = null) {
+        return $this->cache->getTimeToLive($id, $this->getNamespacePath($namespace));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $lifeTime = 0) {
-        return $this->cache->save($this->appyNamespace($id), $data, $lifeTime);
+    public function save($id, $data, $namespace = null, $lifeTime = 0) {
+        return $this->cache->save($id, $data, $this->getNamespacePath($namespace), $lifeTime);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function delete($id) {
-        return $this->cache->delete($this->appyNamespace($id));
+    public function delete($id, $namespace = null) {
+        return $this->cache->delete($id, $this->getNamespacePath($namespace));
     }
 
     /**
      * {@inheritDoc}
      */
     public function flush($namespace = null) {
-        return $this->cache->flush($this->appyNamespace($namespace));
+        return $this->cache->flush($this->getNamespacePath($namespace));
     }
 
     /**

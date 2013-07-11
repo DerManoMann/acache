@@ -39,6 +39,15 @@ class MultiLevelCache implements Cache {
 
 
     /**
+     * Get the cache stack.
+     *
+     * @return array List of <code>Cache</code> instances.
+     */
+    public function getStack() {
+        return $this->stack;
+    }
+
+    /**
      * Returns the <code>bubbleOnFetch</code> flag.
      *
      * @return boolean <code>true</code> if bubble on fetch is enabled, <code>false</code> if not.
@@ -50,14 +59,14 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function fetch($id) {
+    public function fetch($id, $namespace = null) {
         foreach ($this->stack as $ii => $cache) {
-            if (null !== ($data = $cache->fetch($id))) {
+            if (null !== ($data = $cache->fetch($id, $namespace))) {
                 if ($this->bubbleOnFetch && $ii) {
                     // remaining time to live
-                    $timeToLive = $this->getTimeToLive($id);
+                    $timeToLive = $this->getTimeToLive($id, $namespace);
                     do {
-                        $this->stack[--$ii]->save($id, $data, $timeToLive);
+                        $this->stack[--$ii]->save($id, $data, $namespace, $timeToLive);
                     } while ($ii);
                 }
 
@@ -71,9 +80,9 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function contains($id) {
+    public function contains($id, $namespace = null) {
         foreach ($this->stack as $cache) {
-            if ($cache->contains($id)) {
+            if ($cache->contains($id, $namespace)) {
                 return true;
             }
         }
@@ -84,9 +93,9 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id) {
+    public function getTimeToLive($id, $namespace = null) {
         foreach ($this->stack as $cache) {
-            if (false !== ($timeToLive = $cache->getTimeToLive($id))) {
+            if (false !== ($timeToLive = $cache->getTimeToLive($id, $namespace))) {
                 return $timeToLive;
             }
         }
@@ -97,9 +106,9 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $lifeTime = 0) {
+    public function save($id, $data, $namespace = null, $lifeTime = 0) {
         foreach ($this->stack as $cache) {
-            if (!$cache->save($id, $data, $lifeTime)) {
+            if (!$cache->save($id, $data, $namespace, $lifeTime)) {
                 return false;
             }
         }
@@ -110,9 +119,9 @@ class MultiLevelCache implements Cache {
     /**
      * {@inheritDoc}
      */
-    public function delete($id) {
+    public function delete($id, $namespace = null) {
         foreach ($this->stack as $cache) {
-            if (!$cache->delete($id)) {
+            if (!$cache->delete($id, $namespace)) {
                 return false;
             }
         }
