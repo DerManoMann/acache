@@ -34,13 +34,13 @@ The `ACache\Cache` interface allows to explicitely use a namespace for any given
 ```php
 <?php
 include 'vendor/autoload.php';
-define('NAMESPACE', 'my');
+define('MY_NAMESPACE', 'my');
 
 $cache = new ACache\ArrayCache();
 
-$cache->save('yin', 'yang', NAMESPACE);
+$cache->save('yin', 'yang', MY_NAMESPACE);
 
-echo 'my yin and '.$cache->fetch('yin', NAMESPACE).PHP_EOL;
+echo 'my yin and '.$cache->fetch('yin', MY_NAMESPACE).PHP_EOL;
 ```
 
 While that works well it sometimes is desirable to do this a little bit more transparent (and save some typing).
@@ -48,16 +48,16 @@ While that works well it sometimes is desirable to do this a little bit more tra
 ```php
 <?php
 include 'vendor/autoload.php';
-define('NAMESPACE', 'my');
+define('MY_NAMESPACE', 'my');
 
 $cache = new ACache\ArrayCache();
-$myCache = new ACache\NamespaceCache($cache, NAMESPACE);
+$myCache = new ACache\NamespaceCache($cache, MY_NAMESPACE);
 
 $myCache->save('yin', 'yang');
 
 echo 'my yin and '.$myCache->fetch('yin').PHP_EOL;
 // or, using the decorated cache directly
-echo 'my yin and '.$cache->fetch('yin', NAMESPACE).PHP_EOL;
+echo 'my yin and '.$cache->fetch('yin', MY_NAMESPACE).PHP_EOL;
 ```
 
 Wrapping an existing cache instance in a `ACache\NamespaceCache` effectively allows to partition that cache without the need to 
@@ -93,7 +93,10 @@ Running the same code again will result in the same output, even if the `save()`
 <?php
 include 'vendor/autoload.php';
 
-$cache = new ACache\MultiLevelCache(array(new ACache\ArrayCache(), new ACache\FilesystemCache(__DIR__.'/cache')));
+$cache = new ACache\MultiLevelCache(array(
+    new ACache\ArrayCache(),
+    new ACache\FilesystemCache(__DIR__.'/cache')
+));
 
 // save both in ArrayCache and FilesystemCache
 //$cache->save('yin', 'yang');
