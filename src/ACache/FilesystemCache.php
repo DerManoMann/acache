@@ -167,6 +167,11 @@ class FilesystemCache implements Cache
     public function flush($namespace = null)
     {
         $namespace = implode(DIRECTORY_SEPARATOR, array_merge(array($this->directory), (array) $namespace));
+
+        if (!file_exists($namespace)) {
+            return true;
+        }
+
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($namespace));
         foreach ($iterator as $name => $file) {
             if ($file->isFile()) {
