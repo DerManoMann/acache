@@ -26,19 +26,29 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * Test namespace.
+     * Provide cache instances for testing.
      */
-    public function testNamespace()
+    public function cacheProvider()
+    {
+        return array(
+            array(new ArrayCache()),
+            array(new ApcCache()),
+            array(new FilesystemCache(__DIR__.'/cache')),
+        );
+    }
+
+    /**
+     * Test namespace.
+     *
+     * @dataProvider cacheProvider
+     */
+    public function testNamespace(Cache $cache)
     {
         // regular
-        $this->doTestNamespace(new ArrayCache());
-        $this->doTestNamespace(new ApcCache());
-        $this->doTestNamespace(new FilesystemCache(__DIR__.'/cache/1'));
+        $this->doTestNamespace($cache);
 
         // nested
-        $this->doTestNamespace(new NamespaceCache(new ArrayCache(), 'super'));
-        $this->doTestNamespace(new NamespaceCache(new ApcCache(), 'super'));
-        $this->doTestNamespace(new NamespaceCache(new FilesystemCache(__DIR__.'/cache/2'), 'super'));
+        $this->doTestNamespace(new NamespaceCache($cache, 'super'));
     }
 
     /**
@@ -48,6 +58,9 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
     {
         // ensure we are clean
         $decoratedCache->flush();
+        if ($decoratedCache instanceof NamespaceCache) {
+            $decoratedCache->getCache()->flush();
+        }
         $cache = new NamespaceCache($decoratedCache, 'foo');
 
         $this->assertFalse($cache->contains('yin'));
@@ -78,18 +91,16 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test empty namespace.
+     *
+     * @dataProvider cacheProvider
      */
-    public function testEmptyNamespace()
+    public function testEmptyNamespace(Cache $cache)
     {
         // regular
-        $this->doTestEmptyNamespace(new ArrayCache());
-        $this->doTestEmptyNamespace(new ApcCache());
-        $this->doTestEmptyNamespace(new FilesystemCache(__DIR__.'/cache/3'));
+        $this->doTestEmptyNamespace($cache);
 
         // nested
-        $this->doTestEmptyNamespace(new NamespaceCache(new ArrayCache(), 'super'));
-        $this->doTestEmptyNamespace(new NamespaceCache(new ApcCache(), 'super'));
-        $this->doTestEmptyNamespace(new NamespaceCache(new FilesystemCache(__DIR__.'/cache/4'), 'super'));
+        $this->doTestEmptyNamespace(new NamespaceCache($cache, 'super'));
     }
 
     /**
@@ -99,6 +110,9 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
     {
         // ensure we are clean
         $decoratedCache->flush();
+        if ($decoratedCache instanceof NamespaceCache) {
+            $decoratedCache->getCache()->flush();
+        }
         $cache = new NamespaceCache($decoratedCache);
 
         $this->assertFalse($cache->contains('yin'));
