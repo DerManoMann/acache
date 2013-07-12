@@ -13,8 +13,6 @@ namespace ACache\Tests;
 
 use ACache\Cache;
 use ACache\ArrayCache;
-use ACache\ApcCache;
-use ACache\FilesystemCache;
 use ACache\NamespaceCache;
 
 /**
@@ -22,7 +20,7 @@ use ACache\NamespaceCache;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
+class NamespaceCacheTest extends CacheTest
 {
 
     /**
@@ -32,8 +30,6 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(new ArrayCache()),
-            array(new ApcCache()),
-            array(new FilesystemCache(__DIR__.'/cache')),
         );
     }
 
