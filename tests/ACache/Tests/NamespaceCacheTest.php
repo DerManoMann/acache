@@ -46,7 +46,10 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
      */
     protected function doTestNamespace(Cache $decoratedCache)
     {
+        // ensure we are clean
+        $decoratedCache->flush();
         $cache = new NamespaceCache($decoratedCache, 'foo');
+
         $this->assertFalse($cache->contains('yin'));
         $this->assertNull($cache->fetch('yin'));
 
@@ -94,7 +97,10 @@ class NamespaceCacheTest extends \PHPUnit_Framework_TestCase
      */
     protected function doTestEmptyNamespace(Cache $decoratedCache)
     {
+        // ensure we are clean
+        $decoratedCache->flush();
         $cache = new NamespaceCache($decoratedCache);
+
         $this->assertFalse($cache->contains('yin'));
         $this->assertNull($cache->fetch('yin'));
 
