@@ -37,6 +37,16 @@ class NamespaceCache implements Cache
     }
 
     /**
+     * Get the decorated cache.
+     *
+     * @return ACache\Cache The decorated cache instance.
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
      * Get the full namespace path.
      *
      * @param  string|array $namespace Namespace - may be <code>null</code>.
