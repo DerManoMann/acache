@@ -22,7 +22,10 @@ use Memcache;
  *   * <code>port</code>: The memcache port; default is <codGcode>.
  *   * <code>compress</code>: Whether to compress data or not; default is <code>false</code>.
  *
+ * Flushing a namespace relies on the memcache <em>cachedump</em> command which is subject to change / removal.
+ *
  * @author Martin Rademacher <mano@radebatz.net>
+ * @see http://www.php.net/manual/en/memcache.getstats.php
  */
 class MemcacheCache extends AbstractPathKeyCache
 {
@@ -94,13 +97,16 @@ class MemcacheCache extends AbstractPathKeyCache
         } else {
             $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
             // iterate over all entries and delete matching
-            foreach ($this->memcache->getExtendedStats('items') as $host => $summary) {
-                foreach ($summary['items'] as $slabId => $details) {
-                    $slabItems = $this->memcache->getExtendedStats('cachedump', $slabId, $details['number']);
-                    $keys = array_keys($slabItems[$host]);
-                    foreach ($keys as $key) {
-                        if (0 === strpos($key, $namespace)) {
-                            $this->memcache->delete($key);
+            foreach ($this->memcache->getExtendedStats('items slabs') as $summary) {
+                foreach ($summary as $slabDetails) {
+                    foreach ($slabDetails as $slabId => $details) {
+                        $slabItems = $this->memcache->getExtendedStats('cachedump', $slabId, $details['number']);
+                        foreach ($slabItems as $server => $items) {
+                            foreach ($items as $key => $item) {
+                              if (0 === strpos($key, $namespace)) {
+                                  $this->memcache->delete($key);
+                              }
+                            }
                         }
                     }
                 }
@@ -118,7 +124,7 @@ class MemcacheCache extends AbstractPathKeyCache
         $stats = $this->memcache->getStats();
 
         return array(
-            Cache::STATS_SIZE => $stats['total_items'],
+            Cache::STATS_SIZE => $stats['curr_items'],
             Cache::STATS_HITS => $stats['get_hits'],
             Cache::STATS_MISSES => $stats['get_misses'],
             Cache::STATS_UPTIME => $stats['uptime'],
