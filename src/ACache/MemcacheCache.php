@@ -24,7 +24,7 @@ use Memcache;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class MemcacheCache implements Cache
+class MemcacheCache extends AbstractPathKeyCache
 {
     const NAMESPACE_DELIMITER = '==';
     protected $memcache;
@@ -52,72 +52,35 @@ class MemcacheCache implements Cache
     }
 
     /**
-     * Convert id and namespace to string.
-     *
-     * @param  string       $id        The id.
-     * @param  string|array $namespace The namespace.
-     * @return string       The namespace as string.
+     * {@inheritDoc}
      */
-    protected function namespaceId($id, $namespace)
+    protected function fetchEntry($id)
     {
-        $tmp = (array) $namespace;
-        $tmp[] = $id;
-
-        return implode(static::NAMESPACE_DELIMITER, $tmp);
+        return $this->memcache->get($id);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function fetch($id, $namespace = null)
+    protected function containsEntry($id)
     {
-        if (!$this->contains($id, $namespace)) {
-            return null;
-        }
-
-        $entry = $this->memcache->get($this->namespaceId($id, $namespace));
-
-        return $entry['data'];
+        return false !== $this->memcache->get($id);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function contains($id, $namespace = null)
+    protected function saveEntry($id, $entry, $lifeTime = 0)
     {
-        return false !== $this->memcache->get($this->namespaceId($id, $namespace));
+        return $this->memcache->set($id, $entry, $this->compress, (int) $lifeTime);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id, $namespace = null)
+    protected function deleteEntry($id)
     {
-        if ($this->contains($id, $namespace)) {
-            $entry = $this->memcache->get($this->namespaceId($id, $namespace));
-
-            return $entry['expires'] ? ($entry['expires'] - time()) : 0;
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function save($id, $data, $namespace = null, $lifeTime = 0)
-    {
-        $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
-
-        return $this->memcache->set($this->namespaceId($id, $namespace), $entry, $this->compress, (int) $lifeTime);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function delete($id, $namespace = null)
-    {
-        return $this->memcache->delete($this->namespaceId($id, $namespace));
+        return $this->memcache->delete($id);
     }
 
     /**

@@ -16,9 +16,8 @@ namespace ACache;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class ArrayCache implements Cache
+class ArrayCache extends AbstractPathKeyCache
 {
-    const NAMESPACE_DELIMITER = '==';
     protected $data;
 
     /**
@@ -32,70 +31,27 @@ class ArrayCache implements Cache
     }
 
     /**
-     * Convert id and namespace to string.
-     *
-     * @param  string       $id        The id.
-     * @param  string|array $namespace The namespace.
-     * @return string       The namespace as string.
+     * {@inheritDoc}
      */
-    protected function namespaceId($id, $namespace)
+    protected function fetchEntry($id)
     {
-        $tmp = (array) $namespace;
-        $tmp[] = $id;
-
-        return implode(static::NAMESPACE_DELIMITER, $tmp);
+        return $this->data[$id];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function fetch($id, $namespace = null)
+    protected function containsEntry($id)
     {
-        if (!$this->contains($id, $namespace)) {
-            return null;
-        }
-
-        $entry = $this->data[$this->namespaceId($id, $namespace)];
-
-        return $entry['data'];
+        return array_key_exists($id, $this->data);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function contains($id, $namespace = null)
+    protected function saveEntry($id, $entry, $lifeTime = 0)
     {
-        $key = $this->namespaceId($id, $namespace);
-        if (!array_key_exists($key, $this->data)) {
-            return false;
-        }
-
-        $entry = $this->data[$key];
-
-        return 0 == $entry['expires'] || $entry['expires'] > time();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTimeToLive($id, $namespace = null)
-    {
-        if ($this->contains($id, $namespace)) {
-            $entry = $this->data[$this->namespaceId($id, $namespace)];
-
-            return $entry['expires'] ? ($entry['expires'] - time()) : 0;
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function save($id, $data, $namespace = null, $lifeTime = 0)
-    {
-        $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
-        $this->data[$this->namespaceId($id, $namespace)] = $entry;
+        $this->data[$id] = $entry;
 
         return true;
     }
@@ -103,9 +59,9 @@ class ArrayCache implements Cache
     /**
      * {@inheritDoc}
      */
-    public function delete($id, $namespace = null)
+    protected function deleteEntry($id)
     {
-        unset($this->data[$this->namespaceId($id, $namespace)]);
+        unset($this->data[$id]);
 
         return true;
     }

@@ -16,77 +16,39 @@ namespace ACache;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class ApcCache implements Cache
+class ApcCache extends AbstractPathKeyCache
 {
-    const NAMESPACE_DELIMITER = '==';
 
     /**
-     * Convert id and namespace to string.
-     *
-     * @param  string       $id        The id.
-     * @param  string|array $namespace The namespace.
-     * @return string       The namespace as string.
+     * {@inheritDoc}
      */
-    protected function namespaceId($id, $namespace)
+    protected function fetchEntry($id)
     {
-        $tmp = (array) $namespace;
-        $tmp[] = $id;
-
-        return implode(static::NAMESPACE_DELIMITER, $tmp);
+        return apc_fetch($id);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function fetch($id, $namespace = null)
+    protected function containsEntry($id)
     {
-        if (!$this->contains($id, $namespace)) {
-            return null;
-        }
-
-        $entry = apc_fetch($this->namespaceId($id, $namespace));
-
-        return $entry['data'];
+        return apc_exists($id);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function contains($id, $namespace = null)
+    protected function saveEntry($id, $entry, $lifeTime = 0)
     {
-        return apc_exists($this->namespaceId($id, $namespace));
+        return (bool) apc_store($id, $entry, (int) $lifeTime);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id, $namespace = null)
+    protected function deleteEntry($id)
     {
-        if ($this->contains($id, $namespace)) {
-            $entry = apc_fetch($this->namespaceId($id, $namespace));
-
-            return $entry['expires'] ? ($entry['expires'] - time()) : 0;
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function save($id, $data, $namespace = null, $lifeTime = 0)
-    {
-        $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
-
-        return (bool) apc_store($this->namespaceId($id, $namespace), $entry, (int) $lifeTime);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function delete($id, $namespace = null)
-    {
-        return apc_delete($this->namespaceId($id, $namespace));
+        return apc_delete($id);
     }
 
     /**
