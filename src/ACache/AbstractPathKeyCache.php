@@ -18,7 +18,28 @@ namespace ACache;
  */
 abstract class AbstractPathKeyCache implements Cache
 {
-    const NAMESPACE_DELIMITER = '==';
+    const DEFAULT_NAMESPACE_DELIMITER = '==';
+    protected $namespaceDelimiter;
+
+    /**
+     * Create instance.
+     *
+     * @param string $namespaceDelimiter Optional namespace delimiter; default is <code>DEFAULT_NAMESPACE_DELIMITER</code>.
+     */
+    public function __construct($namespaceDelimiter = self::DEFAULT_NAMESPACE_DELIMITER)
+    {
+        $this->namespaceDelimiter = $namespaceDelimiter;
+    }
+
+    /**
+     * Get the configured namespace delimiter.
+     *
+     * @return string The namespace delimiter.
+     */
+    public function getNamespaceDelimiter()
+    {
+        return $this->namespaceDelimiter;
+    }
 
     /**
      * Convert id and namespace to string.
@@ -32,7 +53,7 @@ abstract class AbstractPathKeyCache implements Cache
         $tmp = (array) $namespace;
         $tmp[] = $id;
 
-        return implode(static::NAMESPACE_DELIMITER, $tmp);
+        return implode($this->namespaceDelimiter, $tmp);
     }
 
     /**

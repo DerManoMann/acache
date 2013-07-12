@@ -59,7 +59,7 @@ class ApcCache extends AbstractPathKeyCache
         if (!$namespace) {
             return apc_clear_cache('user');
         } else {
-            $namespace = implode(static::NAMESPACE_DELIMITER, (array) $namespace);
+            $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
             // iterate over all entries and delete matching
             $cacheInfo = apc_cache_info('user');
             foreach ($cacheInfo['cache_list'] as $entry) {

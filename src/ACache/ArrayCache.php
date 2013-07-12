@@ -27,6 +27,7 @@ class ArrayCache extends AbstractPathKeyCache
      */
     public function __construct(array $data = array())
     {
+        parent::__construct();
         $this->data = $data;
     }
 
@@ -74,7 +75,7 @@ class ArrayCache extends AbstractPathKeyCache
         if (!$namespace) {
             $this->data = array();
         } else {
-            $namespace = implode(static::NAMESPACE_DELIMITER, (array) $namespace);
+            $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
             foreach ($this->data as $id => $entry) {
                 if (0 === strpos($id, $namespace)) {
                     unset($this->data[$id]);

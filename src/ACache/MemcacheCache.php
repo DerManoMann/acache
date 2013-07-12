@@ -26,7 +26,6 @@ use Memcache;
  */
 class MemcacheCache extends AbstractPathKeyCache
 {
-    const NAMESPACE_DELIMITER = '==';
     protected $memcache;
     protected $compress;
 
@@ -37,6 +36,8 @@ class MemcacheCache extends AbstractPathKeyCache
      */
     public function __construct(array $config = array())
     {
+        parent::__construct();
+
         $this->memcache = new Memcache();
         // merge with some defaults
         $config = array_merge(
@@ -91,7 +92,7 @@ class MemcacheCache extends AbstractPathKeyCache
         if (!$namespace) {
             return $this->memcache->flush();
         } else {
-            $namespace = implode(static::NAMESPACE_DELIMITER, (array) $namespace);
+            $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
             // iterate over all entries and delete matching
             foreach ($this->memcache->getExtendedStats('items') as $host => $summary) {
                 foreach ($summary['items'] as $slabId => $details) {
