@@ -76,7 +76,7 @@ class PdoCache extends AbstractPathKeyCache
             throw new RuntimeException(sprintf('Failed fetching cache id %s: %s', $id, $e->getMessage()), 0, $e);
         }
 
-        throw new RuntimeException(sprintf('Cache entry not found id %s', $id));
+        return null;
     }
 
     /**
