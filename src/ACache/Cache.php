@@ -85,7 +85,10 @@ interface Cache
      *
      * Optional and may not be implemented by all cache classes.
      *
-     * This method is somewhat stolen from the doctrine cache code.
+     * Calling this method also might not be side-effect free as implementations might
+     * do some cache clean-up first in order to generate accurate numbers.
+     *
+     * This method is somewhat borrowed from the doctrine cache code in that it used the same stats keys.
      *
      * @return array Map with cache stats.
      */
