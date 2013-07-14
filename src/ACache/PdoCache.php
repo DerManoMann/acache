@@ -90,7 +90,8 @@ class PdoCache extends AbstractPathKeyCache
             $sql = sprintf('SELECT * FROM %s WHERE %s = :id AND (%3$s = 0 OR %3$s > :now)', $config['t_cache'], $config['c_id'], $config['c_expires']);
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id', $id, PDO::PARAM_STR);
-            $stmt->bindParam(':now', time(), PDO::PARAM_INT);
+            $now = time();
+            $stmt->bindParam(':now', $now, PDO::PARAM_INT);
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -115,7 +116,8 @@ class PdoCache extends AbstractPathKeyCache
             $sql = sprintf('INSERT INTO %s (%s, %s, %s) VALUES (:id, :entry, :expires)', $config['t_cache'], $config['c_id'], $config['c_entry'], $config['c_expires']);
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id', $id, PDO::PARAM_STR);
-            $stmt->bindParam(':entry', serialize($entry), PDO::PARAM_STR);
+            $sentry = serialize($entry);
+            $stmt->bindParam(':entry', $sentry, PDO::PARAM_STR);
             $expires = $lifeTime ? (int) (time() + $lifeTime) : 0;
             $stmt->bindParam(':expires', $expires, PDO::PARAM_INT);
             $stmt->execute();
@@ -188,7 +190,8 @@ class PdoCache extends AbstractPathKeyCache
             // do some cleaning up first
             $sql = sprintf('DELETE FROM %s WHERE %2$s != 0 AND %2$s <= :now', $config['t_cache'], $config['c_expires']);
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':now', time(), PDO::PARAM_INT);
+            $now = time();
+            $stmt->bindParam(':now', $now, PDO::PARAM_INT);
             $stmt->execute();
 
             $cnt = 'cnt';
