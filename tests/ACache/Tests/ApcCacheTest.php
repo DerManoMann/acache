@@ -23,7 +23,7 @@ class ApcCacheTest extends NamespaceCacheTest
     protected function setUp()
     {
         if (!$this->hasApc()) {
-            $this->markTestSkipped('Skipping APC');
+            $this->markTestSkipped('Skipping Apc');
         }
     }
 

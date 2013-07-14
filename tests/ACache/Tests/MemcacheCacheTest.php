@@ -18,10 +18,24 @@ class MemcacheCacheTest extends NamespaceCacheTest
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function setUp()
+    {
+        if (!$this->hasMemcache()) {
+            $this->markTestSkipped('Skipping Memcache');
+        }
+    }
+
+    /**
      * Cache provider.
      */
     public function cacheProvider()
     {
+        if (!$this->hasMemcache()) {
+            return null;
+        }
+
         return array(
             array(new MemcacheCache())
         );
