@@ -133,10 +133,7 @@ Alternatively, you can download the [`acache.zip`][2] file and extract it.
 
 ## Tests
 
-To run the test suite, you need [composer](http://getcomposer.org).
-
-    $ php composer.phar install --dev
-    $ vendor/bin/phpunit
+To run the test suite, you will need [PHPUnit](http://phpunit.de/manual/current/en/).
 
 
 
