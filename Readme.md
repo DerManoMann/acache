@@ -2,6 +2,7 @@ ACache, a flexible PHP cache library
 ====================================
 
 [![Build Status](https://travis-ci.org/DerManoMann/acache.png)](https://travis-ci.org/DerManoMann/acache)
+[![Coverage Status](https://coveralls.io/repos/DerManoMann/acache/badge.png)](https://coveralls.io/r/DerManoMann/acache)
 
 ACache - another PHP cache library.
 
