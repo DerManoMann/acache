@@ -16,4 +16,4 @@ php:
   - 5.4
 
 after_script:
-  - php vendor/bin/coveralls
+  - php vendor/bin/coveralls -v
