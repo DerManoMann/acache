@@ -20,8 +20,21 @@ use ACache\MultiLevelCache;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class MultiLevelCacheTest extends \PHPUnit_Framework_TestCase
+class MultiLevelCacheTest extends CacheTest
 {
+
+    /**
+     * Cache provider.
+     */
+    public function cacheProvider()
+    {
+        return array(
+            array(new MultiLevelCache(array(new ArrayCache()), false)),
+            array(new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false)),
+            array(new MultiLevelCache(array(new ArrayCache()), true)),
+            array(new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), true)),
+        );
+    }
 
     /**
      * Test default stuff.
@@ -52,6 +65,8 @@ class MultiLevelCacheTest extends \PHPUnit_Framework_TestCase
         // no bubbles :{
         $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false);
 
+        $this->assertFalse($cache->isBubbleOnFetch());
+
         // save
         $this->assertTrue($cache->save('yin', 'yang'));
         // ensure we have populated all caches in the stack
@@ -81,6 +96,8 @@ class MultiLevelCacheTest extends \PHPUnit_Framework_TestCase
     {
         // bubbles :}
         $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), true);
+
+        $this->assertTrue($cache->isBubbleOnFetch());
 
         // save
         $this->assertTrue($cache->save('yin', 'yang'));

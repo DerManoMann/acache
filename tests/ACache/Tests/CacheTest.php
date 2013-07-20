@@ -1,6 +1,7 @@
 <?php
 namespace ACache\Tests;
 
+use ReflectionClass;
 use ACache\Cache;
 
 /**
@@ -25,6 +26,24 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Get protected/private property.
+     *
+     * @param mixed $obj The opject.
+     * @param string $name The property name.
+     * @return mixed The property or <code>null</code>.
+     */
+    protected function getProperty($obj, $name)
+    {
+        $rc = new ReflectionClass($obj);
+        if ($property = $rc->getProperty($name)) {
+            $property->setAccessible(true);
+            return $property->getValue($obj);
+        }
+
+        return null;
+    }
+
+    /**
      * Test fetch.
      *
      * @dataProvider cacheProvider
@@ -35,6 +54,16 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cache->save('ying', 'yang'));
         $this->assertEquals('yang', $cache->fetch('ying'));
         $this->assertEquals(null, $cache->fetch('bar'));
+    }
+
+    /**
+     * Test fetch invalid.
+     *
+     * @dataProvider cacheProvider
+     */
+    public function testFetchInvalid(Cache $cache)
+    {
+        $this->assertNull($cache->fetch('foobar'));
     }
 
     /**

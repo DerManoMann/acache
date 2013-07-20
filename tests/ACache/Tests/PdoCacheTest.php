@@ -44,4 +44,83 @@ class PdoCacheTest extends NamespaceCacheTest
         );
     }
 
+    /**
+     * Test args.
+     */
+    public function testArgs()
+    {
+        $pdo = new PDO('sqlite::memory:');
+
+        // defaults
+        $cache = new PdoCache(new PDO('sqlite::memory:'));
+        $config = $this->getProperty($cache, 'config');
+        $this->assertNotNull($config);
+        $this->assertEquals(array('t_cache' => 'cache', 'c_id' => 'id', 'c_entry' => 'entry', 'c_expires' => 'expires'), $config);
+
+        $customConfig = array(
+            't_cache' => 'ccache',
+            'c_id' => 'cid',
+            'c_entry' => 'centry',
+            'c_expires' => 'cexpires',
+        );
+        $cache = new PdoCache($pdo, $customConfig);
+        $config = $this->getProperty($cache, 'config');
+        $this->assertNotNull($config);
+        $this->assertEquals($customConfig, $config);
+    }
+
+    /**
+     * Invalid cache provider.
+     */
+    public function invalidCacheProvider()
+    {
+        return array(
+            array(new PdoCache(new PDO('sqlite::memory:')))
+        );
+    }
+
+    /**
+     * Test invalid fetch.
+     *
+     * @dataProvider invalidCacheProvider
+     * @expectedException \RuntimeException
+     */
+    public function testInvalidFetch(PdoCache $cache)
+    {
+        $cache->fetch('foo');
+    }
+
+    /**
+     * Test invalid save.
+     *
+     * @dataProvider invalidCacheProvider
+     * @expectedException \RuntimeException
+     */
+    public function testInvalidSave(PdoCache $cache)
+    {
+        $cache->save('foo', 'bar');
+    }
+
+    /**
+     * Test invalid contains.
+     *
+     * @dataProvider invalidCacheProvider
+     * @expectedException \RuntimeException
+     */
+    public function testInvalidContains(PdoCache $cache)
+    {
+        $cache->contains('foo');
+    }
+
+    /**
+     * Test invalid delete.
+     *
+     * @dataProvider invalidCacheProvider
+     * @expectedException \RuntimeException
+     */
+    public function testInvalidDelete(PdoCache $cache)
+    {
+        $cache->delete('foo');
+    }
+
 }

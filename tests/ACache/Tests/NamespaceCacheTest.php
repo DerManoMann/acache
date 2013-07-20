@@ -30,6 +30,7 @@ class NamespaceCacheTest extends CacheTest
     {
         return array(
             array(new ArrayCache()),
+            array(new NamespaceCache(new ArrayCache(), 'other')),
         );
     }
 
@@ -40,10 +41,7 @@ class NamespaceCacheTest extends CacheTest
      */
     public function testNamespace(Cache $cache)
     {
-        // regular
         $this->doTestNamespace($cache);
-
-        // nested
         $this->doTestNamespace(new NamespaceCache($cache, 'super'));
     }
 
@@ -80,9 +78,10 @@ class NamespaceCacheTest extends CacheTest
         $this->assertEquals(1, $stats[Cache::STATS_SIZE]);
 
         $cache->flush();
-        $stats = $decoratedCache->getStats();
-        $this->assertFalse($cache->contains('foo'));
-        $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
+        if ($stats = $decoratedCache->getStats()) {
+            $this->assertFalse($cache->contains('foo'));
+            $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
+        }
     }
 
     /**
@@ -94,8 +93,6 @@ class NamespaceCacheTest extends CacheTest
     {
         // regular
         $this->doTestEmptyNamespace($cache);
-
-        // nested
         $this->doTestEmptyNamespace(new NamespaceCache($cache, 'super'));
     }
 
@@ -121,9 +118,10 @@ class NamespaceCacheTest extends CacheTest
         $this->assertTrue($decoratedCache->contains('yin'));
 
         $cache->flush();
-        $stats = $decoratedCache->getStats();
-        $this->assertFalse($cache->contains('foo'));
-        $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
+        if ($stats = $decoratedCache->getStats()) {
+            $this->assertFalse($cache->contains('foo'));
+            $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
+        }
     }
 
 }
