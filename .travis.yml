@@ -10,6 +10,7 @@ before_script:
 services:
   - memcache
   - mongodb
+  - redis-server
 
 php:
   - 5.3
