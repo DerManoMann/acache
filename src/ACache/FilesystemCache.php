@@ -43,6 +43,16 @@ class FilesystemCache implements Cache
     }
 
     /**
+     * Get the configured cache directory.
+     *
+     * @return string The cache directory path.
+     */
+    public function getDirectory()
+    {
+        return $this->directory;
+    }
+
+    /**
      * Convert an id into a filename.
      *
      * @param  string       $id        The id.
