@@ -67,7 +67,7 @@ carry the namespace around for all method calls.
 
 ### Multi level
 
-Sometimes losing and re-building your cache due to a reboot or similar can be quite expensive. One way to cope with that is multi level caching.
+Sometimes losing and re-building your cache due to a reboot or similar can be quite expensive. One way to cope with that is multi-level caching.
 
 A fast (non-persistent) cache is used as primary cache. If an entry cannot be found it will fall back to a persistent cache (cache, db).
 Only if all configured cache instances are queried an entry would be declared as not found.
@@ -133,6 +133,9 @@ Alternatively, you can download the [`acache.zip`][2] file and extract it.
 
 
 ## Tests
+
+ACache comes with a pretty complete set of tests for a single cache instance and also
+combinations of multi-level and namespace caches.
 
 To run the test suite, you will need [PHPUnit](http://phpunit.de/manual/current/en/).
 
