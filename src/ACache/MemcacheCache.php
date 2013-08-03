@@ -103,9 +103,9 @@ class MemcacheCache extends AbstractPathKeyCache
                         $slabItems = $this->memcache->getExtendedStats('cachedump', $slabId, $details['number']);
                         foreach ($slabItems as $server => $items) {
                             foreach ($items as $key => $item) {
-                              if (0 === strpos($key, $namespace)) {
-                                  $this->memcache->delete($key);
-                              }
+                                if (0 === strpos($key, $namespace)) {
+                                    $this->memcache->delete($key);
+                                }
                             }
                         }
                     }
