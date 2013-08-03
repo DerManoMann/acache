@@ -45,7 +45,12 @@ class FilesystemCacheTest extends NamespaceCacheTest
      */
     public function testNotWriteable()
     {
-        new FilesystemCache($this->getTempDir(0000));
+        $dir = $this->getTempDir(0000);
+        if (is_writeable($dir)) {
+            $this->markTestSkipped('Seems chmod is not supported here.');
+        }
+
+        new FilesystemCache($dir);
     }
 
     /**
