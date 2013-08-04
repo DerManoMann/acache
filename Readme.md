@@ -52,6 +52,7 @@ include 'vendor/autoload.php';
 define('MY_NAMESPACE', 'my');
 
 $cache = new ACache\ArrayCache();
+// wrap given cache in namespace
 $myCache = new ACache\NamespaceCache($cache, MY_NAMESPACE);
 
 $myCache->save('yin', 'yang');
@@ -67,15 +68,16 @@ carry the namespace around for all method calls.
 
 ### Multi level
 
-Sometimes losing and re-building your cache due to a reboot or similar can be quite expensive. One way to cope with that is multi-level caching.
+Sometimes losing and re-building your cache due to a reboot or similar can be quite expensive. One way to cope with that is by using a multi-level cache.
 
-A fast (non-persistent) cache is used as primary cache. If an entry cannot be found it will fall back to a persistent cache (cache, db).
+A fast (non-persistent) cache is used as primary cache. If an entry cannot be found in that (for example, due to a reboot) it will fall back to a persistent cache (filesystem, db).
 Only if all configured cache instances are queried an entry would be declared as not found.
 
 ```php
 <?php
 include 'vendor/autoload.php';
 
+// two level cache stack
 $cache = new ACache\MultiLevelCache(array(
     new ACache\ArrayCache(),
     new ACache\FilesystemCache(__DIR__.'/cache')
