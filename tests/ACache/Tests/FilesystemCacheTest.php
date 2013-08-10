@@ -12,7 +12,7 @@ class FilesystemCacheTest extends NamespaceCacheTest
     /**
      * Get a temp directory.
      *
-     * @param int $perms File permissions.
+     * @param  int    $perms File permissions.
      * @return string The directory name.
      */
     protected function getTempDir($perms = 0777)
@@ -36,7 +36,6 @@ class FilesystemCacheTest extends NamespaceCacheTest
             array(new FilesystemCache($this->getTempDir()))
         );
     }
-
 
     /**
      * Test not writeable folder.

@@ -12,7 +12,6 @@
 namespace ACache;
 
 use MongoCollection;
-use MongoId;
 
 /**
  * MongoDB cache.

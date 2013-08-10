@@ -28,15 +28,16 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     /**
      * Get protected/private property.
      *
-     * @param mixed $obj The opject.
-     * @param string $name The property name.
-     * @return mixed The property or <code>null</code>.
+     * @param  mixed  $obj  The opject.
+     * @param  string $name The property name.
+     * @return mixed  The property or <code>null</code>.
      */
     protected function getProperty($obj, $name)
     {
         $rc = new ReflectionClass($obj);
         if ($property = $rc->getProperty($name)) {
             $property->setAccessible(true);
+
             return $property->getValue($obj);
         }
 

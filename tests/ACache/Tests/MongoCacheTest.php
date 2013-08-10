@@ -39,6 +39,7 @@ class MongoCacheTest extends NamespaceCacheTest
 
         $mongoClient = new MongoClient();
         $mongoCollection = $mongoClient->cache->entries->drop();
+
         return array(
             array(new MongoCache($mongoClient->cache->entries))
         );

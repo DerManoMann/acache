@@ -25,6 +25,7 @@ class WincacheCache extends AbstractPathKeyCache
     protected function fetchEntry($id)
     {
         $entry = wincache_ucache_get($id, $success);
+
         return $success ? $entry : null;
     }
 
