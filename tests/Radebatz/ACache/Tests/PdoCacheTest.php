@@ -1,8 +1,8 @@
 <?php
-namespace ACache\Tests;
+namespace Radebatz\ACache\Tests;
 
 use PDO;
-use ACache\PdoCache;
+use Radebatz\ACache\PdoCache;
 
 /**
  * PdoCache tests.

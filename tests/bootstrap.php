@@ -10,4 +10,4 @@
 */
 
 $loader = require __DIR__.'/../vendor/autoload.php';
-$loader->add('ACache\Tests', __DIR__);
+$loader->add('Radebatz\ACache\Tests', __DIR__);

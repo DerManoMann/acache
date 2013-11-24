@@ -1,7 +1,7 @@
 <?php
-namespace ACache\Tests;
+namespace Radebatz\ACache\Tests;
 
-use ACache\FilesystemCache;
+use Radebatz\ACache\FilesystemCache;
 
 /**
  * FilesystemCache tests.

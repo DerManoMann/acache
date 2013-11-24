@@ -1,8 +1,8 @@
 <?php
-namespace ACache\Tests;
+namespace Radebatz\ACache\Tests;
 
 use Redis;
-use ACache\RedisCache;
+use Radebatz\ACache\RedisCache;
 
 /**
  * RedisCache tests.

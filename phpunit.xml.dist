@@ -13,7 +13,7 @@
 >
     <testsuites>
         <testsuite name="ACache Test Suite">
-          <directory suffix="Test.php">./tests/ACache/Tests/</directory>
+          <directory suffix="Test.php">./tests/Radebatz/ACache/Tests/</directory>
         </testsuite>
     </testsuites>
 

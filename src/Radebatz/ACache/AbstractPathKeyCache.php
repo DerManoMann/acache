@@ -9,7 +9,7 @@
 * file that was distributed with this source code.
 */
 
-namespace ACache;
+namespace Radebatz\ACache;
 
 /**
  * Abstract base class for path based cache implementations.

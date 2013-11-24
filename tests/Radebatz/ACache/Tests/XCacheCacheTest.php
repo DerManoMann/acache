@@ -1,7 +1,7 @@
 <?php
-namespace ACache\Tests;
+namespace Radebatz\ACache\Tests;
 
-use ACache\XCacheCache;
+use Radebatz\ACache\XCacheCache;
 
 /**
  * XCacheCache tests.

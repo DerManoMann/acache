@@ -9,11 +9,11 @@
 * file that was distributed with this source code.
 */
 
-namespace ACache\Tests;
+namespace Radebatz\ACache\Tests;
 
-use ACache\Cache;
-use ACache\ArrayCache;
-use ACache\NamespaceCache;
+use Radebatz\ACache\Cache;
+use Radebatz\ACache\ArrayCache;
+use Radebatz\ACache\NamespaceCache;
 
 /**
  * NamespaceCache tests

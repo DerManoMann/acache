@@ -1,7 +1,7 @@
 <?php
-namespace ACache\Tests;
+namespace Radebatz\ACache\Tests;
 
-use ACache\WincacheCache;
+use Radebatz\ACache\WincacheCache;
 
 /**
  * WincacheCache tests.

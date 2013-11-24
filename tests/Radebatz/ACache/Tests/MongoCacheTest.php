@@ -1,9 +1,9 @@
 <?php
-namespace ACache\Tests;
+namespace Radebatz\ACache\Tests;
 
 use Exception;
 use MongoClient;
-use ACache\MongoCache;
+use Radebatz\ACache\MongoCache;
 
 /**
  * MongoCache tests.

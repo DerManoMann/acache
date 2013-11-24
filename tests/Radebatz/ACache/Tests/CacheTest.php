@@ -1,8 +1,8 @@
 <?php
-namespace ACache\Tests;
+namespace Radebatz\ACache\Tests;
 
 use ReflectionClass;
-use ACache\Cache;
+use Radebatz\ACache\Cache;
 
 /**
  * Cache test base class.
