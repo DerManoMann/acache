@@ -57,11 +57,11 @@ interface Cache
      *
      * @param  string       $id        The cache id.
      * @param  string       $data      The cache data.
-     * @param  string|array $namespace Optional namespace; default is <code>null</code> for none.
      * @param  int          $lifeTime  The lifetime in seconds. Set to 0 for infinite life time; default is 0.
+     * @param  string|array $namespace Optional namespace; default is <code>null</code> for none.
      * @return boolean      <code>true</code> if the entry was successfully stored in the cache, <code>false</code> if not.
      */
-    public function save($id, $data, $namespace = null, $lifeTime = 0);
+    public function save($id, $data, $lifeTime = 0, $namespace = null);
 
     /**
      * Deletes a cache entry.

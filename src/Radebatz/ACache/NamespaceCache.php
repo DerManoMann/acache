@@ -84,9 +84,9 @@ class NamespaceCache implements Cache
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $namespace = null, $lifeTime = 0)
+    public function save($id, $data, $lifeTime = 0, $namespace = null)
     {
-        return $this->cache->save($id, $data, $this->getNamespacePath($namespace), $lifeTime);
+        return $this->cache->save($id, $data, $lifeTime, $this->getNamespacePath($namespace));
     }
 
     /**

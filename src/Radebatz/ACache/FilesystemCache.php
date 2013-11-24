@@ -145,7 +145,7 @@ class FilesystemCache implements Cache
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $namespace = null, $lifeTime = 0)
+    public function save($id, $data, $lifeTime = 0, $namespace = null)
     {
         $filename = $this->getFilenameForId($id, $namespace);
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);

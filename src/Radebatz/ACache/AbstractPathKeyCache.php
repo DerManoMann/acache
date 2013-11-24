@@ -95,7 +95,7 @@ abstract class AbstractPathKeyCache implements Cache
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $namespace = null, $lifeTime = 0)
+    public function save($id, $data, $lifeTime = 0, $namespace = null)
     {
         $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
 

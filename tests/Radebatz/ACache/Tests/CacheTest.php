@@ -102,7 +102,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $cache->getTimeToLive('foo'));
         $this->assertFalse($cache->getTimeToLive('bert'));
 
-        $this->assertTrue($cache->save('dough', 'nut', null, 20));
+        $this->assertTrue($cache->save('dough', 'nut', 20, null));
         $this->assertGreaterThan(15, $cache->getTimeToLive('dough'));
 
         $this->assertTrue($cache->save('dough', 'nut'));

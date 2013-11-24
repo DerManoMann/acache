@@ -81,7 +81,7 @@ class MultiLevelCache implements Cache
                     // remaining time to live
                     $timeToLive = $this->getTimeToLive($id, $namespace);
                     do {
-                        $this->stack[--$ii]->save($id, $data, $namespace, $timeToLive);
+                        $this->stack[--$ii]->save($id, $data, $timeToLive, $namespace);
                     } while ($ii);
                 }
 
@@ -123,10 +123,10 @@ class MultiLevelCache implements Cache
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $namespace = null, $lifeTime = 0)
+    public function save($id, $data, $lifeTime = 0, $namespace = null)
     {
         foreach ($this->stack as $cache) {
-            if (!$cache->save($id, $data, $namespace, $lifeTime)) {
+            if (!$cache->save($id, $data, $lifeTime, $namespace)) {
                 return false;
             }
         }
