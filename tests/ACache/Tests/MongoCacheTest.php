@@ -1,6 +1,7 @@
 <?php
 namespace ACache\Tests;
 
+use Exception;
 use MongoClient;
 use ACache\MongoCache;
 
@@ -15,7 +16,16 @@ class MongoCacheTest extends NamespaceCacheTest
      */
     protected function hasMongo()
     {
-        return class_exists('MongoClient');
+        if (class_exists('MongoClient')) {
+            try {
+                new MongoClient();
+                return true;
+            } catch (Exception $e) {
+                // nope
+            }
+        }
+
+        return false;
     }
 
     /**

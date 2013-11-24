@@ -14,7 +14,7 @@ class ApcCacheTest extends NamespaceCacheTest
      */
     protected function hasApc()
     {
-        return function_exists('apc_cache_info') && apc_cache_info();
+        return function_exists('apc_cache_info') && @apc_cache_info();
     }
 
     /**
