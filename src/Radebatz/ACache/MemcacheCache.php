@@ -124,12 +124,12 @@ class MemcacheCache extends AbstractPathKeyCache
         $stats = $this->memcache->getStats();
 
         return array(
-            Cache::STATS_SIZE => $stats['curr_items'],
-            Cache::STATS_HITS => $stats['get_hits'],
-            Cache::STATS_MISSES => $stats['get_misses'],
-            Cache::STATS_UPTIME => $stats['uptime'],
-            Cache::STATS_MEMORY_USAGE => $stats['bytes'],
-            Cache::STATS_MEMORY_AVAILIABLE => $stats['limit_maxbytes'],
+            CacheInterface::STATS_SIZE => $stats['curr_items'],
+            CacheInterface::STATS_HITS => $stats['get_hits'],
+            CacheInterface::STATS_MISSES => $stats['get_misses'],
+            CacheInterface::STATS_UPTIME => $stats['uptime'],
+            CacheInterface::STATS_MEMORY_USAGE => $stats['bytes'],
+            CacheInterface::STATS_MEMORY_AVAILIABLE => $stats['limit_maxbytes'],
         );
     }
 

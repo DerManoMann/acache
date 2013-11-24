@@ -18,7 +18,7 @@ namespace Radebatz\ACache;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class NamespaceCache implements Cache
+class NamespaceCache implements CacheInterface
 {
     protected $cache;
     protected $namespace;
@@ -26,10 +26,10 @@ class NamespaceCache implements Cache
     /**
      * Create new instance, decorating the given cache.
      *
-     * @param Cache  $cache     The cache to decorate with a namespace.
+     * @param CacheInterface  $cache     The cache to decorate with a namespace.
      * @param string $namespace The namespace; default is <code>null</code> for having no namespace at all.
      */
-    public function __construct(Cache $cache, $namespace = null)
+    public function __construct(CacheInterface $cache, $namespace = null)
     {
         $this->cache = $cache;
         // ensure we have an array
@@ -39,7 +39,7 @@ class NamespaceCache implements Cache
     /**
      * Get the decorated cache.
      *
-     * @return ACache\Cache The decorated cache instance.
+     * @return ACache\CacheInterface The decorated cache instance.
      */
     public function getCache()
     {

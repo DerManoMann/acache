@@ -104,7 +104,7 @@ class MongoCache extends AbstractPathKeyCache
     public function getStats()
     {
         return array(
-            Cache::STATS_SIZE => $this->mongoCollection->find()->count(),
+            CacheInterface::STATS_SIZE => $this->mongoCollection->find()->count(),
         );
     }
 

@@ -16,7 +16,7 @@ namespace Radebatz\ACache;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-abstract class AbstractPathKeyCache implements Cache
+abstract class AbstractPathKeyCache implements CacheInterface
 {
     const DEFAULT_NAMESPACE_DELIMITER = '==';
     protected $namespaceDelimiter;

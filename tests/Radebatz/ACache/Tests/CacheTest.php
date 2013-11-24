@@ -12,7 +12,7 @@
 namespace Radebatz\ACache\Tests;
 
 use ReflectionClass;
-use Radebatz\ACache\Cache;
+use Radebatz\ACache\CacheInterface;
 
 /**
  * Cache test base class.
@@ -27,7 +27,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider cacheProvider
      */
-    public function testContains(Cache $cache)
+    public function testContains(CacheInterface $cache)
     {
         $this->assertTrue($cache->save('foo', 'bar'));
         $this->assertTrue($cache->save('ying', 'yang'));
@@ -59,7 +59,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider cacheProvider
      */
-    public function testFetch(Cache $cache)
+    public function testFetch(CacheInterface $cache)
     {
         $this->assertTrue($cache->save('foo', 'bar'));
         $this->assertTrue($cache->save('ying', 'yang'));
@@ -72,7 +72,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider cacheProvider
      */
-    public function testFetchInvalid(Cache $cache)
+    public function testFetchInvalid(CacheInterface $cache)
     {
         $this->assertNull($cache->fetch('foobar'));
     }
@@ -82,7 +82,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider cacheProvider
      */
-    public function testSave(Cache $cache)
+    public function testSave(CacheInterface $cache)
     {
         $this->assertTrue($cache->save('foo', 'bar'));
         $this->assertTrue($cache->save('ying', 'yang'));
@@ -96,7 +96,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider cacheProvider
      */
-    public function testTimeToLive(Cache $cache)
+    public function testTimeToLive(CacheInterface $cache)
     {
         $this->assertTrue($cache->save('foo', 'bar'));
         $this->assertEquals(0, $cache->getTimeToLive('foo'));
@@ -114,7 +114,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider cacheProvider
      */
-    public function testDelete(Cache $cache)
+    public function testDelete(CacheInterface $cache)
     {
         $this->assertTrue($cache->save('foo', 'bar'));
         $this->assertEquals('bar', $cache->fetch('foo'));
@@ -128,7 +128,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider cacheProvider
      */
-    public function testFlush(Cache $cache)
+    public function testFlush(CacheInterface $cache)
     {
         $this->assertTrue($cache->save('foo', 'bar'));
         $this->assertEquals('bar', $cache->fetch('foo'));
@@ -142,7 +142,7 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider cacheProvider
      */
-    public function testStats(Cache $cache)
+    public function testStats(CacheInterface $cache)
     {
         $this->assertTrue(is_array($stats = $cache->getStats()) || null === $stats);
     }

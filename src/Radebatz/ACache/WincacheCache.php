@@ -84,12 +84,12 @@ class WincacheCache extends AbstractPathKeyCache
         $meminfo = wincache_ucache_meminfo();
 
         return array(
-            Cache::STATS_SIZE => $info['total_item_count'],
-            Cache::STATS_HITS => $info['total_hit_count'],
-            Cache::STATS_MISSES => $info['total_miss_count'],
-            Cache::STATS_UPTIME => $info['total_cache_uptime'],
-            Cache::STATS_MEMORY_USAGE => $meminfo['memory_total'],
-            Cache::STATS_MEMORY_AVAILIABLE => $meminfo['memory_free'],
+            CacheInterface::STATS_SIZE => $info['total_item_count'],
+            CacheInterface::STATS_HITS => $info['total_hit_count'],
+            CacheInterface::STATS_MISSES => $info['total_miss_count'],
+            CacheInterface::STATS_UPTIME => $info['total_cache_uptime'],
+            CacheInterface::STATS_MEMORY_USAGE => $meminfo['memory_total'],
+            CacheInterface::STATS_MEMORY_AVAILIABLE => $meminfo['memory_free'],
         );
     }
 

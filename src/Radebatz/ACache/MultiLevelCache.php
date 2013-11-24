@@ -22,7 +22,7 @@ use InvalidArgumentException;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class MultiLevelCache implements Cache
+class MultiLevelCache implements CacheInterface
 {
     protected $stack;
     protected $bubbleOnFetch;
@@ -30,7 +30,7 @@ class MultiLevelCache implements Cache
     /**
      * Create new instance for the given cache instances.
      *
-     * @param array   $stack         List of <code>Cache</code> instances; default is an empty array.
+     * @param array   $stack         List of <code>CacheInterface</code> instances; default is an empty array.
      * @param boolean $bubbleOnFetch Optional flag to restore cache entries further up the stack if an item was
      *  only found further down; default is <code>false</code>.
      */
@@ -41,7 +41,7 @@ class MultiLevelCache implements Cache
         }
 
         foreach ($stack as $cache) {
-            if (!($cache instanceof Cache)) {
+            if (!($cache instanceof CacheInterface)) {
                 throw new InvalidArgumentException('All stack elements must implement the Cache interface');
             }
         }
@@ -53,7 +53,7 @@ class MultiLevelCache implements Cache
     /**
      * Get the cache stack.
      *
-     * @return array List of <code>Cache</code> instances.
+     * @return array List of <code>CacheInterface</code> instances.
      */
     public function getStack()
     {

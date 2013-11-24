@@ -11,7 +11,7 @@
 
 namespace Radebatz\ACache\Tests;
 
-use Radebatz\ACache\Cache;
+use Radebatz\ACache\CacheInterface;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\MultiLevelCache;
 
@@ -53,7 +53,7 @@ class MultiLevelCacheTest extends CacheTest
         $this->assertFalse($cache->contains('foo'));
         foreach ($cache->getStack() as $sc) {
             $stats = $sc->getStats();
-            $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
+            $this->assertEquals(0, $stats[CacheInterface::STATS_SIZE]);
         }
     }
 
@@ -72,7 +72,7 @@ class MultiLevelCacheTest extends CacheTest
         // ensure we have populated all caches in the stack
         foreach ($cache->getStack() as $sc) {
             $stats = $sc->getStats();
-            $this->assertEquals(1, $stats[Cache::STATS_SIZE]);
+            $this->assertEquals(1, $stats[CacheInterface::STATS_SIZE]);
         }
 
         // flush 1st level
@@ -84,7 +84,7 @@ class MultiLevelCacheTest extends CacheTest
         // check that fetch hasn't triggered any bubbles
         foreach ($cache->getStack() as $ii => $sc) {
             $stats = $sc->getStats();
-            $this->assertEquals($ii, $stats[Cache::STATS_SIZE]);
+            $this->assertEquals($ii, $stats[CacheInterface::STATS_SIZE]);
         }
     }
 
@@ -104,7 +104,7 @@ class MultiLevelCacheTest extends CacheTest
         // ensure we have populated all caches in the stack
         foreach ($cache->getStack() as $sc) {
             $stats = $sc->getStats();
-            $this->assertEquals(1, $stats[Cache::STATS_SIZE]);
+            $this->assertEquals(1, $stats[CacheInterface::STATS_SIZE]);
         }
 
         // flush 1st level
@@ -116,7 +116,7 @@ class MultiLevelCacheTest extends CacheTest
         // check that fetch has triggered bubbles
         foreach ($cache->getStack() as $sc) {
             $stats = $sc->getStats();
-            $this->assertEquals(1, $stats[Cache::STATS_SIZE]);
+            $this->assertEquals(1, $stats[CacheInterface::STATS_SIZE]);
         }
     }
 

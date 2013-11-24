@@ -102,9 +102,9 @@ class RedisCache extends AbstractPathKeyCache
         $info = $this->redis->info();
 
         return array(
-            Cache::STATS_SIZE => $this->redis->dbSize(),
-            Cache::STATS_UPTIME => $info['uptime_in_seconds'],
-            Cache::STATS_MEMORY_USAGE => $info['used_memory'],
+            CacheInterface::STATS_SIZE => $this->redis->dbSize(),
+            CacheInterface::STATS_UPTIME => $info['uptime_in_seconds'],
+            CacheInterface::STATS_MEMORY_USAGE => $info['used_memory'],
         );
     }
 

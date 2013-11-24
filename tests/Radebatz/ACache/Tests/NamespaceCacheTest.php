@@ -11,7 +11,7 @@
 
 namespace Radebatz\ACache\Tests;
 
-use Radebatz\ACache\Cache;
+use Radebatz\ACache\CacheInterface;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\NamespaceCache;
 
@@ -39,7 +39,7 @@ class NamespaceCacheTest extends CacheTest
      *
      * @dataProvider cacheProvider
      */
-    public function testNamespace(Cache $cache)
+    public function testNamespace(CacheInterface $cache)
     {
         $this->doTestNamespace($cache);
         $this->doTestNamespace(new NamespaceCache($cache, 'super'));
@@ -48,7 +48,7 @@ class NamespaceCacheTest extends CacheTest
     /**
      * Do namespace tests.
      */
-    protected function doTestNamespace(Cache $decoratedCache)
+    protected function doTestNamespace(CacheInterface $decoratedCache)
     {
         // ensure we are clean
         $decoratedCache->flush();
@@ -71,16 +71,16 @@ class NamespaceCacheTest extends CacheTest
         $this->assertNull($cache->fetch('yin'));
 
         $stats = $decoratedCache->getStats();
-        $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
+        $this->assertEquals(0, $stats[CacheInterface::STATS_SIZE]);
 
         $this->assertTrue($cache->save('foo', 'bar'));
         $stats = $decoratedCache->getStats();
-        $this->assertEquals(1, $stats[Cache::STATS_SIZE]);
+        $this->assertEquals(1, $stats[CacheInterface::STATS_SIZE]);
 
         $cache->flush();
         if ($stats = $decoratedCache->getStats()) {
             $this->assertFalse($cache->contains('foo'));
-            $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
+            $this->assertEquals(0, $stats[CacheInterface::STATS_SIZE]);
         }
     }
 
@@ -89,7 +89,7 @@ class NamespaceCacheTest extends CacheTest
      *
      * @dataProvider cacheProvider
      */
-    public function testEmptyNamespace(Cache $cache)
+    public function testEmptyNamespace(CacheInterface $cache)
     {
         // regular
         $this->doTestEmptyNamespace($cache);
@@ -99,7 +99,7 @@ class NamespaceCacheTest extends CacheTest
     /**
      * Do empty namespace tests.
      */
-    protected function doTestEmptyNamespace(Cache $decoratedCache)
+    protected function doTestEmptyNamespace(CacheInterface $decoratedCache)
     {
         // ensure we are clean
         $decoratedCache->flush();
@@ -120,7 +120,7 @@ class NamespaceCacheTest extends CacheTest
         $cache->flush();
         if ($stats = $decoratedCache->getStats()) {
             $this->assertFalse($cache->contains('foo'));
-            $this->assertEquals(0, $stats[Cache::STATS_SIZE]);
+            $this->assertEquals(0, $stats[CacheInterface::STATS_SIZE]);
         }
     }
 

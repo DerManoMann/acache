@@ -207,7 +207,7 @@ class PdoCache extends AbstractPathKeyCache
         }
 
         return array(
-            Cache::STATS_SIZE => $size,
+            CacheInterface::STATS_SIZE => $size,
         );
     }
 

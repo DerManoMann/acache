@@ -81,12 +81,12 @@ class ApcCache extends AbstractPathKeyCache
         $smaInfo = apc_sma_info();
 
         return array(
-            Cache::STATS_SIZE => count($cacheInfo['cache_list']),
-            Cache::STATS_HITS => $cacheInfo['num_hits'],
-            Cache::STATS_MISSES => $cacheInfo['num_misses'],
-            Cache::STATS_UPTIME => $cacheInfo['start_time'],
-            Cache::STATS_MEMORY_USAGE => $cacheInfo['mem_size'],
-            Cache::STATS_MEMORY_AVAILIABLE => $smaInfo['avail_mem'],
+            CacheInterface::STATS_SIZE => count($cacheInfo['cache_list']),
+            CacheInterface::STATS_HITS => $cacheInfo['num_hits'],
+            CacheInterface::STATS_MISSES => $cacheInfo['num_misses'],
+            CacheInterface::STATS_UPTIME => $cacheInfo['start_time'],
+            CacheInterface::STATS_MEMORY_USAGE => $cacheInfo['mem_size'],
+            CacheInterface::STATS_MEMORY_AVAILIABLE => $smaInfo['avail_mem'],
         );
     }
 

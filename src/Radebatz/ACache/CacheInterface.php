@@ -16,7 +16,7 @@ namespace Radebatz\ACache;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-interface Cache
+interface CacheInterface
 {
     const STATS_SIZE = 'size';
     const STATS_HITS = 'hits';

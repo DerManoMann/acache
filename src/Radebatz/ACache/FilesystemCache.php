@@ -20,7 +20,7 @@ use RecursiveIteratorIterator;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class FilesystemCache implements Cache
+class FilesystemCache implements CacheInterface
 {
     protected $directory;
 
@@ -206,7 +206,7 @@ class FilesystemCache implements Cache
         }
 
         return array(
-            Cache::STATS_SIZE => $size,
+            CacheInterface::STATS_SIZE => $size,
         );;
     }
 
