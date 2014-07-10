@@ -13,12 +13,12 @@ namespace Radebatz\ACache\Tests;
 
 use Exception;
 use MongoClient;
-use Radebatz\ACache\MongoCache;
+use Radebatz\ACache\MongoDBCache;
 
 /**
- * MongoCache tests.
+ * MongoDBCache tests.
  */
-class MongoCacheTest extends NamespaceCacheTest
+class MongoDBCacheTest extends NamespaceCacheTest
 {
 
     /**
@@ -61,7 +61,7 @@ class MongoCacheTest extends NamespaceCacheTest
         $mongoCollection = $mongoClient->cache->entries->drop();
 
         return array(
-            array(new MongoCache($mongoClient->cache->entries))
+            array(new MongoDBCache($mongoClient->cache->entries))
         );
     }
 

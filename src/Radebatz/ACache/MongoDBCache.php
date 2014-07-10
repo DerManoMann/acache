@@ -18,7 +18,7 @@ use MongoCollection;
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
-class MongoCache extends AbstractPathKeyCache
+class MongoDBCache extends AbstractPathKeyCache
 {
     protected $mongoCollection;
     protected $config;
