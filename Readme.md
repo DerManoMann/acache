@@ -156,3 +156,4 @@ All issues that break backwards compatibility are flagged [BC].
 * Add changelog to provide upgrade details [#8]
 * Add Doctrine Cache decorator [#9]
 * make autoloader use prs-4
+* allow to override defaults in PHPUnit tests [#12]
