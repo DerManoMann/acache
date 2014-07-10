@@ -3,7 +3,7 @@ language: php
 before_script:
   - composer self-update
   - composer --dev install
-  - sh -c "if [ $TRAVIS_PHP_VERSION != 'hhvm' ]; then phpenv config-add .travis.ini; pecl install apcu-beta; phpenv rehash; fi"
+  - sh -c "if [ $TRAVIS_PHP_VERSION != 'hhvm' ]; then phpenv config-add .travis.ini; sudo apt-get install -y php-apcu; fi"
  
 services:
   - memcache
