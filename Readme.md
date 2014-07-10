@@ -23,7 +23,8 @@ ACache requires PHP 5.3 or later.
 
 ## Features
 
-ACache is inspired by the doctrine [cache][1] component.
+ACache is inspired by the doctrine [cache][https://github.com/doctrine/cache] component.
+In fact, there is even a decorator to allow you to use any ACache instance in place of doctrine cache.
 
 Since some features were hard to add on top of that I ended up writing my own :)
 
@@ -130,7 +131,7 @@ run the `php composer.phar install` command to install it:
         }
     }
 
-Alternatively, you can download the [`acache.zip`][2] file and extract it.
+Alternatively, you can download the [`acache.zip`][https://github.com/DerManoMann/acache/archive/master.zip] file and extract it.
 
 
 
@@ -148,6 +149,10 @@ To run the test suite, you will need [PHPUnit](http://phpunit.de/manual/current/
 ACache is licensed under the MIT license.
 
 
-
-[1]: https://github.com/doctrine/cache
-[2]: https://github.com/DerManoMann/acache/archive/master.zip
+## Changelog
+All issues that break backwards compatibility are flagged [BC].
+### v1.1.0
+* [BC] make namespace last argument of save method [#4]
+* Add changelog to provide upgrade details [#8]
+* Add Doctrine Cache decorator [#9]
+* make autoloader use prs-4
