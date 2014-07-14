@@ -38,6 +38,10 @@ class DoctrineCache implements Cache
      */
     public function fetch($id)
     {
+        if (!$this->contains($id)) {
+            return false;
+        }
+
         return $this->cache->fetch($id);
     }
 
