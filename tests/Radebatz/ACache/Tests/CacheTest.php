@@ -57,9 +57,9 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     /**
      * Get an override value if it exists.
      *
-     * @param string $name The override name.
-     * @param mixed $default Optional default.
-     * @return mixed The value or default.
+     * @param  string $name    The override name.
+     * @param  mixed  $default Optional default.
+     * @return mixed  The value or default.
      */
     protected function getOverride($name, $default = null)
     {

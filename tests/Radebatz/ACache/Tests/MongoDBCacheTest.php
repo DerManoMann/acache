@@ -29,6 +29,7 @@ class MongoDBCacheTest extends NamespaceCacheTest
         if (class_exists('MongoClient')) {
             try {
                 new MongoClient($this->getOverride('PHPUNIT_MONGODB_SERVER', null));
+
                 return true;
             } catch (Exception $e) {
                 // nope

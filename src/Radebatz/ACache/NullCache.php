@@ -38,7 +38,8 @@ class NullCache implements CacheInterface
     /**
      * {@inheritDoc}
      */
-    public function getTimeToLive($id, $namespace = null) {
+    public function getTimeToLive($id, $namespace = null)
+    {
         return false;
     }
 
@@ -63,7 +64,6 @@ class NullCache implements CacheInterface
      */
     public function flush($namespace = null)
     {
-
         return true;
     }
 
