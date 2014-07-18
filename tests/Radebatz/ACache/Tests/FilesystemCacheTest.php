@@ -20,6 +20,14 @@ class FilesystemCacheTest extends NamespaceCacheTest
 {
 
     /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
+    {
+        @rmdir($this->getTempDir());
+    }
+
+    /**
      * Get a temp directory.
      *
      * @param  int    $perms File permissions.
@@ -27,14 +35,29 @@ class FilesystemCacheTest extends NamespaceCacheTest
      */
     protected function getTempDir($perms = 0777)
     {
-        $tempfile = tempnam(sys_get_temp_dir(), '');
-        if (file_exists($tempfile)) {
-            unlink($tempfile);
+        $tempdir = __DIR__.'/_acache';
+        if (is_dir($tempdir)) {
+            chmod($tempdir, 0777);
+            $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($tempdir), \RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ($it as $file) {
+                if (in_array($file->getBasename(), array('.', '..'))) {
+                    continue;
+                } elseif ($file->isDir()) {
+                    chmod($file->getPathname(), 0777);
+                    rmdir($file->getPathname());
+                } elseif ($file->isFile() || $file->isLink()) {
+                    chmod($file->getPathname(), 0777);
+                    unlink($file->getPathname());
+                }
+            }
+            rmdir($tempdir);
+        } else if (file_exists($tempdir)) {
+            unlink($tempdir);
         }
-        mkdir($tempfile);
-        chmod($tempfile, $perms);
 
-        return $tempfile;
+        mkdir($tempdir, $perms, true);
+
+        return $tempdir;
     }
 
     /**
@@ -80,6 +103,24 @@ class FilesystemCacheTest extends NamespaceCacheTest
         $dir = $this->getTempDir();
         $cache = new FilesystemCache($dir);
         $this->assertEquals($dir, $cache->getDirectory());
+    }
+
+    /**
+     * Test permissions.
+     */
+    public function testPermissions()
+    {
+        $dir = $this->getTempDir();
+        // force the cache to create the actual cache root folder
+        $cacheRoot = $dir.'/foo/bar';
+        $cache = new FilesystemCache($cacheRoot);
+        $this->assertEquals($cacheRoot, $cache->getDirectory());
+
+        // both foo and bar should have 0777 permissions
+        foreach (array($dir.'/foo', $cacheRoot) as $path) {
+            $actualFilePerms = (int) substr(sprintf('%o', fileperms($path)), -3);
+            $this->assertEquals(777, $actualFilePerms);
+        }
     }
 
 }

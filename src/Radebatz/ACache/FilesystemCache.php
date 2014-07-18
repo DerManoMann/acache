@@ -23,15 +23,18 @@ use RecursiveIteratorIterator;
 class FilesystemCache implements CacheInterface
 {
     protected $directory;
+    protected $mode;
 
     /**
      * Create instance.
      *
      * @param string $directory The root directory of this cache.
+     * @param int    $mode      The permissions to be used for all directories created.
      */
-    public function __construct($directory)
+    public function __construct($directory, $mode = 0777)
     {
-        if (!is_dir($directory) && !@mkdir($directory, 0777, true)) {
+        $this->mkdir($directory, $mode);
+        if (!is_dir($directory)) {
             throw new InvalidArgumentException(sprintf('The directory "%s" does not exist and could not be created.', $directory));
         }
 
@@ -40,6 +43,7 @@ class FilesystemCache implements CacheInterface
         }
 
         $this->directory = realpath($directory);
+        $this->mode = $mode;
     }
 
     /**
@@ -50,6 +54,25 @@ class FilesystemCache implements CacheInterface
     public function getDirectory()
     {
         return $this->directory;
+    }
+
+    /**
+     * Recursive mkdir.
+     *
+     * @param string $path The path.
+     * @param int    $mode The permissions to be used for all directories created.
+     */
+    protected function mkdir($path, $mode)
+    {
+        if (is_dir($path)) {
+            return;
+        }
+
+        $this->mkdir(dirname($path), $mode);
+        if (!file_exists($path)) {
+            mkdir($path, $mode);
+            chmod($path, $mode);
+        }
     }
 
     /**
@@ -151,7 +174,7 @@ class FilesystemCache implements CacheInterface
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);
 
         if (!is_dir($filepath)) {
-            @mkdir($filepath, 0777, true);
+            $this->mkdir($filepath, 0777);
         }
 
         if (!is_dir($filepath)) {
@@ -198,10 +221,12 @@ class FilesystemCache implements CacheInterface
     public function getStats()
     {
         $size = 0;
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->directory));
-        foreach ($iterator as $name => $file) {
-            if ($file->isFile()) {
-                ++$size;
+        if (is_dir($this->directory)) {
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->directory));
+            foreach ($iterator as $name => $file) {
+                if ($file->isFile()) {
+                    ++$size;
+                }
             }
         }
 
