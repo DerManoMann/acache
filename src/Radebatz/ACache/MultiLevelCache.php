@@ -30,9 +30,8 @@ class MultiLevelCache implements CacheInterface
     /**
      * Create new instance for the given cache instances.
      *
-     * @param array   $stack         List of <code>CacheInterface</code> instances; default is an empty array.
-     * @param boolean $bubbleOnFetch Optional flag to restore cache entries further up the stack if an item was
-     *                               only found further down; default is <code>false</code>.
+     * @param array   $stack         List of <code>CacheInterface</code> instances.
+     * @param boolean $bubbleOnFetch Optional flag to restore cache entries further up the stack if an item was only found further down.
      */
     public function __construct(array $stack = array(), $bubbleOnFetch = false)
     {

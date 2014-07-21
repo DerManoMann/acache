@@ -17,10 +17,9 @@ use Memcache;
  * Memcache cache.
  *
  * Configuration options are:
- *
- *   * <code>host</code>: The memcache hostname; default is <code>localhost</code>.
- *   * <code>port</code>: The memcache port; default is <codGcode>.
- *   * <code>compress</code>: Whether to compress data or not; default is <code>false</code>.
+ *  * <code>host</code>:     The memcache hostname; default is <code>localhost</code>.
+ *  * <code>port</code>:     The memcache port; default is <codGcode>.
+ *  * <code>compress</code>: Whether to compress data or not; default is <code>false</code>.
  *
  * Flushing a namespace relies on the memcache <em>cachedump</em> command which is subject to change / removal.
  *

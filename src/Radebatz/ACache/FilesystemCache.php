@@ -79,7 +79,7 @@ class FilesystemCache implements CacheInterface
      * Convert an id into a filename.
      *
      * @param  string       $id        The id.
-     * @param  string|array $namespace Optional namespace; default is <code>null</code> for none.
+     * @param  string|array $namespace Optional namespace.
      * @return string       The filename.
      */
     protected function getFilenameForId($id, $namespace)
@@ -93,8 +93,8 @@ class FilesystemCache implements CacheInterface
      * Get a cache entry for the given id.
      *
      * @param  string       $id        The id.
-     * @param  string|array $namespace Optional namespace; default is <code>null</code> for none.
-     * @param  boolean      $full      Flag to indicate whether to include data loading or meta data only; default is <code>false</code> for meta data only.
+     * @param  string|array $namespace Optional namespace.
+     * @param  boolean      $full      Flag to indicate whether to include data loading or meta data only.
      * @return array        The cache entry or <code>null</code>.
      */
     protected function getEntryForId($id, $namespace, $full = false)

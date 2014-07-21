@@ -142,7 +142,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
      *
      * @param string $id       The cache id.
      * @param string $entry    The cache entry
-     * @param int    $lifeTime The lifetime in seconds. Set to 0 for infinite life time; default is 0.
+     * @param int    $lifeTime The lifetime in seconds. Set to 0 for infinite life time.
      */
     abstract protected function saveEntry($id, $entry, $lifeTime = 0);
 

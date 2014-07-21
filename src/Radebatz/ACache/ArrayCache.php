@@ -23,11 +23,12 @@ class ArrayCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param array $data Optional initial cache data; default is an empty array.
+     * @param array $data Optional initial cache data.
      */
     public function __construct(array $data = array())
     {
         parent::__construct();
+
         $this->data = $data;
     }
 

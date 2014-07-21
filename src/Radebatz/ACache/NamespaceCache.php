@@ -27,7 +27,7 @@ class NamespaceCache implements CacheInterface
      * Create new instance, decorating the given cache.
      *
      * @param CacheInterface $cache     The cache to decorate with a namespace.
-     * @param string         $namespace The namespace; default is <code>null</code> for having no namespace at all.
+     * @param string         $namespace The namespace.
      */
     public function __construct(CacheInterface $cache, $namespace = null)
     {
