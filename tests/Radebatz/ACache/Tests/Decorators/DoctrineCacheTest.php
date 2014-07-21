@@ -51,4 +51,15 @@ class DoctrineCacheTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($cache->contains('foo'));
     }
 
+    /**
+     * Test objects.
+     */
+    public function testObjecets()
+    {
+        $cache = new DoctrineCache(new ArrayCache());
+        $foo = json_decode('{"foo":"bar"}');
+        $this->assertTrue($cache->save('foo', $foo));
+        $this->assertEquals($foo, $cache->fetch('foo'));
+    }
+
 }

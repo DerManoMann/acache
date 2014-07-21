@@ -104,6 +104,18 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test objects.
+     *
+     * @dataProvider cacheProvider
+     */
+    public function testObjecets(CacheInterface $cache)
+    {
+        $foo = json_decode('{"foo":"bar"}');
+        $this->assertTrue($cache->save('foo', $foo));
+        $this->assertEquals($foo, $cache->fetch('foo'));
+    }
+
+    /**
      * Test time to live.
      *
      * @dataProvider cacheProvider
