@@ -51,7 +51,7 @@ class FilesystemCacheTest extends NamespaceCacheTest
                 }
             }
             rmdir($tempdir);
-        } else if (file_exists($tempdir)) {
+        } elseif (file_exists($tempdir)) {
             unlink($tempdir);
         }
 

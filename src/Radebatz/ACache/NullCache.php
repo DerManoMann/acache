@@ -46,7 +46,15 @@ class NullCache implements CacheInterface
     /**
      * {@inheritDoc}
      */
-    public function save($id, $entry, $lifeTime = 0, $namespace = null)
+    public function getDefaultTimeToLive()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function save($id, $entry, $lifeTime = null, $namespace = null)
     {
         return true;
     }

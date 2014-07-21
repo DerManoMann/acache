@@ -20,15 +20,18 @@ abstract class AbstractPathKeyCache implements CacheInterface
 {
     const DEFAULT_NAMESPACE_DELIMITER = '==';
     protected $namespaceDelimiter;
+    protected $defaultTimeToLive;
 
     /**
      * Create instance.
      *
-     * @param string $namespaceDelimiter Optional namespace delimiter; default is <code>DEFAULT_NAMESPACE_DELIMITER</code>.
+     * @param string $namespaceDelimiter Optional namespace delimiter.
+     * @param int    $defaultTimeToLive  Optional default time-to-live value.
      */
-    public function __construct($namespaceDelimiter = self::DEFAULT_NAMESPACE_DELIMITER)
+    public function __construct($namespaceDelimiter = self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive = 0)
     {
         $this->namespaceDelimiter = $namespaceDelimiter;
+        $this->defaultTimeToLive = $defaultTimeToLive;
     }
 
     /**
@@ -95,11 +98,19 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $lifeTime = 0, $namespace = null)
+    public function getDefaultTimeToLive()
+    {
+        return $this->defaultTimeToLive;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function save($id, $data, $lifeTime = null, $namespace = null)
     {
         $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
 
-        return (bool) $this->saveEntry($this->namespaceId($id, $namespace), $entry, (int) $lifeTime);
+        return (bool) $this->saveEntry($this->namespaceId($id, $namespace), $entry, null !== $lifeTime ? (int) $lifeTime : $this->getDefaultTimeToLive());
     }
 
     /**

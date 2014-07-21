@@ -152,9 +152,13 @@ ACache is licensed under the MIT license.
 ## Changelog
 All issues that break backwards compatibility are flagged [BC].
 ### v1.1.0
-* [BC] make namespace last argument of save method [#4]
+* [BC] make namespace last argument of `save()` method [#4]
 * add changelog to provide upgrade details [#8]
-* add Doctrine Cache decorator [#9]
+* add `DoctrineCache` decorator class [#9]
 * make autoloader use prs-4
 * allow to override defaults in PHPUnit tests [#12]
-* add NullCache [#13]
+* add `NullCache` class [#13]
+
+### v1.1.1
+* [BC] allow to configure a default time-to-live [#7]
+  This changes the default of `$lifeTime` argument of the `save()` method to `null`

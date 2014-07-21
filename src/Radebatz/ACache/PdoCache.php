@@ -36,12 +36,14 @@ class PdoCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param \PDO  $pdo    The PDO instance to use.
-     * @param array $config Optional configuration of table/column names; default is an empty array to use the defaults.
+     * @param \PDO  $pdo               The PDO instance to use.
+     * @param array $config            Optional configuration of table/column names; default is an empty array to use the defaults.
+     * @param int   $defaultTimeToLive Optional default time-to-live value.
      */
-    public function __construct(PDO $pdo, array $config = array())
+    public function __construct(PDO $pdo, array $config = array(), $defaultTimeToLive = 0)
     {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive);
+
         $this->pdo = $pdo;
         // use exception error mode
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

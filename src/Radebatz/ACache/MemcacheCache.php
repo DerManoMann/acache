@@ -35,11 +35,12 @@ class MemcacheCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param array $config Optional config settings; default is an empty array.
+     * @param array $config            Optional config settings; default is an empty array.
+     * @param int   $defaultTimeToLive Optional default time-to-live value.
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config = array(), $defaultTimeToLive = 0)
     {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive);
 
         $this->memcache = new Memcache();
         // merge with some defaults

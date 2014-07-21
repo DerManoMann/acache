@@ -168,7 +168,15 @@ class FilesystemCache implements CacheInterface
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $lifeTime = 0, $namespace = null)
+    public function getDefaultTimeToLive()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function save($id, $data, $lifeTime = null, $namespace = null)
     {
         $filename = $this->getFilenameForId($id, $namespace);
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);
@@ -181,6 +189,7 @@ class FilesystemCache implements CacheInterface
             return false;
         }
 
+        $lifeTime = null !== $lifeTime ? (int) $lifeTime : $this->getDefaultTimeToLive();
         $expires = $lifeTime ? (time() + $lifeTime) : 0;
 
         return (bool) file_put_contents($filename, $expires . PHP_EOL . serialize($data));

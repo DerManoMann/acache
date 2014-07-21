@@ -25,11 +25,12 @@ class RedisCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param \Redis $redis The <code>Redis</code> instance to be used.
+     * @param \Redis $redis             The <code>Redis</code> instance to be used.
+     * @param int    $defaultTimeToLive Optional default time-to-live value.
      */
-    public function __construct(Redis $redis)
+    public function __construct(Redis $redis, $defaultTimeToLive = 0)
     {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive);
 
         // need serialization
         if (Redis::SERIALIZER_NONE == $redis->getOption(Redis::OPT_SERIALIZER)) {

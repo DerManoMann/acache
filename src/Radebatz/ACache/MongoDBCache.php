@@ -26,11 +26,13 @@ class MongoDBCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param \MongoCollection $mongoCollection The mongo collection to use.
+     * @param \MongoCollection $mongoCollection   The mongo collection to use.
+     * @param int              $defaultTimeToLive Optional default time-to-live value.
      */
-    public function __construct(MongoCollection $mongoCollection)
+    public function __construct(MongoCollection $mongoCollection, $defaultTimeToLive = 0)
     {
-        parent::__construct();
+        parent::__construct(self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive);
+
         $this->mongoCollection = $mongoCollection;
     }
 

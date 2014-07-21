@@ -84,7 +84,15 @@ class NamespaceCache implements CacheInterface
     /**
      * {@inheritDoc}
      */
-    public function save($id, $data, $lifeTime = 0, $namespace = null)
+    public function getDefaultTimeToLive()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function save($id, $data, $lifeTime = null, $namespace = null)
     {
         return $this->cache->save($id, $data, $lifeTime, $this->getNamespacePath($namespace));
     }

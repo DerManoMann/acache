@@ -53,15 +53,23 @@ interface CacheInterface
     public function getTimeToLive($id, $namespace = null);
 
     /**
+     * Returns the time to live default configured for this cache instance.
+     *
+     * @return int The default time to live value to be used if <code>lifeTime</code> is set to <code>null</code>.
+     */
+    public function getDefaultTimeToLive();
+
+    /**
      * Puts data into the cache.
      *
      * @param  string       $id        The cache id.
      * @param  string       $data      The cache data.
-     * @param  int          $lifeTime  The lifetime in seconds. Set to 0 for infinite life time; default is 0.
+     * @param  int          $lifeTime  The lifetime in seconds. Set to 0 for infinite life time;
+     *                                 default is <code>null</code> to use the configured default life time.
      * @param  string|array $namespace Optional namespace; default is <code>null</code> for none.
      * @return boolean      <code>true</code> if the entry was successfully stored in the cache, <code>false</code> if not.
      */
-    public function save($id, $data, $lifeTime = 0, $namespace = null);
+    public function save($id, $data, $lifeTime = null, $namespace = null);
 
     /**
      * Deletes a cache entry.
