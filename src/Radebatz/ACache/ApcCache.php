@@ -107,10 +107,9 @@ class ApcCache extends AbstractPathKeyCache
 
                 if ($freeseg > 1) {
                     $frag = (int) sprintf('%d', ($fragsize / $freetotal) * 100 * 100);
-                    var_dump($frag);
-                }
-                if ($frag > $this->options['gc_clear_f_percent']) {
-                    return apc_clear_cache('user');
+                    if ($frag > $this->options['gc_clear_f_percent']) {
+                        return apc_clear_cache('user');
+                    }
                 }
             }
 
