@@ -115,7 +115,6 @@ class ApcCache extends AbstractPathKeyCache
 
             // GC
             if (null !== $this->options['gc_trigger_percent'] && $this->options['gc_trigger_percent'] > $avail_p
-                || true
                 || null !== $this->options['gc_trigger_size'] && $this->options['gc_trigger_size'] > $avail) {
                 $now = time();
                 $cacheInfo = apc_cache_info('user');
