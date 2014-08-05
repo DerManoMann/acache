@@ -78,7 +78,7 @@ class MultiLevelCache implements CacheInterface
             if (null !== ($data = $cache->fetch($id, $namespace))) {
                 if ($this->bubbleOnFetch && $ii) {
                     // remaining time to live
-                    $timeToLive = $this->getTimeToLive($id, $namespace);
+                    $timeToLive = $cache->getTimeToLive($id, $namespace);
                     do {
                         $this->stack[--$ii]->save($id, $data, $timeToLive, $namespace);
                     } while ($ii);
