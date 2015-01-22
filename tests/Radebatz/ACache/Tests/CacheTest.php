@@ -104,6 +104,17 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test arrays.
+     *
+     * @dataProvider cacheProvider
+     */
+    public function testArray(CacheInterface $cache)
+    {
+        $this->assertTrue($cache->save('arr', array('arr')));
+        $this->assertEquals(array('arr'), $cache->fetch('arr'));
+    }
+
+    /**
      * Test objects.
      *
      * @dataProvider cacheProvider
