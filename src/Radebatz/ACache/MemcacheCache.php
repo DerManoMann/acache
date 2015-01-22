@@ -96,21 +96,27 @@ class MemcacheCache extends AbstractPathKeyCache
             return $this->memcache->flush();
         } else {
             $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
+
             // iterate over all entries and delete matching
-            foreach ($this->memcache->getExtendedStats('items slabs') as $summary) {
-                foreach ($summary as $slabDetails) {
-                    foreach ($slabDetails as $slabId => $details) {
-                        $slabItems = $this->memcache->getExtendedStats('cachedump', $slabId, $details['number']);
-                        foreach ($slabItems as $server => $items) {
-                            foreach ($items as $key => $item) {
-                                if (0 === strpos($key, $namespace)) {
-                                    $this->memcache->delete($key);
+            $slabs = $this->memcache->getExtendedStats('slabs');
+            $items = $this->memcache->getExtendedStats('items');
+            foreach ($slabs as $server => $serverSlabs) {
+                foreach ($serverSlabs as $slabId => $slabMeta) {
+                    if (is_int($slabId)) {
+                        $cdump = $this->memcache->getExtendedStats('cachedump', $slabId);
+                        foreach ($cdump as $values) {
+                            if (is_array($values)) {
+                                foreach ($values as $key => $value) {
+                                    if (0 === strpos($key, $namespace)) {
+                                        $this->memcache->delete($key);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+
         }
 
         return true;
