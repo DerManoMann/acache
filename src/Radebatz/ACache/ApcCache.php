@@ -196,6 +196,14 @@ class ApcCache extends AbstractPathKeyCache
         $cacheInfo = apc_cache_info('user');
         $smaInfo = apc_sma_info();
 
+        // @TODO - Temporary fix @see https://github.com/krakjoe/apcu/pull/42
+        if (PHP_VERSION_ID >= 50500) {
+            $cacheInfo['num_hits'] = isset($cacheInfo['num_hits']) ? $cacheInfo['num_hits'] : $cacheInfo['nhits'];
+            $cacheInfo['num_misses'] = isset($cacheInfo['num_misses']) ? $cacheInfo['num_misses'] : $cacheInfo['nmisses'];
+            $cacheInfo['start_time'] = isset($cacheInfo['start_time']) ? $cacheInfo['start_time'] : $cacheInfo['stime'];
+            var_dump($cacheInfo);
+        }
+
         return array(
             CacheInterface::STATS_SIZE => count($cacheInfo['cache_list']),
             CacheInterface::STATS_HITS => $cacheInfo['num_hits'],
