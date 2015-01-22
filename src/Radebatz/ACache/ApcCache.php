@@ -196,18 +196,9 @@ class ApcCache extends AbstractPathKeyCache
         $cacheInfo = apc_cache_info('user');
         $smaInfo = apc_sma_info();
 
-        $numHits = 0;
-        if (array_key_exists('num_hits', $cacheInfo)) {
-            $numHits = $cacheInfo['num_hits'];
-        } else {
-            foreach ($cacheInfo['cache_list'] as $cache) {
-                $numHits += $cache['num_hits'];
-            }
-        }
-
         return array(
             CacheInterface::STATS_SIZE => count($cacheInfo['cache_list']),
-            CacheInterface::STATS_HITS => $numHits,
+            CacheInterface::STATS_HITS => $cacheInfo['num_hits'],
             CacheInterface::STATS_MISSES => $cacheInfo['num_misses'],
             CacheInterface::STATS_UPTIME => $cacheInfo['start_time'],
             CacheInterface::STATS_MEMORY_USAGE => $cacheInfo['mem_size'],
