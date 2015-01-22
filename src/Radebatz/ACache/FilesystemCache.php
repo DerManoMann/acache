@@ -24,14 +24,16 @@ class FilesystemCache implements CacheInterface
 {
     protected $directory;
     protected $mode;
+    protected $keySanitiser;
 
     /**
      * Create instance.
      *
-     * @param string $directory The root directory of this cache.
-     * @param int    $mode      The permissions to be used for all directories created.
+     * @param string   $directory    The root directory of this cache.
+     * @param int      $mode         The permissions to be used for all directories created.
+     * @param callable $keySanitiser Optional sanitizer to avoid invalid filenames.
      */
-    public function __construct($directory, $mode = 0777)
+    public function __construct($directory, $mode = 0777, $keySanitiser = null)
     {
         $this->mkdir($directory, $mode);
         if (!is_dir($directory)) {
@@ -44,6 +46,7 @@ class FilesystemCache implements CacheInterface
 
         $this->directory = realpath($directory);
         $this->mode = $mode;
+        $this->keySanitiser = is_callable($keySanitiser) ? $keySanitiser : function ($key) { return $key; };
     }
 
     /**
@@ -132,6 +135,8 @@ class FilesystemCache implements CacheInterface
      */
     public function fetch($id, $namespace = null)
     {
+        $id = call_user_func($this->keySanitiser, $id);
+
         if (!$this->contains($id, $namespace)) {
             return null;
         }
@@ -146,6 +151,8 @@ class FilesystemCache implements CacheInterface
      */
     public function contains($id, $namespace = null)
     {
+        $id = call_user_func($this->keySanitiser, $id);
+
         if (!$entry = $this->getEntryForId($id, $namespace, false)) {
             return false;
         }
@@ -158,6 +165,8 @@ class FilesystemCache implements CacheInterface
      */
     public function getTimeToLive($id, $namespace = null)
     {
+        $id = call_user_func($this->keySanitiser, $id);
+
         if (!$entry = $this->getEntryForId($id, $namespace, false)) {
             return false;
         }
@@ -178,6 +187,8 @@ class FilesystemCache implements CacheInterface
      */
     public function save($id, $data, $lifeTime = null, $namespace = null)
     {
+        $id = call_user_func($this->keySanitiser, $id);
+
         $filename = $this->getFilenameForId($id, $namespace);
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);
 
@@ -200,6 +211,8 @@ class FilesystemCache implements CacheInterface
      */
     public function delete($id, $namespace = null)
     {
+        $id = call_user_func($this->keySanitiser, $id);
+
         return @unlink($this->getFilenameForId($id, $namespace));
     }
 
@@ -241,7 +254,7 @@ class FilesystemCache implements CacheInterface
 
         return array(
             CacheInterface::STATS_SIZE => $size,
-        );;
+        );
     }
 
 }
