@@ -201,7 +201,6 @@ class ApcCache extends AbstractPathKeyCache
             $cacheInfo['num_hits'] = isset($cacheInfo['num_hits']) ? $cacheInfo['num_hits'] : $cacheInfo['nhits'];
             $cacheInfo['num_misses'] = isset($cacheInfo['num_misses']) ? $cacheInfo['num_misses'] : $cacheInfo['nmisses'];
             $cacheInfo['start_time'] = isset($cacheInfo['start_time']) ? $cacheInfo['start_time'] : $cacheInfo['stime'];
-            var_dump($cacheInfo);
         }
 
         return array(
