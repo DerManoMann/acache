@@ -116,7 +116,6 @@ class MemcacheCache extends AbstractPathKeyCache
                     }
                 }
             }
-
         }
 
         return true;
