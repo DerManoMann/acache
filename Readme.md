@@ -163,3 +163,7 @@ All issues that break backwards compatibility are flagged [BC].
 * [BC] allow to configure a default time-to-live [#7]
   This changes the default of `$lifeTime` argument of the `save()` method to `null`
 * add some sort of GC to ApcCache [#16]
+
+### v1.2.0
+* [BC] Refactor Apc GC into separte class [#18]
+

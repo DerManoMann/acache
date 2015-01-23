@@ -55,42 +55,4 @@ class ApcCacheTest extends NamespaceCacheTest
         );
     }
 
-    /**
-     * Test gc.
-     */
-    public function testGC()
-    {
-        // enable gc and set default ttl to 1 second
-        $cache = new ApcCache(array(
-            'gc_trigger_percent' => 100, // trigger if less than 100% free
-            'gc_grace_period' => 1, // 1 sec. grace period to speed things up
-        ), 1);
-
-        // add entry
-        $cache->save('foo', 'bar');
-        $stats = $cache->getStats();
-        $this->assertEquals(1, $stats['size']);
-
-        // wait to expire
-        sleep(4);
-
-        // get stats for later comparison
-        $before = $cache->getStats();
-        $this->assertEquals(1, $before['size']);
-
-        // add another entry (no gc, though)
-        $cache->save('ding', 'dong', 30);
-        $stats = $cache->getStats();
-        $this->assertEquals(2, $stats['size']);
-
-        // force gc
-        $cache->gc(true);
-
-        // should be 1 - ding
-        $after = $cache->getStats();
-        $this->assertEquals(1, $after['size']);
-        $this->assertFalse($cache->contains('foo'));
-        $this->assertTrue($cache->contains('ding'));
-    }
-
 }
