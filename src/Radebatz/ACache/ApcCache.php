@@ -196,11 +196,11 @@ class ApcCache extends AbstractPathKeyCache
         $cacheInfo = apc_cache_info('user');
         $smaInfo = apc_sma_info();
 
-        // @TODO - Temporary fix @see https://github.com/krakjoe/apcu/pull/42
+        // @TODO - Temporary fix @see https://github.com/krakjoe/apcu/pull/42 AND hhvm compat
         if (PHP_VERSION_ID >= 50500) {
-            $cacheInfo['num_hits'] = isset($cacheInfo['num_hits']) ? $cacheInfo['num_hits'] : $cacheInfo['nhits'];
-            $cacheInfo['num_misses'] = isset($cacheInfo['num_misses']) ? $cacheInfo['num_misses'] : $cacheInfo['nmisses'];
-            $cacheInfo['start_time'] = isset($cacheInfo['start_time']) ? $cacheInfo['start_time'] : $cacheInfo['stime'];
+            $cacheInfo['num_hits'] = isset($cacheInfo['nhits']) ? $cacheInfo['num_hits'] : isset($cacheInfo['num_hits']) ? $cacheInfo['num_hits'] : 0;
+            $cacheInfo['num_misses'] = isset($cacheInfo['nmisses']) ? $cacheInfo['num_misses'] : isset($cacheInfo['num_misses']) ? $cacheInfo['num_misses'] : 0;
+            $cacheInfo['start_time'] = isset($cacheInfo['stime']) ? $cacheInfo['start_time'] : isset($cacheInfo['start_time']) ? $cacheInfo['start_time'] : 0;
         }
 
         return array(
