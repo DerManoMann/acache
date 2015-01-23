@@ -198,10 +198,14 @@ class ApcCache extends AbstractPathKeyCache
 
         // @TODO - Temporary fix @see https://github.com/krakjoe/apcu/pull/42 AND hhvm compat
         if (PHP_VERSION_ID >= 50500) {
+            // apcu + hhvm
             $cacheInfo['num_hits'] = isset($cacheInfo['nhits']) ? $cacheInfo['num_hits'] : isset($cacheInfo['num_hits']) ? $cacheInfo['num_hits'] : 0;
             $cacheInfo['num_misses'] = isset($cacheInfo['nmisses']) ? $cacheInfo['num_misses'] : isset($cacheInfo['num_misses']) ? $cacheInfo['num_misses'] : 0;
             $cacheInfo['start_time'] = isset($cacheInfo['stime']) ? $cacheInfo['start_time'] : isset($cacheInfo['start_time']) ? $cacheInfo['start_time'] : 0;
+
+            // hhvm
             $cacheInfo['mem_size'] = isset($cacheInfo['mem_size']) ? $cacheInfo['mem_size'] : 0;
+            $smaInfo['avail_mem'] = isset($smaInfo['avail_mem']) ? $smaInfo['avail_mem'] : 0;
         }
 
         return array(
