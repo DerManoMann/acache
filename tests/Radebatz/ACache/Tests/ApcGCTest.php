@@ -19,7 +19,6 @@ use Radebatz\ACache\ApcGC;
  */
 class ApcGCTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Check if apc is available.
      */
@@ -104,5 +103,4 @@ class ApcGCTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($gc->run());
     }
-
 }

@@ -58,8 +58,9 @@ class ApcGC
     /**
      * Run GC with the configured options.
      *
-     * @param  boolean $force Optional flag to force a run.
-     * @return boolean|null   The result of the gc or <code>null</code> for a noop.
+     * @param boolean $force Optional flag to force a run.
+     *
+     * @return boolean|null The result of the gc or <code>null</code> for a noop.
      */
     public function run($force = false)
     {
@@ -85,7 +86,7 @@ class ApcGC
                 // first need to calculate current fragmentation
                 $frag = 0;
                 $nseg = $freeseg = $fragsize = $freetotal = 0;
-                for ($ii=0; $ii<$mem['num_seg']; ++$ii) {
+                for ($ii = 0; $ii<$mem['num_seg']; ++$ii) {
                     $ptr = 0;
                     foreach ($mem['block_lists'][$ii] as $block) {
                         if ($block['offset'] != $ptr) {
@@ -124,7 +125,6 @@ class ApcGC
             }
         }
 
-        return null;
+        return;
     }
-
 }
