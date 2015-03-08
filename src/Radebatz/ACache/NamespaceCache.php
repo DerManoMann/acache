@@ -37,6 +37,14 @@ class NamespaceCache implements CacheInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return $this->cache->available();
+    }
+
+    /**
      * Get the decorated cache.
      *
      * @return ACache\CacheInterface The decorated cache instance.
@@ -49,8 +57,9 @@ class NamespaceCache implements CacheInterface
     /**
      * Get the full namespace path.
      *
-     * @param  string|array $namespace Namespace - may be <code>null</code>.
-     * @return array        The full namespace path.
+     * @param string|array $namespace Namespace - may be <code>null</code>.
+     *
+     * @return array The full namespace path.
      */
     protected function getNamespacePath($namespace)
     {
@@ -120,5 +129,4 @@ class NamespaceCache implements CacheInterface
     {
         return $this->cache->getStats();
     }
-
 }

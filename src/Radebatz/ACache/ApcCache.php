@@ -28,13 +28,21 @@ class ApcCache extends AbstractPathKeyCache
      * Create instance.
      *
      * @param int   $defaultTimeToLive Optional default time-to-live value.
-     * @param ApcGC $gc Optional garbage collector.
+     * @param ApcGC $gc                Optional garbage collector.
      */
     public function __construct($defaultTimeToLive = 0, $gc = null)
     {
         parent::__construct(self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive);
 
         $this->gc = $gc && ($gc instanceof ApcGC) ? $gc : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return function_exists('apc_cache_info') && @apc_cache_info();
     }
 
     /**
@@ -124,5 +132,4 @@ class ApcCache extends AbstractPathKeyCache
             CacheInterface::STATS_MEMORY_AVAILIABLE => $smaInfo['avail_mem'],
         );
     }
-
 }

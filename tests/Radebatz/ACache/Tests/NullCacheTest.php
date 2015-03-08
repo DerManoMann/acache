@@ -18,7 +18,6 @@ use Radebatz\ACache\NullCache;
  */
 class NullCacheTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Simple testing.
      */
@@ -30,5 +29,4 @@ class NullCacheTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cache->delete('foo'));
         $this->assertFalse($cache->contains('foo'));
     }
-
 }

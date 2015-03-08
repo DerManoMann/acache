@@ -45,8 +45,16 @@ class MultiLevelCache implements CacheInterface
             }
         }
 
-        $this->stack = $stack;
+        $this->stack = array_filter($stack, function ($cache) { return $cache->available(); });
         $this->bubbleOnFetch = $bubbleOnFetch;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return 0 < count($this->stack);
     }
 
     /**
@@ -88,7 +96,7 @@ class MultiLevelCache implements CacheInterface
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -181,5 +189,4 @@ class MultiLevelCache implements CacheInterface
 
         return $stats;
     }
-
 }

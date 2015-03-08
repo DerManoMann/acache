@@ -18,21 +18,13 @@ use Radebatz\ACache\ApcCache;
  */
 class ApcCacheTest extends NamespaceCacheTest
 {
-
-    /**
-     * Check if apc is available.
-     */
-    protected function hasApc()
-    {
-        return function_exists('apc_cache_info') && @apc_cache_info();
-    }
-
     /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
-        if (!$this->hasApc()) {
+        $cache = new ApcCache();
+        if (!$cache->available()) {
             $this->markTestSkipped('Skipping Apc');
         }
     }
@@ -42,17 +34,17 @@ class ApcCacheTest extends NamespaceCacheTest
      */
     public function cacheProvider()
     {
-        if (!$this->hasApc()) {
-            return null;
+        $cache = new ApcCache();
+
+        if (!$cache->available()) {
+            return;
         }
 
         // flush apc for each run
-        $cache = new ApcCache();
         $cache->flush();
 
         return array(
-            array($cache)
+            array($cache),
         );
     }
-
 }

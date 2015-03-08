@@ -24,6 +24,7 @@ use Memcache;
  * Flushing a namespace relies on the memcache <em>cachedump</em> command which is subject to change / removal.
  *
  * @author Martin Rademacher <mano@radebatz.net>
+ *
  * @see http://www.php.net/manual/en/memcache.getstats.php
  */
 class MemcacheCache extends AbstractPathKeyCache
@@ -41,18 +42,33 @@ class MemcacheCache extends AbstractPathKeyCache
     {
         parent::__construct(self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive);
 
-        $this->memcache = new Memcache();
-        // merge with some defaults
-        $config = array_merge(
-            array(
-                'host' => 'localhost',
-                'port' => 11211,
-                'compress' => false,
-            ),
-            $config
-        );
-        $this->memcache->connect($config['host'], $config['port']);
-        $this->compress = $config['compress'] ? MEMCACHE_COMPRESSED : 0;
+        if (class_exists('Memcache')) {
+            $this->memcache = new Memcache();
+            // merge with some defaults
+            $config = array_merge(
+                array(
+                    'host' => 'localhost',
+                    'port' => 11211,
+                    'compress' => false,
+                ),
+                $config
+            );
+            if (!($connected = @$this->memcache->connect($config['host'], $config['port']))) {
+                $this->memcache = null;
+            }
+        } else {
+            $this->memcache = null;
+        }
+
+        $this->compress = (array_key_exists('compress', $config) && $config['compress'] && defined('MEMCACHE_COMPRESSED')) ? MEMCACHE_COMPRESSED : 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return null !== $this->memcache;
     }
 
     /**
@@ -137,5 +153,4 @@ class MemcacheCache extends AbstractPathKeyCache
             CacheInterface::STATS_MEMORY_AVAILIABLE => $stats['limit_maxbytes'],
         );
     }
-
 }

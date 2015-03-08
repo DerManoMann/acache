@@ -18,22 +18,14 @@ use Radebatz\ACache\XCacheCache;
  */
 class XCacheCacheTest extends NamespaceCacheTest
 {
-
-    /**
-     * Check if xcache is available.
-     */
-    protected function hasXCache()
-    {
-        // xcache will not work in CL mode
-        return function_exists('xcache_info') && isset($_SERVER);
-    }
-
     /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
-        if (!$this->hasXCache()) {
+        $cache = new XCacheCache();
+        // xcache will not work in CL mode
+        if (!$cache->available() || !isset($_SERVER)) {
             $this->markTestSkipped('Skipping XCache');
         }
     }
@@ -43,13 +35,13 @@ class XCacheCacheTest extends NamespaceCacheTest
      */
     public function cacheProvider()
     {
-        if (!$this->hasXCache()) {
-            return null;
+        $cache = new XCacheCache();
+        if (!$cache->available() || !isset($_SERVER)) {
+            return;
         }
 
         return array(
-            array(new XCacheCache())
+            array($cache),
         );
     }
-
 }

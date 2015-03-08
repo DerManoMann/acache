@@ -19,7 +19,6 @@ use Radebatz\ACache\Decorators\DoctrineCache;
  */
 class DoctrineCacheTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Check if doctrine cache is available.
      */
@@ -61,5 +60,4 @@ class DoctrineCacheTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($cache->save('foo', $foo));
         $this->assertEquals($foo, $cache->fetch('foo'));
     }
-
 }

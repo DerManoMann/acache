@@ -43,6 +43,14 @@ class RedisCache extends AbstractPathKeyCache
     /**
      * {@inheritDoc}
      */
+    public function available()
+    {
+        return null !== $this->redis;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected function fetchEntry($id)
     {
         return $this->redis->get($id);
@@ -108,5 +116,4 @@ class RedisCache extends AbstractPathKeyCache
             CacheInterface::STATS_MEMORY_USAGE => $info['used_memory'],
         );
     }
-
 }

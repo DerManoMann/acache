@@ -16,13 +16,12 @@ use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\NamespaceCache;
 
 /**
- * NamespaceCache tests
+ * NamespaceCache tests.
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
 class NamespaceCacheTest extends CacheTest
 {
-
     /**
      * Provide cache instances for testing.
      */
@@ -123,5 +122,4 @@ class NamespaceCacheTest extends CacheTest
             $this->assertEquals(0, $stats[CacheInterface::STATS_SIZE]);
         }
     }
-
 }

@@ -20,7 +20,6 @@ use Radebatz\ACache\MongoDBCache;
  */
 class MongoDBCacheTest extends NamespaceCacheTest
 {
-
     /**
      * Check if mongo is available.
      */
@@ -55,15 +54,14 @@ class MongoDBCacheTest extends NamespaceCacheTest
     public function cacheProvider()
     {
         if (!$this->hasMongo()) {
-            return null;
+            return;
         }
 
         $mongoClient = new MongoClient($this->getOverride('PHPUNIT_MONGODB_SERVER', null));
         $mongoCollection = $mongoClient->cache->entries->drop();
 
         return array(
-            array(new MongoDBCache($mongoClient->cache->entries))
+            array(new MongoDBCache($mongoClient->cache->entries)),
         );
     }
-
 }

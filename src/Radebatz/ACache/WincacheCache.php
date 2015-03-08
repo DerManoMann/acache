@@ -18,6 +18,13 @@ namespace Radebatz\ACache;
  */
 class WincacheCache extends AbstractPathKeyCache
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return function_exists('wincache_ucache_exists');
+    }
 
     /**
      * {@inheritDoc}
@@ -92,5 +99,4 @@ class WincacheCache extends AbstractPathKeyCache
             CacheInterface::STATS_MEMORY_AVAILIABLE => $meminfo['memory_free'],
         );
     }
-
 }

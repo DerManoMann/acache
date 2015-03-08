@@ -76,5 +76,4 @@ class DoctrineCache implements Cache
     {
         return $this->cache->getStats();
     }
-
 }

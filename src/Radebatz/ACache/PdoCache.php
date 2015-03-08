@@ -61,6 +61,14 @@ class PdoCache extends AbstractPathKeyCache
     /**
      * {@inheritDoc}
      */
+    public function available()
+    {
+        return null !== $this->pdo;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected function fetchEntry($id)
     {
         $config = $this->config;
@@ -78,7 +86,7 @@ class PdoCache extends AbstractPathKeyCache
             throw new RuntimeException(sprintf('Failed fetching cache id %s: %s', $id, $e->getMessage()), 0, $e);
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -212,5 +220,4 @@ class PdoCache extends AbstractPathKeyCache
             CacheInterface::STATS_SIZE => $size,
         );
     }
-
 }

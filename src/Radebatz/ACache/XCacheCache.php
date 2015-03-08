@@ -17,10 +17,19 @@ namespace Radebatz\ACache;
  * The <code>flush()</code> and <code>getStats()</code> methods rely on xcache auth protected features.
  *
  * @author Martin Rademacher <mano@radebatz.net>
+ *
  * @see http://xcache.lighttpd.net/wiki/XcacheIni (xcache.admin.enable_auth)
  */
 class XCacheCache extends AbstractPathKeyCache
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return function_exists('xcache_info');
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -90,5 +99,4 @@ class XCacheCache extends AbstractPathKeyCache
             CacheInterface::STATS_SIZE => $size,
         );
     }
-
 }

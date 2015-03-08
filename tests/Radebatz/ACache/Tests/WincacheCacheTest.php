@@ -18,21 +18,13 @@ use Radebatz\ACache\WincacheCache;
  */
 class WincacheCacheTest extends NamespaceCacheTest
 {
-
-    /**
-     * Check if wincache is available.
-     */
-    protected function hasWincache()
-    {
-        return function_exists('wincache_ucache_exists');
-    }
-
     /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
-        if (!$this->hasWincache()) {
+        $cache = new WincacheCache();
+        if (!$cache->available()) {
             $this->markTestSkipped('Skipping Wincache');
         }
     }
@@ -42,13 +34,13 @@ class WincacheCacheTest extends NamespaceCacheTest
      */
     public function cacheProvider()
     {
-        if (!$this->hasWincache()) {
-            return null;
+        $cache = new WincacheCache();
+        if (!$cache->available()) {
+            return;
         }
 
         return array(
-            array(new WincacheCache())
+            array($cache),
         );
     }
-
 }

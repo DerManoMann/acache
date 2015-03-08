@@ -19,7 +19,6 @@ use Radebatz\ACache\PdoCache;
  */
 class PdoCacheTest extends NamespaceCacheTest
 {
-
     /**
      * Cache provider.
      */
@@ -85,7 +84,7 @@ class PdoCacheTest extends NamespaceCacheTest
     public function invalidCacheProvider()
     {
         return array(
-            array(new PdoCache(new PDO('sqlite::memory:')))
+            array(new PdoCache(new PDO('sqlite::memory:'))),
         );
     }
 
@@ -132,5 +131,4 @@ class PdoCacheTest extends NamespaceCacheTest
     {
         $cache->delete('foo');
     }
-
 }

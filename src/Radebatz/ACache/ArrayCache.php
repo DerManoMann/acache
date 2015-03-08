@@ -96,5 +96,4 @@ class ArrayCache extends AbstractPathKeyCache
             CacheInterface::STATS_SIZE => count($this->data),
         );
     }
-
 }

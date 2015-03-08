@@ -35,6 +35,16 @@ abstract class AbstractPathKeyCache implements CacheInterface
     }
 
     /**
+     * Default implementation that always returns <code>true</code>.
+     *
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return true;
+    }
+
+    /**
      * Get the configured namespace delimiter.
      *
      * @return string The namespace delimiter.
@@ -47,9 +57,10 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Convert id and namespace to string.
      *
-     * @param  string       $id        The id.
-     * @param  string|array $namespace The namespace.
-     * @return string       The namespace as string.
+     * @param string       $id        The id.
+     * @param string|array $namespace The namespace.
+     *
+     * @return string The namespace as string.
      */
     protected function namespaceId($id, $namespace)
     {
@@ -65,7 +76,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     public function fetch($id, $namespace = null)
     {
         if (!$this->contains($id, $namespace)) {
-            return null;
+            return;
         }
 
         $entry = $this->fetchEntry($this->namespaceId($id, $namespace));
@@ -124,15 +135,17 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Fetch an entry.
      *
-     * @param  string $id The full id.
-     * @return array  Entry.
+     * @param string $id The full id.
+     *
+     * @return array Entry.
      */
     abstract protected function fetchEntry($id);
 
     /**
      * Checks if a given id is valid.
      *
-     * @param  string  $id The full id.
+     * @param string $id The full id.
+     *
      * @return boolean <code>true</code> if, and only if, an entry exists.
      */
     abstract protected function containsEntry($id);
@@ -149,9 +162,9 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Delete a cache entry for the given id.
      *
-     * @param  string  $id The full id.
+     * @param string $id The full id.
+     *
      * @return boolean <code>true</code> if, and only if, the entry was deleted.
      */
     abstract protected function deleteEntry($id);
-
 }

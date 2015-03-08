@@ -50,6 +50,14 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return is_dir($this->directory) && is_writeable($this->directory);
+    }
+
+    /**
      * Get the configured cache directory.
      *
      * @return string The cache directory path.
@@ -81,9 +89,10 @@ class FilesystemCache implements CacheInterface
     /**
      * Convert an id into a filename.
      *
-     * @param  string       $id        The id.
-     * @param  string|array $namespace Optional namespace.
-     * @return string       The filename.
+     * @param string       $id        The id.
+     * @param string|array $namespace Optional namespace.
+     *
+     * @return string The filename.
      */
     protected function getFilenameForId($id, $namespace)
     {
@@ -95,17 +104,18 @@ class FilesystemCache implements CacheInterface
     /**
      * Get a cache entry for the given id.
      *
-     * @param  string       $id        The id.
-     * @param  string|array $namespace Optional namespace.
-     * @param  boolean      $full      Flag to indicate whether to include data loading or meta data only.
-     * @return array        The cache entry or <code>null</code>.
+     * @param string       $id        The id.
+     * @param string|array $namespace Optional namespace.
+     * @param boolean      $full      Flag to indicate whether to include data loading or meta data only.
+     *
+     * @return array The cache entry or <code>null</code>.
      */
     protected function getEntryForId($id, $namespace, $full = false)
     {
         $filename = $this->getFilenameForId($id, $namespace);
 
         if (!is_file($filename)) {
-            return null;
+            return;
         }
 
         $expires = -1;
@@ -138,7 +148,7 @@ class FilesystemCache implements CacheInterface
         $id = call_user_func($this->keySanitiser, $id);
 
         if (!$this->contains($id, $namespace)) {
-            return null;
+            return;
         }
 
         $entry = $this->getEntryForId($id, $namespace, true);
@@ -203,7 +213,7 @@ class FilesystemCache implements CacheInterface
         $lifeTime = null !== $lifeTime ? (int) $lifeTime : $this->getDefaultTimeToLive();
         $expires = $lifeTime ? (time() + $lifeTime) : 0;
 
-        return (bool) file_put_contents($filename, $expires . PHP_EOL . serialize($data));
+        return (bool) file_put_contents($filename, $expires.PHP_EOL.serialize($data));
     }
 
     /**
@@ -256,5 +266,4 @@ class FilesystemCache implements CacheInterface
             CacheInterface::STATS_SIZE => $size,
         );
     }
-
 }

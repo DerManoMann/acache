@@ -18,7 +18,6 @@ use Radebatz\ACache\FilesystemCache;
  */
 class FilesystemCacheTest extends NamespaceCacheTest
 {
-
     /**
      * {@inheritDoc}
      */
@@ -30,7 +29,8 @@ class FilesystemCacheTest extends NamespaceCacheTest
     /**
      * Get a temp directory.
      *
-     * @param  int    $perms File permissions.
+     * @param int $perms File permissions.
+     *
      * @return string The directory name.
      */
     protected function getTempDir($perms = 0777)
@@ -66,7 +66,7 @@ class FilesystemCacheTest extends NamespaceCacheTest
     public function cacheProvider()
     {
         return array(
-            array(new FilesystemCache($this->getTempDir()))
+            array(new FilesystemCache($this->getTempDir())),
         );
     }
 
@@ -122,5 +122,4 @@ class FilesystemCacheTest extends NamespaceCacheTest
             $this->assertEquals(777, $actualFilePerms);
         }
     }
-
 }

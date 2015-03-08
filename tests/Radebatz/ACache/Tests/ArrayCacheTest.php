@@ -18,15 +18,13 @@ use Radebatz\ACache\ArrayCache;
  */
 class ArrayCacheTest extends NamespaceCacheTest
 {
-
     /**
      * Cache provider.
      */
     public function cacheProvider()
     {
         return array(
-            array(new ArrayCache())
+            array(new ArrayCache()),
         );
     }
-
 }

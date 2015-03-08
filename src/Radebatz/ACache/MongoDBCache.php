@@ -39,13 +39,21 @@ class MongoDBCache extends AbstractPathKeyCache
     /**
      * {@inheritDoc}
      */
+    public function available()
+    {
+        return null !== $this->mongoCollection;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected function fetchEntry($id)
     {
         if ($centry = $this->mongoCollection->findOne(array('_id' => $id))) {
             return unserialize($centry['entry']);
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -109,5 +117,4 @@ class MongoDBCache extends AbstractPathKeyCache
             CacheInterface::STATS_SIZE => $this->mongoCollection->find()->count(),
         );
     }
-
 }

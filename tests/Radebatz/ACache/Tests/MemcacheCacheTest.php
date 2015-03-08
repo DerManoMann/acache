@@ -18,21 +18,13 @@ use Radebatz\ACache\MemcacheCache;
  */
 class MemcacheCacheTest extends NamespaceCacheTest
 {
-
-    /**
-     * Check if memcache is available.
-     */
-    protected function hasMemcache()
-    {
-        return class_exists('Memcache');
-    }
-
     /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
-        if (!$this->hasMemcache()) {
+        $cache = new MemcacheCache();
+        if (!$cache->available()) {
             $this->markTestSkipped('Skipping Memcache');
         }
     }
@@ -42,13 +34,13 @@ class MemcacheCacheTest extends NamespaceCacheTest
      */
     public function cacheProvider()
     {
-        if (!$this->hasMemcache()) {
-            return null;
+        $cache = new MemcacheCache();
+        if (!$cache->available()) {
+            return;
         }
 
         return array(
-            array(new MemcacheCache())
+            array($cache),
         );
     }
-
 }

@@ -14,15 +14,15 @@ namespace Radebatz\ACache\Tests;
 use Radebatz\ACache\CacheInterface;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\MultiLevelCache;
+use Radebatz\ACache\NullCache;
 
 /**
- * MultiLevelCache tests
+ * MultiLevelCache tests.
  *
  * @author Martin Rademacher <mano@radebatz.net>
  */
 class MultiLevelCacheTest extends CacheTest
 {
-
     /**
      * Cache provider.
      */
@@ -42,6 +42,8 @@ class MultiLevelCacheTest extends CacheTest
     public function testDefaults()
     {
         $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()));
+        $this->assertTrue($cache->available());
+
         $this->assertFalse($cache->contains('yin'));
         $this->assertNull($cache->fetch('yin'));
 
@@ -64,6 +66,7 @@ class MultiLevelCacheTest extends CacheTest
     {
         // no bubbles :{
         $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false);
+        $this->assertTrue($cache->available());
 
         $this->assertFalse($cache->isBubbleOnFetch());
 
@@ -88,7 +91,6 @@ class MultiLevelCacheTest extends CacheTest
         }
     }
 
-
     /**
      * Test bubbles.
      */
@@ -96,6 +98,7 @@ class MultiLevelCacheTest extends CacheTest
     {
         // bubbles :}
         $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), true);
+        $this->assertTrue($cache->available());
 
         $this->assertTrue($cache->isBubbleOnFetch());
 
@@ -120,4 +123,12 @@ class MultiLevelCacheTest extends CacheTest
         }
     }
 
+    /**
+     * Test unavailable.
+     */
+    public function testUnavailable()
+    {
+        $cache = new MultiLevelCache(array(new NullCache(false)));
+        $this->assertFalse($cache->available());
+    }
 }

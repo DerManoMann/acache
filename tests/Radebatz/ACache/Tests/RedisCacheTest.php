@@ -19,7 +19,6 @@ use Radebatz\ACache\RedisCache;
  */
 class RedisCacheTest extends NamespaceCacheTest
 {
-
     /**
      * Check if redis is available.
      */
@@ -44,15 +43,14 @@ class RedisCacheTest extends NamespaceCacheTest
     public function cacheProvider()
     {
         if (!$this->hasRedis()) {
-            return null;
+            return;
         }
 
         $redis = new Redis();
         $redis->connect('localhost');
 
         return array(
-            array(new RedisCache($redis))
+            array(new RedisCache($redis)),
         );
     }
-
 }

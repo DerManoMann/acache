@@ -18,13 +18,32 @@ namespace Radebatz\ACache;
  */
 class NullCache implements CacheInterface
 {
+    protected $available;
+
+    /**
+     * Create new instance.
+     *
+     * @param boolean $available Availability of this instance.
+     */
+    public function __construct($available = true)
+    {
+        $this->available = $available;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function available()
+    {
+        return $this->available;
+    }
 
     /**
      * {@inheritDoc}
      */
     public function fetch($id, $namespace = null)
     {
-        return null;
+        return;
     }
 
     /**
@@ -84,5 +103,4 @@ class NullCache implements CacheInterface
             CacheInterface::STATS_SIZE => 0,
         );
     }
-
 }

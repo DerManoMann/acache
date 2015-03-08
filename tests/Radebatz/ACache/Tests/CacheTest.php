@@ -21,7 +21,6 @@ use Radebatz\ACache\CacheInterface;
  */
 abstract class CacheTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test contains.
      *
@@ -38,9 +37,10 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     /**
      * Get protected/private property.
      *
-     * @param  mixed  $obj  The opject.
-     * @param  string $name The property name.
-     * @return mixed  The property or <code>null</code>.
+     * @param mixed  $obj  The opject.
+     * @param string $name The property name.
+     *
+     * @return mixed The property or <code>null</code>.
      */
     protected function getProperty($obj, $name)
     {
@@ -51,15 +51,16 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
             return $property->getValue($obj);
         }
 
-        return null;
+        return;
     }
 
     /**
      * Get an override value if it exists.
      *
-     * @param  string $name    The override name.
-     * @param  mixed  $default Optional default.
-     * @return mixed  The value or default.
+     * @param string $name    The override name.
+     * @param mixed  $default Optional default.
+     *
+     * @return mixed The value or default.
      */
     protected function getOverride($name, $default = null)
     {
@@ -183,5 +184,4 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue(is_array($stats = $cache->getStats()) || null === $stats);
     }
-
 }
