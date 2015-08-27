@@ -20,6 +20,13 @@ echo 'yin and '.$cache->fetch('yin');
 ACache requires PHP 5.3 or later.
 
 
+## Installation
+
+Install the latest version with
+```
+$ composer require radebatz/acache
+```
+
 
 ## Features
 
@@ -118,30 +125,12 @@ the cache entry.
 Both namespace and multi-level cache instances can be arbitrary nested.
 
 
-
-## Installation
-
-The recommended way to install ACache is [through
-composer](http://getcomposer.org). Just create a `composer.json` file and
-run the `php composer.phar install` command to install it:
-
-    {
-        "require": {
-            "radebatz/acache": "1.0.*@dev"
-        }
-    }
-
-Alternatively, you can download the [`acache.zip`][https://github.com/DerManoMann/acache/archive/master.zip] file and extract it.
-
-
-
 ## Tests
 
 ACache comes with a pretty complete set of tests for a single cache instance and also
 combinations of multi-level and namespace caches.
 
 To run the test suite, you will need [PHPUnit](http://phpunit.de/manual/current/en/).
-
 
 
 ## License
