@@ -38,7 +38,7 @@ interface CacheInterface
      * @param string       $id        The id of the cache entry to fetch.
      * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
      *
-     * @return string The cached data or <code>null</code>, if no cache entry exists for the given id.
+     * @return mixed The cached data or <code>null</code>, if no cache entry exists for the given id.
      */
     public function fetch($id, $namespace = null);
 
@@ -73,7 +73,7 @@ interface CacheInterface
      * Puts data into the cache.
      *
      * @param string       $id        The cache id.
-     * @param string       $data      The cache data.
+     * @param mixed        $data      The cache data.
      * @param int          $lifeTime  The lifetime in seconds. Set to 0 for infinite life time;
      *                                default is <code>null</code> to use the configured default life time.
      * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
