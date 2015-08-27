@@ -10,7 +10,7 @@ ACache - another PHP cache library.
 <?php
 require_once __DIR__.'/vendor/autoload.php';
 
-$cache = new ACache\ArrayCache();
+$cache = new Radebatz\ACache\ArrayCache();
 
 $cache->save('yin', 'yang');
 
@@ -38,14 +38,14 @@ Since some features were hard to add on top of that I ended up writing my own :)
 
 ### Namespaces
 
-The `ACache\Cache` interface allows to explicitely use a namespace for any given id.
+The `Radebatz\ACache\Cache` interface allows to explicitely use a namespace for any given id.
 
 ```php
 <?php
 include 'vendor/autoload.php';
 define('MY_NAMESPACE', 'my');
 
-$cache = new ACache\ArrayCache();
+$cache = new Radebatz\ACache\ArrayCache();
 
 $cache->save('yin', 'yang', MY_NAMESPACE);
 
@@ -59,9 +59,9 @@ While that works well it sometimes is desirable to do this a little bit more tra
 include 'vendor/autoload.php';
 define('MY_NAMESPACE', 'my');
 
-$cache = new ACache\ArrayCache();
+$cache = new Radebatz\ACache\ArrayCache();
 // wrap given cache in namespace
-$myCache = new ACache\NamespaceCache($cache, MY_NAMESPACE);
+$myCache = new Radebatz\ACache\NamespaceCache($cache, MY_NAMESPACE);
 
 $myCache->save('yin', 'yang');
 
@@ -70,7 +70,7 @@ echo 'my yin and '.$myCache->fetch('yin').PHP_EOL;
 echo 'my yin and '.$cache->fetch('yin', MY_NAMESPACE).PHP_EOL;
 ```
 
-Wrapping an existing cache instance in a `ACache\NamespaceCache` effectively allows to partition that cache without the need to 
+Wrapping an existing cache instance in a `Radebatz\ACache\NamespaceCache` effectively allows to partition that cache without the need to 
 carry the namespace around for all method calls.
 
 
@@ -86,9 +86,9 @@ Only if all configured cache instances are queried an entry would be declared as
 include 'vendor/autoload.php';
 
 // two level cache stack
-$cache = new ACache\MultiLevelCache(array(
-    new ACache\ArrayCache(),
-    new ACache\FilesystemCache(__DIR__.'/cache')
+$cache = new Radebatz\ACache\MultiLevelCache(array(
+    new Radebatz\ACache\ArrayCache(),
+    new Radebatz\ACache\FilesystemCache(__DIR__.'/cache')
 ));
 
 // save both in ArrayCache and FilesystemCache
@@ -104,9 +104,9 @@ Running the same code again will result in the same output, even if the `save()`
 <?php
 include 'vendor/autoload.php';
 
-$cache = new ACache\MultiLevelCache(array(
-    new ACache\ArrayCache(),
-    new ACache\FilesystemCache(__DIR__.'/cache')
+$cache = new Radebatz\ACache\MultiLevelCache(array(
+    new Radebatz\ACache\ArrayCache(),
+    new Radebatz\ACache\FilesystemCache(__DIR__.'/cache')
 ));
 
 // save both in ArrayCache and FilesystemCache
@@ -116,7 +116,7 @@ $cache = new ACache\MultiLevelCache(array(
 echo 'my yin and '.$cache->fetch('yin').PHP_EOL;
 ```
 
-Here the `ACache\ArrayCache` instance will be empty and the `ACache\MultiLevelCache` will fall back to using the file based cache to lookup (and find)
+Here the `Radebatz\ACache\ArrayCache` instance will be empty and the `Radebatz\ACache\MultiLevelCache` will fall back to using the file based cache to lookup (and find)
 the cache entry.
 
 
@@ -125,12 +125,10 @@ the cache entry.
 Both namespace and multi-level cache instances can be arbitrary nested.
 
 
-## Tests
+## Testing
 
 ACache comes with a pretty complete set of tests for a single cache instance and also
 combinations of multi-level and namespace caches.
-
-To run the test suite, you will need [PHPUnit](http://phpunit.de/manual/current/en/).
 
 
 ## License
