@@ -152,5 +152,5 @@ All issues that break backwards compatibility are flagged [BC].
 * add some sort of GC to ApcCache [#16]
 
 ### v1.2.0
-* [BC] Refactor Apc GC into separte class [#18]
+* [BC] Refactor Apc GC into separat class [#18]
 
