@@ -154,3 +154,6 @@ All issues that break backwards compatibility are flagged [BC].
 ### v1.2.0
 * [BC] Refactor Apc GC into separat class [#18]
 
+### v1.2.1
+* Add log support to MultiLevelCache [#1]
+* Streamline multi level cache stack validation

@@ -12,6 +12,8 @@
 namespace Radebatz\ACache;
 
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Multi level cache.
@@ -26,26 +28,38 @@ class MultiLevelCache implements CacheInterface
 {
     protected $stack;
     protected $bubbleOnFetch;
+    protected $logger;
 
     /**
      * Create new instance for the given cache instances.
      *
      * @param array   $stack         List of <code>CacheInterface</code> instances.
      * @param boolean $bubbleOnFetch Optional flag to restore cache entries further up the stack if an item was only found further down.
+     * @param LoggerInterface $logger Optional logger.
      */
-    public function __construct(array $stack = array(), $bubbleOnFetch = false)
+    public function __construct(array $stack = array(), $bubbleOnFetch = false, LoggerInterface $logger = null)
     {
-        if (!$stack) {
-            throw new InvalidArgumentException('Need at least one cache in the stack');
-        }
+        $logger = $this->logger = $logger ?: new NullLogger();
 
-        foreach ($stack as $cache) {
+        $this->stack = array_filter($stack, function ($cache) use ($logger) {
             if (!($cache instanceof CacheInterface)) {
-                throw new InvalidArgumentException('All stack elements must implement the Cache interface');
+                $this->logger->warning(sprintf('Invalid cache - removing from stack: %s', is_object($cache) ? get_class($cache) : 'non_an_object'));
+
+                return false;
             }
+            if (!$cache->available()) {
+                $logger->warning(sprintf('Cache not available - removing from stack: %s', get_class($cache)));
+
+                return false;
+            }
+
+            return true;
+        });
+
+        if (!$this->stack) {
+            $this->logger->warning('Empty stack');
         }
 
-        $this->stack = array_filter($stack, function ($cache) { return $cache->available(); });
         $this->bubbleOnFetch = $bubbleOnFetch;
     }
 
@@ -96,7 +110,7 @@ class MultiLevelCache implements CacheInterface
             }
         }
 
-        return;
+        return null;
     }
 
     /**
