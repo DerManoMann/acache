@@ -29,10 +29,12 @@ class MultiLevelCacheTest extends CacheTest
     public function cacheProvider()
     {
         return array(
-            array(new MultiLevelCache(array(new ArrayCache()), false)),
-            array(new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false)),
-            array(new MultiLevelCache(array(new ArrayCache()), true)),
-            array(new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), true)),
+            array(new MultiLevelCache(array(new ArrayCache()), false, new TestLogger())),
+            array(new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false, new TestLogger())),
+            array(new MultiLevelCache(array(new ArrayCache()), true, new TestLogger())),
+            array(new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), true, new TestLogger())),
+            array(new MultiLevelCache(array(new ArrayCache()), true, new TestLogger())),
+            array(new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false, new TestLogger())),
         );
     }
 
@@ -41,7 +43,7 @@ class MultiLevelCacheTest extends CacheTest
      */
     public function testDefaults()
     {
-        $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()));
+        $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false, new TestLogger());
         $this->assertTrue($cache->available());
 
         $this->assertFalse($cache->contains('yin'));
@@ -65,7 +67,7 @@ class MultiLevelCacheTest extends CacheTest
     public function testNoBubbles()
     {
         // no bubbles :{
-        $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false);
+        $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), false, new TestLogger());
         $this->assertTrue($cache->available());
 
         $this->assertFalse($cache->isBubbleOnFetch());
@@ -97,7 +99,7 @@ class MultiLevelCacheTest extends CacheTest
     public function testBubbles()
     {
         // bubbles :}
-        $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), true);
+        $cache = new MultiLevelCache(array(new ArrayCache(), new ArrayCache()), true, new TestLogger());
         $this->assertTrue($cache->available());
 
         $this->assertTrue($cache->isBubbleOnFetch());
@@ -128,7 +130,9 @@ class MultiLevelCacheTest extends CacheTest
      */
     public function testUnavailable()
     {
-        $cache = new MultiLevelCache(array(new NullCache(false)));
+        $cache = new MultiLevelCache(array(new NullCache(false)), false, $logger = new TestLogger());
         $this->assertFalse($cache->available());
+        $this->assertEquals(2, count($logger->lines));
+        $this->assertContains('not available', $logger->lines[0]);
     }
 }
