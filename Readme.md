@@ -156,8 +156,6 @@ ACache is licensed under the MIT license.
 
 ## Changelog
 All issues that break backwards compatibility are flagged [BC].
-### v1.2.0
-* Add psr-6 support
 
 ### v1.1.0
 * [BC] make namespace last argument of `save()` method [#4]
@@ -178,3 +176,7 @@ All issues that break backwards compatibility are flagged [BC].
 ### v1.2.1
 * Add log support to MultiLevelCache [#1]
 * Streamline multi level cache stack validation
+
+### v1.2.2
+* Add psr-6 support
+
