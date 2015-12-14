@@ -125,6 +125,24 @@ the cache entry.
 Both namespace and multi-level cache instances can be arbitrary nested.
 
 
+### Psr/Cache
+
+All cache instances can be used as `Psr\Cache\CacheItemPoolInterface` instances by wrapping them in decorator.
+
+````
+use Radebatz\ACache\ArrayCache;
+use Radebatz\ACache\Decorators\Psr\CacheItemPool;
+
+$cache = new ArrayCache();
+
+$psrCache = new CacheItemPool($cache);
+
+$cacheItem = $prsCache->getItem('foo');
+...
+
+````
+
+
 ## Testing
 
 ACache comes with a pretty complete set of tests for a single cache instance and also
@@ -138,6 +156,9 @@ ACache is licensed under the MIT license.
 
 ## Changelog
 All issues that break backwards compatibility are flagged [BC].
+### v1.2.0
+* Add psr-6 support
+
 ### v1.1.0
 * [BC] make namespace last argument of `save()` method [#4]
 * add changelog to provide upgrade details [#8]
