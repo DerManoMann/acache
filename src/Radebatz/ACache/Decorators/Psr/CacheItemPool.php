@@ -42,9 +42,7 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function hasItem($key)
     {
-        if (strpbrk($key, CacheItemPool::BAD_KEY_CHARS)) {
-            throw new InvalidArgumentException(sprintf('Invalid key: %s', $key));
-        }
+        CacheItemPool::validateKey($key);
 
         if (array_key_exists($key, $this->deferred)) {
             return true;
@@ -58,9 +56,7 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function getItem($key)
     {
-        if (strpbrk($key, CacheItemPool::BAD_KEY_CHARS)) {
-            throw new InvalidArgumentException(sprintf('Invalid key: %s', $key));
-        }
+        CacheItemPool::validateKey($key);
 
         if (array_key_exists($key, $this->deferred)) {
             return $this->deferred[$key];
@@ -83,7 +79,7 @@ class CacheItemPool implements CacheItemPoolInterface
     {
         $items = array();
         foreach ($keys as $key) {
-            $items[] = $this->getItem($key);
+            $items[$key] = $this->getItem($key);
         }
 
         return $items;
@@ -104,9 +100,9 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function deleteItem($key)
     {
-        $this->cache->delete($key);
+        CacheItemPool::validateKey($key);
 
-        return $this;
+        return !$this->cache->contains($key) || $this->cache->delete($key);
     }
 
     /**
@@ -114,11 +110,12 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function deleteItems(array $keys)
     {
+        $result = true;
         foreach ($keys as $key) {
-            $this->cache->delete($key);
+            $result = $this->deleteItem($key) && $result;
         }
 
-        return $this;
+        return $result;
     }
 
     /**
@@ -127,9 +124,8 @@ class CacheItemPool implements CacheItemPoolInterface
     public function save(CacheItemInterface $item)
     {
         $expiresAt = $item->getExpiresAt();
-        $this->cache->save($item->getKey(), $item->getValue(), null === $expiresAt ? 0 : $expiresAt->getTimestamp() - time());
 
-        return $this;
+        return $this->cache->save($item->getKey(), $item->getValue(), null === $expiresAt ? 0 : $expiresAt->getTimestamp() - time());
     }
 
     /**
@@ -138,9 +134,7 @@ class CacheItemPool implements CacheItemPoolInterface
     public function saveDeferred(CacheItemInterface $item)
     {
         // TODO: improve $this->deferred[$item->getKey()] = $item;
-        $this->save($item);
-
-        return $this;
+        return $this->save($item);
     }
 
     /**
@@ -163,5 +157,27 @@ class CacheItemPool implements CacheItemPoolInterface
     public function getCache()
     {
         return $this->cache;
+    }
+
+    /**
+     * Validate key.
+     *
+     * @param mixed $key The key.   
+     * @throws InvalidArgumentException
+     */
+    public static function validateKey($key)
+    {
+        if (null == $key || is_numeric($key) || is_bool($key) || is_object($key) || is_array($key) || strpbrk($key, CacheItemPool::BAD_KEY_CHARS)) {
+            if (null == $key) {
+                $key = 'null';
+            } elseif (is_bool($key)) {
+                $key = 'bool(' . ($key ? 'true' : 'false') . ')';
+            } elseif (is_object($key)) {
+                $key = 'Object(' . get_class($key) . ')';
+            } elseif (is_array($key)) {
+                $key = 'Array';
+            }
+            throw new InvalidArgumentException(sprintf('Invalid key: %s', $key));
+        }
     }
 }
