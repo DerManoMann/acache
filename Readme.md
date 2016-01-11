@@ -182,3 +182,4 @@ All issues that break backwards compatibility are flagged [BC].
 
 ### v1.2.3
 * Add option to allow ArrayCache instances to share a single cache instance [#27]
+* Integrate 'cache/integrationtests' (PHP5.4+ only)
