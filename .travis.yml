@@ -18,7 +18,9 @@ php:
   
 sudo: false
 
-install: travis_retry composer install --no-interaction --prefer-source
+install: 
+  - travis_retry composer install --no-interaction --prefer-source
+  - sh -c "if [ $TRAVIS_PHP_VERSION != '5.3' ]; then composer require cache/integration-tests; fi"
 
 after_script:
   - php vendor/bin/coveralls -v
