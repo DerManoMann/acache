@@ -3,7 +3,6 @@
 namespace Radebatz\ACache\Tests\Decorators\Psr;
 
 use Cache\IntegrationTests\CachePoolTest;
-use Radebatz\ACache\ApcCache;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\Decorators\Psr\CacheItemPool;
 
@@ -19,8 +18,7 @@ class IntegrationTest extends CachePoolTest
      */
     public function createCachePool()
     {
-        return new CacheItemPool(new ApcCache());
-        return new CacheItemPool(new ArrayCache());
+        return new CacheItemPool(new ArrayCache(array(), true));
     }
 }
 
