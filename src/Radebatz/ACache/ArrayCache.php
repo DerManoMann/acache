@@ -18,18 +18,22 @@ namespace Radebatz\ACache;
  */
 class ArrayCache extends AbstractPathKeyCache
 {
-    protected $data;
+    protected static $SHARED_DATA = array();
+    protected $localData;
+    protected $shared;
 
     /**
      * Create instance.
      *
-     * @param array $data Optional initial cache data.
+     * @param array $data   Optional initial cache data.
+     * @param bool  $shared Optional flag to use a shared cache within the current process.
      */
-    public function __construct(array $data = array())
+    public function __construct(array $data = array(), $shared = false)
     {
         parent::__construct();
 
-        $this->data = $data;
+        $this->localData = array();
+        $this->shared = $shared;
     }
 
     /**
@@ -37,7 +41,7 @@ class ArrayCache extends AbstractPathKeyCache
      */
     protected function fetchEntry($id)
     {
-        return $this->data[$id];
+        return $this->shared ? static::$SHARED_DATA[$id] : $this->localData[$id];
     }
 
     /**
@@ -45,7 +49,7 @@ class ArrayCache extends AbstractPathKeyCache
      */
     protected function containsEntry($id)
     {
-        return array_key_exists($id, $this->data);
+        return array_key_exists($id, $this->shared ? static::$SHARED_DATA : $this->localData);
     }
 
     /**
@@ -53,7 +57,11 @@ class ArrayCache extends AbstractPathKeyCache
      */
     protected function saveEntry($id, $entry, $lifeTime = 0)
     {
-        $this->data[$id] = $entry;
+        if ($this->shared) {
+            static::$SHARED_DATA[$id] = $entry;
+        } else {
+            $this->localData[$id] = $entry;
+        }
 
         return true;
     }
@@ -63,7 +71,11 @@ class ArrayCache extends AbstractPathKeyCache
      */
     protected function deleteEntry($id)
     {
-        unset($this->data[$id]);
+        if ($this->shared) {
+            unset(static::$SHARED_DATA[$id]);
+        } else {
+            unset($this->localData[$id]);
+        }
 
         return true;
     }
@@ -74,12 +86,24 @@ class ArrayCache extends AbstractPathKeyCache
     public function flush($namespace = null)
     {
         if (!$namespace) {
-            $this->data = array();
+            if ($this->shared) {
+                static::$SHARED_DATA = array();
+            } else {
+                $this->localData = array();
+            }
         } else {
             $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
-            foreach ($this->data as $id => $entry) {
-                if (0 === strpos($id, $namespace)) {
-                    unset($this->data[$id]);
+            if ($this->shared) {
+                foreach (static::$SHARED_DATA as $id => $entry) {
+                    if (0 === strpos($id, $namespace)) {
+                        unset(static::$SHARED_DATA[$id]);
+                    }
+                }
+            } else {
+                foreach ($this->localData as $id => $entry) {
+                    if (0 === strpos($id, $namespace)) {
+                        unset($this->localData[$id]);
+                    }
                 }
             }
         }
@@ -93,7 +117,7 @@ class ArrayCache extends AbstractPathKeyCache
     public function getStats()
     {
         return array(
-            CacheInterface::STATS_SIZE => count($this->data),
+            CacheInterface::STATS_SIZE => count($this->shared ? static::$SHARED_DATA : $this->localData),
         );
     }
 }

@@ -180,3 +180,5 @@ All issues that break backwards compatibility are flagged [BC].
 ### v1.2.2
 * Add psr-6 support
 
+### v1.2.3
+* Add option to allow ArrayCache instances to share a single cache instance [#27]
