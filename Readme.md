@@ -30,7 +30,7 @@ $ composer require radebatz/acache
 
 ## Features
 
-ACache is inspired by the doctrine [cache][https://github.com/doctrine/cache] component.
+ACache is inspired by the doctrine [cache](https://github.com/doctrine/cache) component.
 In fact, there is even a decorator to allow you to use any ACache instance in place of doctrine cache.
 
 Since some features were hard to add on top of that I ended up writing my own :)
@@ -127,7 +127,7 @@ Both namespace and multi-level cache instances can be arbitrary nested.
 
 ### Psr/Cache
 
-All cache instances can be used as `Psr\Cache\CacheItemPoolInterface` instances by wrapping them in decorator.
+All cache instances can be used as `Psr\Cache\CacheItemPoolInterface` instances by wrapping them in a Psr decorator.
 
 ````
 use Radebatz\ACache\ArrayCache;
