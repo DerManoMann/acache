@@ -33,9 +33,7 @@ class CacheItem implements CacheItemInterface
      */
     public function __construct($key, $value, CacheItemPool $cacheItemPool, $ttl = null)
     {
-        if (strpbrk($key, CacheItemPool::BAD_KEY_CHARS)) {
-            throw new InvalidArgumentException(sprintf('Invalid key: %s', $key));
-        }
+        CacheItemPool::validateKey($key);
 
         $this->key = $key;
         $this->value = $value;
@@ -75,7 +73,7 @@ class CacheItem implements CacheItemInterface
      */
     public function isHit()
     {
-        return $this->cacheItemPool->getCache()->contains($this->key);
+        return $this->cacheItemPool->getCache()->contains($this->key) && (null == $this->expiresAt || time() < $this->expiresAt->getTimestamp());
     }
 
     /**
