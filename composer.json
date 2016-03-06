@@ -30,7 +30,7 @@
     },
     "suggest-dev": {
         "doctrine/cache": "~1.3",
-        "cache/integration-tests": "^0.2.0"
+        "cache/integration-tests": "~0.8"
     },
     "autoload": {
         "psr-4": {
