@@ -43,7 +43,7 @@ class FilesystemCache implements CacheInterface
                 'group' => null,
                 'mode' => 0777,
             ),
-            array_key_exists(static::P_DIRECTORY, $permissions) ? $permissions[static::P_DIRECTORY] : []
+            array_key_exists(static::P_DIRECTORY, $permissions) ? $permissions[static::P_DIRECTORY] : array()
         );
         $this->permissions[static::P_FILE] = array_merge(
             array(
@@ -51,7 +51,7 @@ class FilesystemCache implements CacheInterface
                 'group' => null,
                 'mode' => 0644,
             ),
-            array_key_exists(static::P_FILE, $permissions) ? $permissions[static::P_FILE] : []
+            array_key_exists(static::P_FILE, $permissions) ? $permissions[static::P_FILE] : array()
         );
 
         $this->mkdir($directory);
