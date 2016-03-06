@@ -131,7 +131,7 @@ class FilesystemCacheTest extends NamespaceCacheTest
         $dir = $this->getTempDir();
         // force the cache to create the actual cache root folder
         $cacheRoot = $dir.'/foo/bar';
-        $cache = new FilesystemCache($cacheRoot, ['directory' => ['mode' => 0755], 'file' => ['mode' => 0444]]);
+        $cache = new FilesystemCache($cacheRoot, array('directory' => array('mode' => 0755), 'file' => array('mode' => 0444)));
         $this->assertEquals($cacheRoot, $cache->getDirectory());
 
         // both foo and bar should have 0777 permissions

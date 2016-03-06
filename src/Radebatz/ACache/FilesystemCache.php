@@ -35,22 +35,22 @@ class FilesystemCache implements CacheInterface
      * @param array    $permissions  The permissions to be used for all files/directories created.
      * @param callable $keySanitiser Optional sanitizer to avoid invalid filenames.
      */
-    public function __construct($directory, array $permissions = [], $keySanitiser = null)
+    public function __construct($directory, array $permissions = array(), $keySanitiser = null)
     {
         $this->permissions[static::P_DIRECTORY] = array_merge(
-            [
+            array(
                 'owner' => null,
                 'group' => null,
                 'mode' => 0777,
-            ],
+            ),
             array_key_exists(static::P_DIRECTORY, $permissions) ? $permissions[static::P_DIRECTORY] : []
         );
         $this->permissions[static::P_FILE] = array_merge(
-            [
+            array(
                 'owner' => null,
                 'group' => null,
                 'mode' => 0644,
-            ],
+            ),
             array_key_exists(static::P_FILE, $permissions) ? $permissions[static::P_FILE] : []
         );
 
