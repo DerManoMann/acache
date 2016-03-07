@@ -145,4 +145,38 @@ class FilesystemCacheTest extends NamespaceCacheTest
         $actualFilePerms = (int) substr(sprintf('%o', fileperms($supCachefile)), -3);
         $this->assertEquals(444, $actualFilePerms);
     }
+
+    /**
+     * Test soft flush
+     */
+    public function testSoftFlush()
+    {
+        $dir = $this->getTempDir();
+        // soft flush
+        $cache = new FilesystemCache($dir, array(), null, false);
+
+        $cache->save('sup', 'something');
+        $supCachefile = $cache->getFilenameForId('sup');
+        $this->assertTrue(file_exists($supCachefile));
+        $cache->flush();
+        $this->assertFalse(file_exists($supCachefile));
+        $this->assertTrue(file_exists(dirname($supCachefile)));
+    }
+
+    /**
+     * Test soft flush
+     */
+    public function testHardFlush()
+    {
+        $dir = $this->getTempDir();
+        // hard flush
+        $cache = new FilesystemCache($dir, array(), null, true);
+
+        $cache->save('sup', 'something');
+        $supCachefile = $cache->getFilenameForId('sup');
+        $this->assertTrue(file_exists($supCachefile));
+        $cache->flush();
+        $this->assertFalse(file_exists($supCachefile));
+        $this->assertFalse(file_exists(dirname($supCachefile)), dirname($supCachefile));
+    }
 }

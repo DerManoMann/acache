@@ -27,6 +27,7 @@ class FilesystemCache implements CacheInterface
     protected $directory;
     protected $permissions;
     protected $keySanitiser;
+    protected $hardFlush;
 
     /**
      * Create instance.
@@ -34,8 +35,9 @@ class FilesystemCache implements CacheInterface
      * @param string   $directory    The root directory of this cache.
      * @param array    $permissions  The permissions to be used for all files/directories created.
      * @param callable $keySanitiser Optional sanitizer to avoid invalid filenames.
+     * @param bool     $hardFlush    Optional flag to delete both files and direcories on flush()
      */
-    public function __construct($directory, array $permissions = array(), $keySanitiser = null)
+    public function __construct($directory, array $permissions = array(), $keySanitiser = null, $hardFlush = false)
     {
         $this->permissions[static::P_DIRECTORY] = array_merge(
             array(
@@ -65,6 +67,7 @@ class FilesystemCache implements CacheInterface
         }
 
         $this->keySanitiser = is_callable($keySanitiser) ? $keySanitiser : function ($key) { return $key; };
+        $this->hardFlush = $hardFlush;
     }
 
     /**
@@ -273,10 +276,13 @@ class FilesystemCache implements CacheInterface
             return true;
         }
 
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($namespace));
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($namespace, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($iterator as $name => $file) {
+            var_dump($name);
             if ($file->isFile()) {
                 @unlink($name);
+            } elseif ($this->hardFlush && $file->isDir() && false == strpos($name, '..')) {
+                @rmdir($name);
             }
         }
 
