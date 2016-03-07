@@ -278,7 +278,6 @@ class FilesystemCache implements CacheInterface
 
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($namespace, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($iterator as $name => $file) {
-            var_dump($name);
             if ($file->isFile()) {
                 @unlink($name);
             } elseif ($this->hardFlush && $file->isDir() && false == strpos($name, '..')) {
