@@ -23,7 +23,7 @@ class FilesystemCacheTest extends NamespaceCacheTest
      */
     protected function tearDown()
     {
-        @rmdir($this->getTempDir());
+        rmdir($this->getTempDir());
     }
 
     /**
@@ -106,9 +106,9 @@ class FilesystemCacheTest extends NamespaceCacheTest
     }
 
     /**
-     * Test permissions.
+     * Test default permissions.
      */
-    public function testPermissions()
+    public function testDefaultPermissions()
     {
         $dir = $this->getTempDir();
         // force the cache to create the actual cache root folder
@@ -121,5 +121,28 @@ class FilesystemCacheTest extends NamespaceCacheTest
             $actualFilePerms = (int) substr(sprintf('%o', fileperms($path)), -3);
             $this->assertEquals(777, $actualFilePerms);
         }
+    }
+
+    /**
+     * Test custom permissions.
+     */
+    public function testCustomPermissions()
+    {
+        $dir = $this->getTempDir();
+        // force the cache to create the actual cache root folder
+        $cacheRoot = $dir.'/foo/bar';
+        $cache = new FilesystemCache($cacheRoot, array('directory' => array('mode' => 0755), 'file' => array('mode' => 0444)));
+        $this->assertEquals($cacheRoot, $cache->getDirectory());
+
+        // both foo and bar should have 0777 permissions
+        foreach (array($dir.'/foo', $cacheRoot) as $path) {
+            $actualFilePerms = (int) substr(sprintf('%o', fileperms($path)), -3);
+            $this->assertEquals(755, $actualFilePerms);
+        }
+
+        $cache->save('sup', 'something');
+        $supCachefile = $cache->getFilenameForId('sup');
+        $actualFilePerms = (int) substr(sprintf('%o', fileperms($supCachefile)), -3);
+        $this->assertEquals(444, $actualFilePerms);
     }
 }

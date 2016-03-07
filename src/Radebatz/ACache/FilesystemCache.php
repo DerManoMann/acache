@@ -22,30 +22,48 @@ use RecursiveIteratorIterator;
  */
 class FilesystemCache implements CacheInterface
 {
+    const P_DIRECTORY = 'directory';
+    const P_FILE = 'file';
     protected $directory;
-    protected $mode;
+    protected $permissions;
     protected $keySanitiser;
 
     /**
      * Create instance.
      *
      * @param string   $directory    The root directory of this cache.
-     * @param int      $mode         The permissions to be used for all directories created.
+     * @param array    $permissions  The permissions to be used for all files/directories created.
      * @param callable $keySanitiser Optional sanitizer to avoid invalid filenames.
      */
-    public function __construct($directory, $mode = 0777, $keySanitiser = null)
+    public function __construct($directory, array $permissions = array(), $keySanitiser = null)
     {
-        $this->mkdir($directory, $mode);
-        if (!is_dir($directory)) {
-            throw new InvalidArgumentException(sprintf('The directory "%s" does not exist and could not be created.', $directory));
-        }
+        $this->permissions[static::P_DIRECTORY] = array_merge(
+            array(
+                'owner' => null,
+                'group' => null,
+                'mode' => 0777,
+            ),
+            array_key_exists(static::P_DIRECTORY, $permissions) ? $permissions[static::P_DIRECTORY] : array()
+        );
+        $this->permissions[static::P_FILE] = array_merge(
+            array(
+                'owner' => null,
+                'group' => null,
+                'mode' => 0644,
+            ),
+            array_key_exists(static::P_FILE, $permissions) ? $permissions[static::P_FILE] : array()
+        );
 
-        if (!is_writable($directory)) {
-            throw new InvalidArgumentException(sprintf('The directory "%s" is not writable.', $directory));
-        }
-
+        $this->mkdir($directory);
         $this->directory = realpath($directory);
-        $this->mode = $mode;
+        if (!is_dir($this->directory)) {
+            throw new InvalidArgumentException(sprintf('The directory "%s" does not exist and could not be created.', $this->directory));
+        }
+
+        if (!is_writable($this->directory)) {
+            throw new InvalidArgumentException(sprintf('The directory "%s" is not writable.', $this->directory));
+        }
+
         $this->keySanitiser = is_callable($keySanitiser) ? $keySanitiser : function ($key) { return $key; };
     }
 
@@ -71,18 +89,25 @@ class FilesystemCache implements CacheInterface
      * Recursive mkdir.
      *
      * @param string $path The path.
-     * @param int    $mode The permissions to be used for all directories created.
      */
-    protected function mkdir($path, $mode)
+    protected function mkdir($path)
     {
         if (is_dir($path)) {
             return;
         }
 
-        $this->mkdir(dirname($path), $mode);
+        $perms = $this->permissions[static::P_DIRECTORY];
+
+        $this->mkdir(dirname($path), $perms['mode']);
         if (!file_exists($path)) {
-            mkdir($path, $mode);
-            chmod($path, $mode);
+            mkdir($path, $perms['mode']);
+            chmod($path, $perms['mode']);
+            if ($perms['owner']) {
+                chown($path, $perms['owner']);
+            }
+            if ($perms['group']) {
+                chgrp($path, $perms['group']);
+            }
         }
     }
 
@@ -94,7 +119,7 @@ class FilesystemCache implements CacheInterface
      *
      * @return string The filename.
      */
-    protected function getFilenameForId($id, $namespace)
+    public function getFilenameForId($id, $namespace = null)
     {
         $path = array_merge((array) $namespace, str_split(md5($id), 8));
 
@@ -203,7 +228,7 @@ class FilesystemCache implements CacheInterface
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);
 
         if (!is_dir($filepath)) {
-            $this->mkdir($filepath, 0777);
+            $this->mkdir($filepath);
         }
 
         if (!is_dir($filepath)) {
@@ -213,7 +238,18 @@ class FilesystemCache implements CacheInterface
         $lifeTime = null !== $lifeTime ? (int) $lifeTime : $this->getDefaultTimeToLive();
         $expires = $lifeTime ? (time() + $lifeTime) : 0;
 
-        return (bool) file_put_contents($filename, $expires.PHP_EOL.serialize($data));
+        $result = (bool) file_put_contents($filename, $expires.PHP_EOL.serialize($data));
+
+        $perms = $this->permissions[static::P_FILE];
+        chmod($filename, $perms['mode']);
+        if ($perms['owner']) {
+            chown($filename, $perms['owner']);
+        }
+        if ($perms['group']) {
+            chgrp($filename, $perms['group']);
+        }
+
+        return $result;
     }
 
     /**
