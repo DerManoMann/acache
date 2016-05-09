@@ -187,3 +187,6 @@ All issues that break backwards compatibility are flagged [BC].
 ### v1.3.0
 * [BC] Refactor permission options [#32], [#33]
 * Add hardFlush option to FilesystemCache to allow to delete directories on flush too [#34]
+
+### v1.3.1
+* Saving expired (lifeTime < 0) should behave like delete [#39]

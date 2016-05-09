@@ -119,6 +119,12 @@ abstract class AbstractPathKeyCache implements CacheInterface
      */
     public function save($id, $data, $lifeTime = null, $namespace = null)
     {
+        if (null !== $lifeTime && 0 > $lifeTime) {
+            $this->delete($id, $namespace);
+
+            return;
+        }
+
         $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
 
         return (bool) $this->saveEntry($this->namespaceId($id, $namespace), $entry, null !== $lifeTime ? (int) $lifeTime : $this->getDefaultTimeToLive());
