@@ -225,6 +225,12 @@ class FilesystemCache implements CacheInterface
      */
     public function save($id, $data, $lifeTime = null, $namespace = null)
     {
+        if (null !== $lifeTime && 0 > $lifeTime) {
+            $this->delete($id, $namespace);
+
+            return;
+        }
+
         $id = call_user_func($this->keySanitiser, $id);
 
         $filename = $this->getFilenameForId($id, $namespace);

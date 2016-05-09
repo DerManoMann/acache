@@ -72,6 +72,8 @@ interface CacheInterface
     /**
      * Puts data into the cache.
      *
+     * Saving with a negative $lifeTime is the same as calling delete().
+     *
      * @param string       $id        The cache id.
      * @param mixed        $data      The cache data.
      * @param int          $lifeTime  The lifetime in seconds. Set to 0 for infinite life time;
