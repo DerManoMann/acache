@@ -89,13 +89,13 @@ class ApcCache extends AbstractPathKeyCache
         if (!$namespace) {
             return apc_clear_cache('user');
         } else {
-            $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
-
+            $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace) . $this->getNamespaceDelimiter();
             // iterate over all entries and delete matching
             $cacheInfo = apc_cache_info('user');
             foreach ($cacheInfo['cache_list'] as $entry) {
-                if (0 === strpos($entry['info'], $namespace)) {
-                    apc_delete($entry['info']);
+                $idKey = array_key_exists('info', $entry) ? 'info' : (array_key_exists('entry_name', $entry) ? 'entry_name' : null);
+                if ($idKey && 0 === strpos($entry[$idKey], $namespace)) {
+                    apc_delete($entry[$idKey]);
                 }
             }
         }
