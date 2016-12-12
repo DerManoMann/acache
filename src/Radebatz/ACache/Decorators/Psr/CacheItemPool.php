@@ -38,14 +38,22 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
+     * Destroy cache item pool.
+     */
+    public function __destruct()
+    {
+        $this->commit();
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function hasItem($key)
     {
         CacheItemPool::validateKey($key);
 
-        if (array_key_exists($key, $this->deferred)) {
-            return true;
+        if ($this->isDeferred($key)) {
+            return $this->deferred[$key]->isHit();
         }
 
         return $this->cache->contains($key);
@@ -59,7 +67,8 @@ class CacheItemPool implements CacheItemPoolInterface
         CacheItemPool::validateKey($key);
 
         if (array_key_exists($key, $this->deferred)) {
-            return $this->deferred[$key];
+            // clone to avoid changing queued item
+            return clone $this->deferred[$key];
         }
 
         $ttl = null;
@@ -91,6 +100,7 @@ class CacheItemPool implements CacheItemPoolInterface
     public function clear()
     {
         $this->cache->flush();
+        $this->deferred = array();
 
         return true;
     }
@@ -102,7 +112,13 @@ class CacheItemPool implements CacheItemPoolInterface
     {
         CacheItemPool::validateKey($key);
 
-        return !$this->cache->contains($key) || $this->cache->delete($key);
+        if ($isDeferred = $this->isDeferred($key)) {
+            unset($this->deferred[$key]);
+        }
+
+        $isDeleted = !$this->cache->contains($key) || $this->cache->delete($key);
+
+        return $isDeferred || $isDeleted;
     }
 
     /**
@@ -133,8 +149,10 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function saveDeferred(CacheItemInterface $item)
     {
-        // TODO: improve $this->deferred[$item->getKey()] = $item;
-        return $this->save($item);
+        $this->deferred[$item->getKey()] = $item;
+
+        return true;
+        //return $this->save($item);
     }
 
     /**
@@ -160,9 +178,22 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
+     * Check if there is a deferred cache item for the given key.
+     *
+     * @param mixed $key The key.
+     * @return bool True if there is a deferred item for the key.
+     */
+    public function isDeferred($key)
+    {
+        CacheItemPool::validateKey($key);
+
+        return array_key_exists($key, $this->deferred);
+    }
+
+    /**
      * Validate key.
      *
-     * @param mixed $key The key.   
+     * @param mixed $key The key.
      * @throws InvalidArgumentException
      */
     public static function validateKey($key)
