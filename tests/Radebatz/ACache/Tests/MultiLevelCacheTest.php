@@ -135,4 +135,16 @@ class MultiLevelCacheTest extends CacheTest
         $this->assertEquals(2, count($logger->lines));
         $this->assertContains('not available', $logger->lines[0]);
     }
+
+    /**
+     * Test unavailable with bubbling.
+     */
+    public function testUnavailableBubbling()
+    {
+        $cache = new MultiLevelCache(array(new NullCache(false), new ArrayCache()), true, new TestLogger());
+        $this->assertTrue($cache->available());
+        $this->assertEquals(1, count($cache->getStack()));
+        $cache->save('foo', 'bar');
+        $this->assertEquals('bar', $cache->fetch('foo'));
+    }
 }

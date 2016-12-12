@@ -56,6 +56,9 @@ class MultiLevelCache implements CacheInterface
             return true;
         });
 
+        // fill index holes
+        $this->stack = array_values($this->stack);
+
         if (!$this->stack) {
             $this->logger->warning('Empty stack');
         }
