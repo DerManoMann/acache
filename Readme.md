@@ -192,3 +192,6 @@ All issues that break backwards compatibility are flagged [BC].
 * Saving expired (lifeTime < 0) should behave like delete [#39]
 * Fix ApcCache::flush() in hhvm [#41]
 * Fix invalid offset warning in MultiLevelCace when stripping unavailable cache from stack [#45]
+
+### next
+* Fix outstanding cache/integration-tests failures

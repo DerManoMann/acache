@@ -73,7 +73,11 @@ class CacheItem implements CacheItemInterface
      */
     public function isHit()
     {
-        return $this->cacheItemPool->getCache()->contains($this->key) && (null == $this->expiresAt || time() < $this->expiresAt->getTimestamp());
+        // underlying cache
+        $cache = $this->cacheItemPool->getCache();
+        $notStale = null === $this->expiresAt || time() < $this->expiresAt->getTimestamp();
+
+        return ($cache->contains($this->key) || $this->cacheItemPool->isDeferred($this->key)) && $notStale;
     }
 
     /**
@@ -103,6 +107,8 @@ class CacheItem implements CacheItemInterface
             $now = new DateTime();
             $this->setExpiresAt($now->add($time));
 
+            return $this;
+        } elseif (null === $time) {
             return $this;
         }
 
