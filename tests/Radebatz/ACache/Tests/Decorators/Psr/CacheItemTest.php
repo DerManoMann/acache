@@ -118,7 +118,11 @@ class CacheItemTest extends \PHPUnit_Framework_TestCase
         $cacheItem = $this->getCacheItem('ping', 'pong');
 
         $this->assertSame($cacheItem, $cacheItem->expiresAt($expiration));
-        $this->assertEquals($expectedExpiresAt, $cacheItem->getExpiresAt());
+        if (!$expectedExpiresAt) {
+            $this->assertNull($cacheItem->getExpiresAt());
+        } else {
+            $this->assertEquals($expectedExpiresAt->format(DateTime::RFC822), $cacheItem->getExpiresAt()->format(DateTime::RFC822));
+        }
     }
 
     /**
@@ -127,7 +131,6 @@ class CacheItemTest extends \PHPUnit_Framework_TestCase
     public function expiresAfterTimeDataProvider()
     {
         return array(
-            // date, ttl (here we use ttl as the expiredAt instance is created as part of the expiresAfter call)
             'five' => array(5, '5 seconds'),
             'oneDay' => array(new DateInterval('P1D'), '1 day'),
         );
@@ -136,12 +139,18 @@ class CacheItemTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider expiresAfterTimeDataProvider
      */
-    public function testExpiresAfter($time, $ttl)
+    public function testExpiresAfter($ttl, $interval)
     {
-        $cacheItem = $this->getCacheItem('ping', 'pong');
+        $cacheItem = $this->getCacheItem('ping', 'pong', false, $ttl);
 
-        $expectedExpiresAt = new DateTime($ttl);
-        $this->assertSame($cacheItem, $cacheItem->expiresAfter($time));
-        $this->assertEquals($expectedExpiresAt, $cacheItem->getExpiresAt());
+        $expectedExpiresAt = null;
+        if ($ttl instanceof DateInterval) {
+            $expectedExpiresAt = (new DateTime())->add($ttl);
+        } else {
+            $expectedExpiresAt = new DateTime('@'.(time() + $ttl));
+        }
+
+        $this->assertSame($cacheItem, $cacheItem->expiresAfter($ttl));
+        $this->assertEquals($expectedExpiresAt->format(DateTime::RFC822), $cacheItem->getExpiresAt()->format(DateTime::RFC822));
     }
 }
