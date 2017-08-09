@@ -7,7 +7,7 @@ use Cache\Taggable\TaggablePSR6PoolAdapter;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\Decorators\Psr\CacheItemPool;
 
-if (version_compare(phpversion(), '5.4.0', 'ge') && class_exists('\Cache\IntegrationTests\TaggableCachePoolTest')) {
+if (false && version_compare(phpversion(), '5.4.0', 'ge') && class_exists('\Cache\IntegrationTests\TaggableCachePoolTest')) {
 
 /**
  * Additional Psr integration tests.
