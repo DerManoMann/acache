@@ -197,5 +197,9 @@ All issues that break backwards compatibility are flagged [BC].
 * Refactor cache/integraton-tests test classes
 * Fix APC being reported unavailable with PHP7 [#47]
 
+### 2.0.0
+* drop support for PHP 5.3, 5.4 and remove from test matrix
+* add PHP 7.1 and 7.2 to test matrix
+
 ### next
 * Fix outstanding cache/integration-tests failures
