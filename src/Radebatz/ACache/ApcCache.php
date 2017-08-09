@@ -42,7 +42,7 @@ class ApcCache extends AbstractPathKeyCache
      */
     public function available()
     {
-        return function_exists('apc_cache_info') && @apc_cache_info();
+        return function_exists('apc_cache_info') && @apc_cache_info('user');
     }
 
     /**

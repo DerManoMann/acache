@@ -195,6 +195,7 @@ All issues that break backwards compatibility are flagged [BC].
 
 ### v1.3.2
 * Refactor cache/integraton-tests test classes
+* Fix APC being reported unavailable with PHP7 [#47]
 
 ### next
 * Fix outstanding cache/integration-tests failures
