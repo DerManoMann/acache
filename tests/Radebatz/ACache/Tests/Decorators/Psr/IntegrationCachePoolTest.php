@@ -11,7 +11,7 @@ if (version_compare(phpversion(), '5.4.0', 'ge') && class_exists('\Cache\Integra
 /**
  * Additional Psr integration tests.
  */
-class IntegrationTest extends CachePoolTest
+class IntegrationCachePoolTest extends CachePoolTest
 {
     /*
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class IntegrationTest extends CachePoolTest
 /**
  * Dummy Psr integration tests.
  */
-class IntegrationTest extends \PHPUnit_Framework_TestCase
+class IntegrationCachePoolTest extends \PHPUnit_Framework_TestCase
 {
     public function testDummy()
     {

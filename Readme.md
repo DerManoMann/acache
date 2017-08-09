@@ -193,5 +193,8 @@ All issues that break backwards compatibility are flagged [BC].
 * Fix ApcCache::flush() in hhvm [#41]
 * Fix invalid offset warning in MultiLevelCace when stripping unavailable cache from stack [#45]
 
+### v1.3.2
+* Refactor cache/integraton-tests test classes
+
 ### next
 * Fix outstanding cache/integration-tests failures
