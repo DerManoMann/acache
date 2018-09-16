@@ -11,23 +11,21 @@
 
 namespace Radebatz\ACache\Tests\Decorators;
 
-use DateTime;
-//use DateTimeImmutable;
-use DateInterval;
+use PHPUnit\Framework\TestCase;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\Decorators\Psr\CacheItem;
 use Radebatz\ACache\Decorators\Psr\CacheItemPool;
-use Radebatz\ACache\Decorators\Psr\InvalidArgumentException;
 
 /**
  * Psr CacheItem tests.
  */
-class CacheItemTest extends \PHPUnit_Framework_TestCase
+class CacheItemTest extends TestCase
 {
     /**
      * Get a cache item.
      */
-    protected function getCacheItem($key, $value, $hit = false, $ttl = null) {
+    protected function getCacheItem($key, $value, $hit = false, $ttl = null)
+    {
         $cache = new ArrayCache();
 
         if ($hit) {
@@ -79,7 +77,7 @@ class CacheItemTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidKey()
     {
-        $cacheItem = $this->getCacheItem('{ping', 'pong');
+        $this->getCacheItem('{ping', 'pong');
     }
 
     /**
@@ -102,12 +100,12 @@ class CacheItemTest extends \PHPUnit_Framework_TestCase
      */
     public function expiresAtDateDataProvider()
     {
-        return array(
+        return [
             // date, expectedExpiresAt
-            'oneDay' => array(new DateTime('1 day'), new DateTime('1 day')),
+            'oneDay' => [new \DateTime('1 day'), new \DateTime('1 day')],
             //'oneDayImmutable' => array(new DateTimeImmutable('1 day'), new DateTimeImmutable('1 day')),
-            'zero' => array(null, null),
-        );
+            'zero' => [null, null],
+        ];
     }
 
     /**
@@ -121,7 +119,7 @@ class CacheItemTest extends \PHPUnit_Framework_TestCase
         if (!$expectedExpiresAt) {
             $this->assertNull($cacheItem->getExpiresAt());
         } else {
-            $this->assertEquals($expectedExpiresAt->format(DateTime::RFC822), $cacheItem->getExpiresAt()->format(DateTime::RFC822));
+            $this->assertEquals($expectedExpiresAt->format(\DateTime::RFC822), $cacheItem->getExpiresAt()->format(\DateTime::RFC822));
         }
     }
 
@@ -130,10 +128,10 @@ class CacheItemTest extends \PHPUnit_Framework_TestCase
      */
     public function expiresAfterTimeDataProvider()
     {
-        return array(
-            'five' => array(5, '5 seconds'),
-            'oneDay' => array(new DateInterval('P1D'), '1 day'),
-        );
+        return [
+            'five' => [5, '5 seconds'],
+            'oneDay' => [new \DateInterval('P1D'), '1 day'],
+        ];
     }
 
     /**
@@ -144,13 +142,13 @@ class CacheItemTest extends \PHPUnit_Framework_TestCase
         $cacheItem = $this->getCacheItem('ping', 'pong', false, $ttl);
 
         $expectedExpiresAt = null;
-        if ($ttl instanceof DateInterval) {
-            $expectedExpiresAt = (new DateTime())->add($ttl);
+        if ($ttl instanceof \DateInterval) {
+            $expectedExpiresAt = (new \DateTime())->add($ttl);
         } else {
-            $expectedExpiresAt = new DateTime('@'.(time() + $ttl));
+            $expectedExpiresAt = new \DateTime('@' . (time() + $ttl));
         }
 
         $this->assertSame($cacheItem, $cacheItem->expiresAfter($ttl));
-        $this->assertEquals($expectedExpiresAt->format(DateTime::RFC822), $cacheItem->getExpiresAt()->format(DateTime::RFC822));
+        $this->assertEquals($expectedExpiresAt->format(\DateTime::RFC822), $cacheItem->getExpiresAt()->format(\DateTime::RFC822));
     }
 }

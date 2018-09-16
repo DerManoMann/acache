@@ -11,24 +11,20 @@
 
 namespace Radebatz\ACache\Tests\Decorators;
 
-use DateTime;
-use DateTimeImmutable;
-use DateInterval;
-use ReflectionObject;
+use PHPUnit\Framework\TestCase;
 use Radebatz\ACache\ArrayCache;
-use Radebatz\ACache\Decorators\Psr\CacheItem;
 use Radebatz\ACache\Decorators\Psr\CacheItemPool;
-use Radebatz\ACache\Decorators\Psr\InvalidArgumentException;
 
 /**
  * Psr CacheItemPool tests.
  */
-class CacheItemPoolTest extends \PHPUnit_Framework_TestCase
+class CacheItemPoolTest extends TestCase
 {
     /**
      * Get a cache pool.
      */
-    protected function getCachePool() {
+    protected function getCachePool()
+    {
         return new CacheItemPool(new ArrayCache());
     }
 
@@ -129,7 +125,7 @@ class CacheItemPoolTest extends \PHPUnit_Framework_TestCase
         $cacheItem = $cachePool->getItem('ping');
         $this->assertTrue($cacheItem->isHit());
 
-        $cachePool->deleteItems(array('ping'));
+        $cachePool->deleteItems(['ping']);
 
         // cleared from underlying cache
         $this->assertFalse($cache->contains('ping'));
@@ -155,7 +151,7 @@ class CacheItemPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test commit
+     * Test commit.
      */
     public function testPoolCommit()
     {
@@ -183,5 +179,4 @@ class CacheItemPoolTest extends \PHPUnit_Framework_TestCase
         $cachePool = $this->getCachePool();
         $cachePool->getItem('(foo');
     }
-
 }

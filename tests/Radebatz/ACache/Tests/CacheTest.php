@@ -11,7 +11,7 @@
 
 namespace Radebatz\ACache\Tests;
 
-use ReflectionClass;
+use PHPUnit\Framework\TestCase;
 use Radebatz\ACache\CacheInterface;
 
 /**
@@ -19,7 +19,7 @@ use Radebatz\ACache\CacheInterface;
  *
  * Tests that each cache must pass.
  */
-abstract class CacheTest extends \PHPUnit_Framework_TestCase
+abstract class CacheTest extends TestCase
 {
     /**
      * Test contains.
@@ -37,14 +37,14 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     /**
      * Get protected/private property.
      *
-     * @param mixed  $obj  The opject.
-     * @param string $name The property name.
+     * @param mixed  $obj  the opject
+     * @param string $name the property name
      *
-     * @return mixed The property or <code>null</code>.
+     * @return mixed the property or <code>null</code>
      */
     protected function getProperty($obj, $name)
     {
-        $rc = new ReflectionClass($obj);
+        $rc = new \ReflectionClass($obj);
         if ($property = $rc->getProperty($name)) {
             $property->setAccessible(true);
 
@@ -57,10 +57,10 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
     /**
      * Get an override value if it exists.
      *
-     * @param string $name    The override name.
-     * @param mixed  $default Optional default.
+     * @param string $name    the override name
+     * @param mixed  $default optional default
      *
-     * @return mixed The value or default.
+     * @return mixed the value or default
      */
     protected function getOverride($name, $default = null)
     {
@@ -111,8 +111,8 @@ abstract class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testArray(CacheInterface $cache)
     {
-        $this->assertTrue($cache->save('arr', array('arr')));
-        $this->assertEquals(array('arr'), $cache->fetch('arr'));
+        $this->assertTrue($cache->save('arr', ['arr']));
+        $this->assertEquals(['arr'], $cache->fetch('arr'));
     }
 
     /**

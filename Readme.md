@@ -201,5 +201,12 @@ All issues that break backwards compatibility are flagged [BC].
 * drop support for PHP 5.3, 5.4 and remove from test matrix
 * add PHP 7.1 and 7.2 to test matrix
 
+### 2.0.1
+* drop support for PHP 5.5 and hhvm
+* validate against cache/integration-tests
+* disable chmod/chown/chgrp warnings in FilesystemCache
+* add CS rules 
+* update dev dependencies
+
 ### next
-* Fix outstanding cache/integration-tests failures
+* 

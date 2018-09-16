@@ -18,17 +18,16 @@ use Psr\Log\AbstractLogger;
  */
 class TestLogger extends AbstractLogger
 {
-    public $lines = array();
+    public $lines = [];
 
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed $level
+     * @param mixed  $level
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         $this->lines[] = $message;
     }

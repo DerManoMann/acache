@@ -26,8 +26,8 @@ class NamespaceCache implements CacheInterface
     /**
      * Create new instance, decorating the given cache.
      *
-     * @param CacheInterface $cache     The cache to decorate with a namespace.
-     * @param string         $namespace The namespace.
+     * @param CacheInterface $cache     the cache to decorate with a namespace
+     * @param string         $namespace the namespace
      */
     public function __construct(CacheInterface $cache, $namespace = null)
     {
@@ -47,7 +47,7 @@ class NamespaceCache implements CacheInterface
     /**
      * Get the decorated cache.
      *
-     * @return ACache\CacheInterface The decorated cache instance.
+     * @return CacheInterface the decorated cache instance
      */
     public function getCache()
     {
@@ -57,9 +57,9 @@ class NamespaceCache implements CacheInterface
     /**
      * Get the full namespace path.
      *
-     * @param string|array $namespace Namespace - may be <code>null</code>.
+     * @param string|array $namespace namespace - may be <code>null</code>
      *
-     * @return array The full namespace path.
+     * @return array the full namespace path
      */
     protected function getNamespacePath($namespace)
     {

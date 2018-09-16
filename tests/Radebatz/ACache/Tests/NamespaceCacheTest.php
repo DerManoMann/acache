@@ -27,10 +27,10 @@ class NamespaceCacheTest extends CacheTest
      */
     public function cacheProvider()
     {
-        return array(
-            array(new ArrayCache()),
-            array(new NamespaceCache(new ArrayCache(), 'other')),
-        );
+        return [
+            [new ArrayCache()],
+            [new NamespaceCache(new ArrayCache(), 'other')],
+        ];
     }
 
     /**

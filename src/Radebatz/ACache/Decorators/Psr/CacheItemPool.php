@@ -29,12 +29,12 @@ class CacheItemPool implements CacheItemPoolInterface
     /**
      * Create a new cache item pool.
      *
-     * @param $cache CacheInterface The underlying cache instance.
+     * @param $cache cacheInterface The underlying cache instance
      */
     public function __construct(CacheInterface $cache)
     {
         $this->cache = $cache;
-        $this->deferred = array();
+        $this->deferred = [];
     }
 
     /**
@@ -84,9 +84,9 @@ class CacheItemPool implements CacheItemPoolInterface
     /**
      * {@inheritDoc}
      */
-    public function getItems(array $keys = array())
+    public function getItems(array $keys = [])
     {
-        $items = array();
+        $items = [];
         foreach ($keys as $key) {
             $items[$key] = $this->getItem($key);
         }
@@ -100,7 +100,7 @@ class CacheItemPool implements CacheItemPoolInterface
     public function clear()
     {
         $this->cache->flush();
-        $this->deferred = array();
+        $this->deferred = [];
 
         return true;
     }
@@ -152,7 +152,6 @@ class CacheItemPool implements CacheItemPoolInterface
         $this->deferred[$item->getKey()] = $item;
 
         return true;
-        //return $this->save($item);
     }
 
     /**
@@ -170,7 +169,7 @@ class CacheItemPool implements CacheItemPoolInterface
     /**
      * Get the underlying cache instance.
      *
-     * @return CacheInterface The cache.
+     * @return CacheInterface the cache
      */
     public function getCache()
     {
@@ -180,8 +179,11 @@ class CacheItemPool implements CacheItemPoolInterface
     /**
      * Check if there is a deferred cache item for the given key.
      *
-     * @param mixed $key The key.
-     * @return bool True if there is a deferred item for the key.
+     * @param mixed $key the key
+     *
+     * @return bool true if there is a deferred item for the key
+     *
+     * @throws InvalidArgumentException
      */
     public function isDeferred($key)
     {
@@ -193,7 +195,8 @@ class CacheItemPool implements CacheItemPoolInterface
     /**
      * Validate key.
      *
-     * @param mixed $key The key.
+     * @param mixed $key the key
+     *
      * @throws InvalidArgumentException
      */
     public static function validateKey($key)

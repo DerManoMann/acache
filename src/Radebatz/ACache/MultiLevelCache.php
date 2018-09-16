@@ -11,7 +11,6 @@
 
 namespace Radebatz\ACache;
 
-use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -28,16 +27,17 @@ class MultiLevelCache implements CacheInterface
 {
     protected $stack;
     protected $bubbleOnFetch;
+    /** @var LoggerInterface */
     protected $logger;
 
     /**
      * Create new instance for the given cache instances.
      *
-     * @param array   $stack         List of <code>CacheInterface</code> instances.
-     * @param boolean $bubbleOnFetch Optional flag to restore cache entries further up the stack if an item was only found further down.
-     * @param LoggerInterface $logger Optional logger.
+     * @param array           $stack         list of <code>CacheInterface</code> instances
+     * @param bool            $bubbleOnFetch optional flag to restore cache entries further up the stack if an item was only found further down
+     * @param LoggerInterface $logger        optional logger
      */
-    public function __construct(array $stack = array(), $bubbleOnFetch = false, LoggerInterface $logger = null)
+    public function __construct(array $stack = [], $bubbleOnFetch = false, LoggerInterface $logger = null)
     {
         $logger = $this->logger = $logger ?: new NullLogger();
 
@@ -77,7 +77,7 @@ class MultiLevelCache implements CacheInterface
     /**
      * Get the cache stack.
      *
-     * @return array List of <code>CacheInterface</code> instances.
+     * @return array list of <code>CacheInterface</code> instances
      */
     public function getStack()
     {
@@ -87,7 +87,7 @@ class MultiLevelCache implements CacheInterface
     /**
      * Returns the <code>bubbleOnFetch</code> flag.
      *
-     * @return boolean <code>true</code> if bubble on fetch is enabled, <code>false</code> if not.
+     * @return bool <code>true</code> if bubble on fetch is enabled, <code>false</code> if not
      */
     public function isBubbleOnFetch()
     {
@@ -99,6 +99,7 @@ class MultiLevelCache implements CacheInterface
      */
     public function fetch($id, $namespace = null)
     {
+        /** @var $cache CacheInterface */
         foreach ($this->stack as $ii => $cache) {
             if (null !== ($data = $cache->fetch($id, $namespace))) {
                 if ($this->bubbleOnFetch && $ii) {
@@ -121,6 +122,7 @@ class MultiLevelCache implements CacheInterface
      */
     public function contains($id, $namespace = null)
     {
+        /** @var $cache CacheInterface */
         foreach ($this->stack as $cache) {
             if ($cache->contains($id, $namespace)) {
                 return true;
@@ -135,6 +137,7 @@ class MultiLevelCache implements CacheInterface
      */
     public function getTimeToLive($id, $namespace = null)
     {
+        /** @var $cache CacheInterface */
         foreach ($this->stack as $cache) {
             if (false !== ($timeToLive = $cache->getTimeToLive($id, $namespace))) {
                 return $timeToLive;
@@ -157,6 +160,7 @@ class MultiLevelCache implements CacheInterface
      */
     public function save($id, $data, $lifeTime = null, $namespace = null)
     {
+        /** @var $cache CacheInterface */
         foreach ($this->stack as $cache) {
             if (!$cache->save($id, $data, $lifeTime, $namespace)) {
                 return false;
@@ -171,6 +175,7 @@ class MultiLevelCache implements CacheInterface
      */
     public function delete($id, $namespace = null)
     {
+        /** @var $cache CacheInterface */
         foreach ($this->stack as $cache) {
             if (!$cache->delete($id, $namespace)) {
                 return false;
@@ -185,6 +190,7 @@ class MultiLevelCache implements CacheInterface
      */
     public function flush($namespace = null)
     {
+        /** @var $cache CacheInterface */
         foreach ($this->stack as $cache) {
             if (!$cache->flush($namespace)) {
                 return false;
@@ -199,7 +205,9 @@ class MultiLevelCache implements CacheInterface
      */
     public function getStats()
     {
-        $stats = array();
+        $stats = [];
+
+        /** @var $cache CacheInterface */
         foreach ($this->stack as $cache) {
             $stats[] = $cache->getStats();
         }

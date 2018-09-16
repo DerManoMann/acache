@@ -11,13 +11,14 @@
 
 namespace Radebatz\ACache\Tests\Decorators;
 
+use PHPUnit\Framework\TestCase;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\Decorators\DoctrineCache;
 
 /**
  * DoctrineCache tests.
  */
-class DoctrineCacheTest extends \PHPUnit_Framework_TestCase
+class DoctrineCacheTest extends TestCase
 {
     /**
      * Check if doctrine cache is available.

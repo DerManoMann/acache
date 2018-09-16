@@ -26,7 +26,7 @@ class DoctrineCache implements Cache
     /**
      * Create a decorator instance for the given cache.
      *
-     * @param Radebatz\ACache\CacheInterface $cache The cache instance to decorate.
+     * @param CacheInterface $cache the cache instance to decorate
      */
     public function __construct(CacheInterface $cache)
     {

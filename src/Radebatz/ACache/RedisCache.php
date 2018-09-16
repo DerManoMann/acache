@@ -25,8 +25,8 @@ class RedisCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param \Redis $redis             The <code>Redis</code> instance to be used.
-     * @param int    $defaultTimeToLive Optional default time-to-live value.
+     * @param \Redis $redis             the <code>Redis</code> instance to be used
+     * @param int    $defaultTimeToLive optional default time-to-live value
      */
     public function __construct(Redis $redis, $defaultTimeToLive = 0)
     {
@@ -95,7 +95,7 @@ class RedisCache extends AbstractPathKeyCache
         } else {
             $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
             // iterate over all entries and delete matching
-            foreach ($this->redis->getKeys($namespace.'*') as $key) {
+            foreach ($this->redis->getKeys($namespace . '*') as $key) {
                 $this->redis->delete($key);
             }
         }
@@ -110,10 +110,10 @@ class RedisCache extends AbstractPathKeyCache
     {
         $info = $this->redis->info();
 
-        return array(
+        return [
             CacheInterface::STATS_SIZE => $this->redis->dbSize(),
             CacheInterface::STATS_UPTIME => $info['uptime_in_seconds'],
             CacheInterface::STATS_MEMORY_USAGE => $info['used_memory'],
-        );
+        ];
     }
 }

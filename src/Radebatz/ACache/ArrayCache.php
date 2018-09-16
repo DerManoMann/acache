@@ -18,21 +18,21 @@ namespace Radebatz\ACache;
  */
 class ArrayCache extends AbstractPathKeyCache
 {
-    protected static $SHARED_DATA = array();
+    protected static $SHARED_DATA = [];
     protected $localData;
     protected $shared;
 
     /**
      * Create instance.
      *
-     * @param array $data   Optional initial cache data.
-     * @param bool  $shared Optional flag to use a shared cache within the current process.
+     * @param array $data   optional initial cache data
+     * @param bool  $shared optional flag to use a shared cache within the current process
      */
-    public function __construct(array $data = array(), $shared = false)
+    public function __construct(array $data = [], $shared = false)
     {
         parent::__construct();
 
-        $this->localData = array();
+        $this->localData = [];
         $this->shared = $shared;
     }
 
@@ -87,9 +87,9 @@ class ArrayCache extends AbstractPathKeyCache
     {
         if (!$namespace) {
             if ($this->shared) {
-                static::$SHARED_DATA = array();
+                static::$SHARED_DATA = [];
             } else {
-                $this->localData = array();
+                $this->localData = [];
             }
         } else {
             $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
@@ -116,8 +116,8 @@ class ArrayCache extends AbstractPathKeyCache
      */
     public function getStats()
     {
-        return array(
+        return [
             CacheInterface::STATS_SIZE => count($this->shared ? static::$SHARED_DATA : $this->localData),
-        );
+        ];
     }
 }

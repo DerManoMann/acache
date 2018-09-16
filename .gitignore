@@ -1,4 +1,6 @@
-/vendor
-/composer.lock
-/build
-/phpunit.ini
+.idea/
+build/
+vendor/
+.php_cs.cache
+composer.lock
+phpunit.ini

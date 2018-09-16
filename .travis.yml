@@ -6,28 +6,22 @@ services:
   - redis-server
 
 php:
-  - 5.5
   - 5.6
   - 7
   - 7.1
   - 7.2
-  - hhvm
-  
+  - 7.3
+
 sudo: false
 
 before_install:
-  - if [[ $TRAVIS_PHP_VERSION != 'hhvm' ]] ; then pecl channel-update pecl.php.net; fi;
+  - pecl channel-update pecl.php.net
   - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then echo yes | pecl install apcu-4.0.10; fi;
   - if [[ $TRAVIS_PHP_VERSION = 7.* ]] ; then pecl config-set preferred_state stable; echo yes | pecl --soft install apcu; fi;
-  - if [[ $TRAVIS_PHP_VERSION != 'hhvm' ]]; then phpenv config-add ./.travis_php.ini; fi;
- 
-install: 
+  - phpenv config-add ./.travis_php.ini
+
+install:
   - travis_retry composer install --no-interaction --prefer-source
-  - if [[ $TRAVIS_PHP_VERSION != '5.3' ]]; then composer require cache/integration-tests; fi;
 
 after_script:
   - php vendor/bin/coveralls -v
-
-matrix:
-  allow_failures:
-    - php: hhvm

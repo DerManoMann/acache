@@ -7,8 +7,6 @@ use Cache\Taggable\TaggablePSR6PoolAdapter;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\Decorators\Psr\CacheItemPool;
 
-if (false && version_compare(phpversion(), '5.4.0', 'ge') && class_exists('\Cache\IntegrationTests\TaggableCachePoolTest')) {
-
 /**
  * Additional Psr integration tests.
  */
@@ -19,21 +17,6 @@ class IntegrationTaggableCachePoolTest extends TaggableCachePoolTest
      */
     public function createCachePool()
     {
-        return TaggablePSR6PoolAdapter::makeTaggable(new CacheItemPool(new ArrayCache(array(), true)));
+        return TaggablePSR6PoolAdapter::makeTaggable(new CacheItemPool(new ArrayCache([], true)));
     }
-}
-
-} else {
-
-/**
- * Dummy Psr integration tests.
- */
-class IntegrationTaggableCachePoolTest extends \PHPUnit_Framework_TestCase
-{
-    public function testDummy()
-    {
-        $this->assertTrue(true);
-    }
-}
-
 }

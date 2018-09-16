@@ -95,8 +95,8 @@ class XCacheCache extends AbstractPathKeyCache
             }
         }
 
-        return array(
+        return [
             CacheInterface::STATS_SIZE => $size,
-        );
+        ];
     }
 }

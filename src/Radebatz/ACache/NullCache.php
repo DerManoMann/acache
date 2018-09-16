@@ -23,7 +23,7 @@ class NullCache implements CacheInterface
     /**
      * Create new instance.
      *
-     * @param boolean $available Availability of this instance.
+     * @param bool $available availability of this instance
      */
     public function __construct($available = true)
     {
@@ -99,8 +99,8 @@ class NullCache implements CacheInterface
      */
     public function getStats()
     {
-        return array(
+        return [
             CacheInterface::STATS_SIZE => 0,
-        );
+        ];
     }
 }

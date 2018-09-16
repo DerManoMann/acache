@@ -29,18 +29,18 @@ class FilesystemCacheTest extends NamespaceCacheTest
     /**
      * Get a temp directory.
      *
-     * @param int $perms File permissions.
+     * @param int $perms file permissions
      *
-     * @return string The directory name.
+     * @return string the directory name
      */
     protected function getTempDir($perms = 0777)
     {
-        $tempdir = __DIR__.'/_acache';
+        $tempdir = __DIR__ . '/_acache';
         if (is_dir($tempdir)) {
             chmod($tempdir, 0777);
             $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($tempdir), \RecursiveIteratorIterator::CHILD_FIRST);
             foreach ($it as $file) {
-                if (in_array($file->getBasename(), array('.', '..'))) {
+                if (in_array($file->getBasename(), ['.', '..'])) {
                     continue;
                 } elseif ($file->isDir()) {
                     chmod($file->getPathname(), 0777);
@@ -65,9 +65,9 @@ class FilesystemCacheTest extends NamespaceCacheTest
      */
     public function cacheProvider()
     {
-        return array(
-            array(new FilesystemCache($this->getTempDir())),
-        );
+        return [
+            [new FilesystemCache($this->getTempDir())],
+        ];
     }
 
     /**
@@ -112,12 +112,12 @@ class FilesystemCacheTest extends NamespaceCacheTest
     {
         $dir = $this->getTempDir();
         // force the cache to create the actual cache root folder
-        $cacheRoot = $dir.'/foo/bar';
+        $cacheRoot = $dir . '/foo/bar';
         $cache = new FilesystemCache($cacheRoot);
         $this->assertEquals($cacheRoot, $cache->getDirectory());
 
         // both foo and bar should have 0777 permissions
-        foreach (array($dir.'/foo', $cacheRoot) as $path) {
+        foreach ([$dir . '/foo', $cacheRoot] as $path) {
             $actualFilePerms = (int) substr(sprintf('%o', fileperms($path)), -3);
             $this->assertEquals(777, $actualFilePerms);
         }
@@ -130,12 +130,12 @@ class FilesystemCacheTest extends NamespaceCacheTest
     {
         $dir = $this->getTempDir();
         // force the cache to create the actual cache root folder
-        $cacheRoot = $dir.'/foo/bar';
-        $cache = new FilesystemCache($cacheRoot, array('directory' => array('mode' => 0755), 'file' => array('mode' => 0444)));
+        $cacheRoot = $dir . '/foo/bar';
+        $cache = new FilesystemCache($cacheRoot, ['directory' => ['mode' => 0755], 'file' => ['mode' => 0444]]);
         $this->assertEquals($cacheRoot, $cache->getDirectory());
 
         // both foo and bar should have 0777 permissions
-        foreach (array($dir.'/foo', $cacheRoot) as $path) {
+        foreach ([$dir . '/foo', $cacheRoot] as $path) {
             $actualFilePerms = (int) substr(sprintf('%o', fileperms($path)), -3);
             $this->assertEquals(755, $actualFilePerms);
         }
@@ -147,13 +147,13 @@ class FilesystemCacheTest extends NamespaceCacheTest
     }
 
     /**
-     * Test soft flush
+     * Test soft flush.
      */
     public function testSoftFlush()
     {
         $dir = $this->getTempDir();
         // soft flush
-        $cache = new FilesystemCache($dir, array(), null, false);
+        $cache = new FilesystemCache($dir, [], null, false);
 
         $cache->save('sup', 'something');
         $supCachefile = $cache->getFilenameForId('sup');
@@ -164,13 +164,13 @@ class FilesystemCacheTest extends NamespaceCacheTest
     }
 
     /**
-     * Test soft flush
+     * Test soft flush.
      */
     public function testHardFlush()
     {
         $dir = $this->getTempDir();
         // hard flush
-        $cache = new FilesystemCache($dir, array(), null, true);
+        $cache = new FilesystemCache($dir, [], null, true);
 
         $cache->save('sup', 'something');
         $supCachefile = $cache->getFilenameForId('sup');

@@ -30,6 +30,8 @@ class CacheItem implements CacheItemInterface
 
     /**
      * Create a new cache item.
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct($key, $value, CacheItemPool $cacheItemPool, $ttl = null)
     {
@@ -70,6 +72,8 @@ class CacheItem implements CacheItemInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
      */
     public function isHit()
     {
@@ -82,6 +86,8 @@ class CacheItem implements CacheItemInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
      */
     public function expiresAt($expiration)
     {
@@ -96,6 +102,8 @@ class CacheItem implements CacheItemInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
      */
     public function expiresAfter($time)
     {
@@ -118,7 +126,7 @@ class CacheItem implements CacheItemInterface
     /**
      * Get the value irrespective of whether it is in cache or not.
      *
-     * @return mixed The value.
+     * @return mixed the value
      */
     public function getValue()
     {
@@ -128,7 +136,7 @@ class CacheItem implements CacheItemInterface
     /**
      * Get the expires at value.
      *
-     * @return DateTimeInterface The expires at date/time.
+     * @return DateTimeInterface the expires at date/time
      */
     public function getExpiresAt()
     {
@@ -143,7 +151,7 @@ class CacheItem implements CacheItemInterface
     protected function setExpiresAt($ttl)
     {
         if (is_int($ttl)) {
-            $this->expiresAt = new DateTime('@'.(time() + $ttl));
+            $this->expiresAt = new DateTime('@' . (time() + $ttl));
         } elseif (($ttl instanceof DateTimeInterface) || ($ttl instanceof DateTime)) {
             $this->expiresAt = $ttl;
         } else {

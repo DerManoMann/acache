@@ -23,9 +23,9 @@ class ArrayCacheTest extends NamespaceCacheTest
      */
     public function cacheProvider()
     {
-        return array(
-            array(new ArrayCache(array(), false)),
-            array(new ArrayCache(array(), true)),
-        );
+        return [
+            [new ArrayCache([], false)],
+            [new ArrayCache([], true)],
+        ];
     }
 }
