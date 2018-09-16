@@ -15,7 +15,6 @@ sudo: false
 
 before_install:
   - pecl channel-update pecl.php.net
-  - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then echo yes | pecl install apcu-4.0.10; fi;
   - if [[ $TRAVIS_PHP_VERSION = 7.* ]] ; then pecl config-set preferred_state stable; echo yes | pecl --soft install apcu; fi;
   - phpenv config-add ./.travis_php.ini
 
