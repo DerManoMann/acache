@@ -29,7 +29,7 @@ before_install:
   - phpenv config-add ./.travis_php.ini
 
 install:
-  - travis_retry composer update --no-interaction $PREFER_LOWEST--prefer-source
+  - travis_retry composer update --no-interaction $PREFER_LOWEST --prefer-source
 
 script:
   - ./vendor/bin/phpunit
