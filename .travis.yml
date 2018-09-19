@@ -1,4 +1,9 @@
+sudo: false
 language: php
+
+cache:
+  directories:
+  - $HOME/.composer/cache
 
 services:
   - memcache
@@ -10,16 +15,24 @@ php:
   - 7
   - 7.1
   - 7.2
+  - nightly
 
-sudo: false
+env:
+  matrix:
+  - PREFER_LOWEST="--prefer-lowest --prefer-stable"
+  - PREFER_LOWEST=""
 
 before_install:
   - pecl channel-update pecl.php.net
+  - composer self-update
   - if [[ $TRAVIS_PHP_VERSION = 7.* ]] ; then pecl config-set preferred_state stable; echo yes | pecl --soft install apcu; fi;
   - phpenv config-add ./.travis_php.ini
 
 install:
-  - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry composer update --no-interaction --prefer-source
 
 after_script:
   - php vendor/bin/coveralls -v
+
+allow_failures:
+  - php: nightly
