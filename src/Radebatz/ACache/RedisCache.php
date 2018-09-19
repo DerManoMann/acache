@@ -61,7 +61,7 @@ class RedisCache extends AbstractPathKeyCache
      */
     protected function containsEntry($id)
     {
-        return $this->redis->exists($id);
+        return (bool) $this->redis->exists($id);
     }
 
     /**
