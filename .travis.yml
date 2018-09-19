@@ -15,7 +15,7 @@ php:
   - 7
   - 7.1
   - 7.2
-  - nightly
+  - 7.3
 
 env:
   matrix:
@@ -31,8 +31,13 @@ before_install:
 install:
   - travis_retry composer update --no-interaction $PREFER_LOWEST--prefer-source
 
+script:
+  - ./vendor/bin/phpunit
+  - ./vendor/bin/php-cs-fixer fix src/ --dry-run
+  - ./vendor/bin/php-cs-fixer fix tests/ --dry-run
+
 after_script:
   - php vendor/bin/coveralls -v
 
 allow_failures:
-  - php: nightly
+  - php: 7.3
