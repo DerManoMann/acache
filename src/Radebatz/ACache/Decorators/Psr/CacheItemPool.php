@@ -140,6 +140,7 @@ class CacheItemPool implements CacheItemPoolInterface
     public function save(CacheItemInterface $item)
     {
         $expiresAt = $item->getExpiresAt();
+        var_dump($expiresAt);
 
         return $this->cache->save($item->getKey(), $item->getValue(), null === $expiresAt ? 0 : $expiresAt->getTimestamp() - time());
     }

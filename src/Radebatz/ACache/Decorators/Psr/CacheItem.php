@@ -136,7 +136,7 @@ class CacheItem implements CacheItemInterface
     /**
      * Get the expires at value.
      *
-     * @return DateTimeInterface the expires at date/time
+     * @return null|DateTimeInterface the expires at date/time
      */
     public function getExpiresAt()
     {
