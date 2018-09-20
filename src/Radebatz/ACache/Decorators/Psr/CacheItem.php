@@ -76,7 +76,7 @@ class CacheItem implements CacheItemInterface
     {
         // underlying cache
         $cache = $this->cacheItemPool->getCache();
-        $notStale = null === $this->expiresAt || time() < $this->expiresAt->getTimestamp();
+        $notStale = (null === ($expiresAt = $this->getExpiresAt())) || (time() < $expiresAt->getTimestamp());
 
         return ($cache->contains($this->key) || $this->cacheItemPool->isDeferred($this->key)) && $notStale;
     }
