@@ -34,12 +34,12 @@ class ApcGC
     /**
      * Create instance.
      *
-     * @param array $options Optional (GC) options.
+     * @param array $options optional (GC) options
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         $this->options = array_replace(
-            array(
+            [
                 'trigger_percent' => null,
                 'trigger_size' => null,
                 'clear_percent' => null,
@@ -48,7 +48,7 @@ class ApcGC
                 'f_block_size' => 5,
                 'grace_period' => 300,
                 'throttle' => 10,
-            ),
+            ],
             $options
         );
 
@@ -58,9 +58,9 @@ class ApcGC
     /**
      * Run GC with the configured options.
      *
-     * @param boolean $force Optional flag to force a run.
+     * @param bool $force optional flag to force a run
      *
-     * @return boolean|null The result of the gc or <code>null</code> for a noop.
+     * @return bool|null the result of the gc or <code>null</code> for a noop
      */
     public function run($force = false)
     {
@@ -125,6 +125,6 @@ class ApcGC
             }
         }
 
-        return;
+        return null;
     }
 }

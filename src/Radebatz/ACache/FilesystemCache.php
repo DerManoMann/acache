@@ -32,28 +32,28 @@ class FilesystemCache implements CacheInterface
     /**
      * Create instance.
      *
-     * @param string   $directory    The root directory of this cache.
-     * @param array    $permissions  The permissions to be used for all files/directories created.
-     * @param callable $keySanitiser Optional sanitizer to avoid invalid filenames.
+     * @param string   $directory    the root directory of this cache
+     * @param array    $permissions  the permissions to be used for all files/directories created
+     * @param callable $keySanitiser optional sanitizer to avoid invalid filenames
      * @param bool     $hardFlush    Optional flag to delete both files and direcories on flush()
      */
-    public function __construct($directory, array $permissions = array(), $keySanitiser = null, $hardFlush = false)
+    public function __construct($directory, array $permissions = [], $keySanitiser = null, $hardFlush = false)
     {
         $this->permissions[static::P_DIRECTORY] = array_merge(
-            array(
+            [
                 'owner' => null,
                 'group' => null,
                 'mode' => 0777,
-            ),
-            array_key_exists(static::P_DIRECTORY, $permissions) ? $permissions[static::P_DIRECTORY] : array()
+            ],
+            array_key_exists(static::P_DIRECTORY, $permissions) ? $permissions[static::P_DIRECTORY] : []
         );
         $this->permissions[static::P_FILE] = array_merge(
-            array(
+            [
                 'owner' => null,
                 'group' => null,
                 'mode' => 0644,
-            ),
-            array_key_exists(static::P_FILE, $permissions) ? $permissions[static::P_FILE] : array()
+            ],
+            array_key_exists(static::P_FILE, $permissions) ? $permissions[static::P_FILE] : []
         );
 
         $this->mkdir($directory);
@@ -66,7 +66,9 @@ class FilesystemCache implements CacheInterface
             throw new InvalidArgumentException(sprintf('The directory "%s" is not writable.', $this->directory));
         }
 
-        $this->keySanitiser = is_callable($keySanitiser) ? $keySanitiser : function ($key) { return $key; };
+        $this->keySanitiser = is_callable($keySanitiser) ? $keySanitiser : function ($key) {
+            return $key;
+        };
         $this->hardFlush = $hardFlush;
     }
 
@@ -81,7 +83,7 @@ class FilesystemCache implements CacheInterface
     /**
      * Get the configured cache directory.
      *
-     * @return string The cache directory path.
+     * @return string the cache directory path
      */
     public function getDirectory()
     {
@@ -91,7 +93,7 @@ class FilesystemCache implements CacheInterface
     /**
      * Recursive mkdir.
      *
-     * @param string $path The path.
+     * @param string $path the path
      */
     protected function mkdir($path)
     {
@@ -101,15 +103,15 @@ class FilesystemCache implements CacheInterface
 
         $perms = $this->permissions[static::P_DIRECTORY];
 
-        $this->mkdir(dirname($path), $perms['mode']);
+        $this->mkdir(dirname($path));
         if (!file_exists($path)) {
             mkdir($path, $perms['mode']);
-            chmod($path, $perms['mode']);
+            @chmod($path, $perms['mode']);
             if ($perms['owner']) {
-                chown($path, $perms['owner']);
+                @chown($path, $perms['owner']);
             }
             if ($perms['group']) {
-                chgrp($path, $perms['group']);
+                @chgrp($path, $perms['group']);
             }
         }
     }
@@ -117,33 +119,33 @@ class FilesystemCache implements CacheInterface
     /**
      * Convert an id into a filename.
      *
-     * @param string       $id        The id.
-     * @param string|array $namespace Optional namespace.
+     * @param string       $id        the id
+     * @param string|array $namespace optional namespace
      *
-     * @return string The filename.
+     * @return string the filename
      */
     public function getFilenameForId($id, $namespace = null)
     {
         $path = array_merge((array) $namespace, str_split(md5($id), 8));
 
-        return implode(DIRECTORY_SEPARATOR, array($this->directory, implode(DIRECTORY_SEPARATOR, $path), $id));
+        return implode(DIRECTORY_SEPARATOR, [$this->directory, implode(DIRECTORY_SEPARATOR, $path), $id]);
     }
 
     /**
      * Get a cache entry for the given id.
      *
-     * @param string       $id        The id.
-     * @param string|array $namespace Optional namespace.
-     * @param boolean      $full      Flag to indicate whether to include data loading or meta data only.
+     * @param string       $id        the id
+     * @param string|array $namespace optional namespace
+     * @param bool         $full      flag to indicate whether to include data loading or meta data only
      *
-     * @return array The cache entry or <code>null</code>.
+     * @return array the cache entry or <code>null</code>
      */
     protected function getEntryForId($id, $namespace, $full = false)
     {
         $filename = $this->getFilenameForId($id, $namespace);
 
         if (!is_file($filename)) {
-            return;
+            return null;
         }
 
         $expires = -1;
@@ -165,7 +167,7 @@ class FilesystemCache implements CacheInterface
 
         fclose($fh);
 
-        return array('data' => unserialize($data), 'expires' => $expires);
+        return ['data' => unserialize($data), 'expires' => $expires];
     }
 
     /**
@@ -176,7 +178,7 @@ class FilesystemCache implements CacheInterface
         $id = call_user_func($this->keySanitiser, $id);
 
         if (!$this->contains($id, $namespace)) {
-            return;
+            return null;
         }
 
         $entry = $this->getEntryForId($id, $namespace, true);
@@ -228,7 +230,7 @@ class FilesystemCache implements CacheInterface
         if (null !== $lifeTime && 0 > $lifeTime) {
             $this->delete($id, $namespace);
 
-            return;
+            return null;
         }
 
         $id = call_user_func($this->keySanitiser, $id);
@@ -247,7 +249,7 @@ class FilesystemCache implements CacheInterface
         $lifeTime = null !== $lifeTime ? (int) $lifeTime : $this->getDefaultTimeToLive();
         $expires = $lifeTime ? (time() + $lifeTime) : 0;
 
-        $result = (bool) file_put_contents($filename, $expires.PHP_EOL.serialize($data));
+        $result = (bool) file_put_contents($filename, $expires . PHP_EOL . serialize($data));
 
         $perms = $this->permissions[static::P_FILE];
         chmod($filename, $perms['mode']);
@@ -276,7 +278,7 @@ class FilesystemCache implements CacheInterface
      */
     public function flush($namespace = null)
     {
-        $namespace = implode(DIRECTORY_SEPARATOR, array_merge(array($this->directory), (array) $namespace));
+        $namespace = implode(DIRECTORY_SEPARATOR, array_merge([$this->directory], (array) $namespace));
 
         if (!file_exists($namespace)) {
             return true;
@@ -309,8 +311,8 @@ class FilesystemCache implements CacheInterface
             }
         }
 
-        return array(
+        return [
             CacheInterface::STATS_SIZE => $size,
-        );
+        ];
     }
 }

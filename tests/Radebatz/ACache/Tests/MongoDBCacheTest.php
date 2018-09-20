@@ -60,8 +60,8 @@ class MongoDBCacheTest extends NamespaceCacheTest
         $mongoClient = new MongoClient($this->getOverride('PHPUNIT_MONGODB_SERVER', null));
         $mongoCollection = $mongoClient->cache->entries->drop();
 
-        return array(
-            array(new MongoDBCache($mongoClient->cache->entries)),
-        );
+        return [
+            [new MongoDBCache($mongoClient->cache->entries)],
+        ];
     }
 }

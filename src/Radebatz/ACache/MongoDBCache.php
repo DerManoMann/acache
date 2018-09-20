@@ -26,8 +26,8 @@ class MongoDBCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param \MongoCollection $mongoCollection   The mongo collection to use.
-     * @param int              $defaultTimeToLive Optional default time-to-live value.
+     * @param \MongoCollection $mongoCollection   the mongo collection to use
+     * @param int              $defaultTimeToLive optional default time-to-live value
      */
     public function __construct(MongoCollection $mongoCollection, $defaultTimeToLive = 0)
     {
@@ -49,7 +49,7 @@ class MongoDBCache extends AbstractPathKeyCache
      */
     protected function fetchEntry($id)
     {
-        if ($centry = $this->mongoCollection->findOne(array('_id' => $id))) {
+        if ($centry = $this->mongoCollection->findOne(['_id' => $id])) {
             return unserialize($centry['entry']);
         }
 
@@ -61,7 +61,7 @@ class MongoDBCache extends AbstractPathKeyCache
      */
     protected function containsEntry($id)
     {
-        return null !== $this->mongoCollection->findOne(array('_id' => $id));
+        return null !== $this->mongoCollection->findOne(['_id' => $id]);
     }
 
     /**
@@ -71,9 +71,9 @@ class MongoDBCache extends AbstractPathKeyCache
     {
         $expires = $lifeTime ? (int) (time() + $lifeTime) : 0;
         $this->mongoCollection->update(
-            array('_id' => $id),
-            array('_id' => $id, 'entry' => serialize($entry), 'expires' => $expires),
-            array('upsert' => true)
+            ['_id' => $id],
+            ['_id' => $id, 'entry' => serialize($entry), 'expires' => $expires],
+            ['upsert' => true]
         );
 
         return true;
@@ -84,7 +84,7 @@ class MongoDBCache extends AbstractPathKeyCache
      */
     protected function deleteEntry($id)
     {
-        $this->mongoCollection->remove(array('_id' => $id));
+        $this->mongoCollection->remove(['_id' => $id]);
 
         return true;
     }
@@ -113,8 +113,8 @@ class MongoDBCache extends AbstractPathKeyCache
      */
     public function getStats()
     {
-        return array(
+        return [
             CacheInterface::STATS_SIZE => $this->mongoCollection->find()->count(),
-        );
+        ];
     }
 }

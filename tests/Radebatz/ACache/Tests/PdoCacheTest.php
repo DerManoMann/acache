@@ -42,15 +42,15 @@ class PdoCacheTest extends NamespaceCacheTest
         );');
         $stmt->execute();
 
-        return array(
-            array(new PdoCache($pdoDefaults)),
-            array(new PdoCache($pdoCustom, array(
+        return [
+            [new PdoCache($pdoDefaults)],
+            [new PdoCache($pdoCustom, [
                 't_cache' => 'ccache',
                 'c_id' => 'cid',
                 'c_entry' => 'centry',
                 'c_expires' => 'cexpires',
-            ))),
-        );
+            ])],
+        ];
     }
 
     /**
@@ -64,14 +64,14 @@ class PdoCacheTest extends NamespaceCacheTest
         $cache = new PdoCache(new PDO('sqlite::memory:'));
         $config = $this->getProperty($cache, 'config');
         $this->assertNotNull($config);
-        $this->assertEquals(array('t_cache' => 'cache', 'c_id' => 'id', 'c_entry' => 'entry', 'c_expires' => 'expires'), $config);
+        $this->assertEquals(['t_cache' => 'cache', 'c_id' => 'id', 'c_entry' => 'entry', 'c_expires' => 'expires'], $config);
 
-        $customConfig = array(
+        $customConfig = [
             't_cache' => 'ccache',
             'c_id' => 'cid',
             'c_entry' => 'centry',
             'c_expires' => 'cexpires',
-        );
+        ];
         $cache = new PdoCache($pdo, $customConfig);
         $config = $this->getProperty($cache, 'config');
         $this->assertNotNull($config);
@@ -83,9 +83,9 @@ class PdoCacheTest extends NamespaceCacheTest
      */
     public function invalidCacheProvider()
     {
-        return array(
-            array(new PdoCache(new PDO('sqlite::memory:'))),
-        );
+        return [
+            [new PdoCache(new PDO('sqlite::memory:'))],
+        ];
     }
 
     /**

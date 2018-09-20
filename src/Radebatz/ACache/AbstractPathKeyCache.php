@@ -25,8 +25,8 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Create instance.
      *
-     * @param string $namespaceDelimiter Optional namespace delimiter.
-     * @param int    $defaultTimeToLive  Optional default time-to-live value.
+     * @param string $namespaceDelimiter optional namespace delimiter
+     * @param int    $defaultTimeToLive  optional default time-to-live value
      */
     public function __construct($namespaceDelimiter = self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive = 0)
     {
@@ -47,7 +47,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Get the configured namespace delimiter.
      *
-     * @return string The namespace delimiter.
+     * @return string the namespace delimiter
      */
     public function getNamespaceDelimiter()
     {
@@ -57,10 +57,10 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Convert id and namespace to string.
      *
-     * @param string       $id        The id.
-     * @param string|array $namespace The namespace.
+     * @param string       $id        the id
+     * @param string|array $namespace the namespace
      *
-     * @return string The namespace as string.
+     * @return string the namespace as string
      */
     protected function namespaceId($id, $namespace)
     {
@@ -76,7 +76,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     public function fetch($id, $namespace = null)
     {
         if (!$this->contains($id, $namespace)) {
-            return;
+            return null;
         }
 
         $entry = $this->fetchEntry($this->namespaceId($id, $namespace));
@@ -122,10 +122,10 @@ abstract class AbstractPathKeyCache implements CacheInterface
         if (null !== $lifeTime && 0 > $lifeTime) {
             $this->delete($id, $namespace);
 
-            return;
+            return null;
         }
 
-        $entry = array('data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0));
+        $entry = ['data' => $data, 'expires' => ($lifeTime ? (time() + $lifeTime) : 0)];
 
         return (bool) $this->saveEntry($this->namespaceId($id, $namespace), $entry, null !== $lifeTime ? (int) $lifeTime : $this->getDefaultTimeToLive());
     }
@@ -141,25 +141,25 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Fetch an entry.
      *
-     * @param string $id The full id.
+     * @param string $id the full id
      *
-     * @return array Entry.
+     * @return array entry
      */
     abstract protected function fetchEntry($id);
 
     /**
      * Checks if a given id is valid.
      *
-     * @param string $id The full id.
+     * @param string $id the full id
      *
-     * @return boolean <code>true</code> if, and only if, an entry exists.
+     * @return bool <code>true</code> if, and only if, an entry exists
      */
     abstract protected function containsEntry($id);
 
     /**
      * Save an entry.
      *
-     * @param string $id       The cache id.
+     * @param string $id       the cache id
      * @param string $entry    The cache entry
      * @param int    $lifeTime The lifetime in seconds. Set to 0 for infinite life time.
      */
@@ -168,9 +168,9 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Delete a cache entry for the given id.
      *
-     * @param string $id The full id.
+     * @param string $id the full id
      *
-     * @return boolean <code>true</code> if, and only if, the entry was deleted.
+     * @return bool <code>true</code> if, and only if, the entry was deleted
      */
     abstract protected function deleteEntry($id);
 }

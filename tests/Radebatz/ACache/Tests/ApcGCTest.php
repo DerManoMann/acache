@@ -11,13 +11,14 @@
 
 namespace Radebatz\ACache\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Radebatz\ACache\ApcCache;
 use Radebatz\ACache\ApcGC;
 
 /**
  * ApcGC tests.
  */
-class ApcGCTest extends \PHPUnit_Framework_TestCase
+class ApcGCTest extends TestCase
 {
     /**
      * Check if apc is available.
@@ -42,10 +43,10 @@ class ApcGCTest extends \PHPUnit_Framework_TestCase
      */
     public function testRun()
     {
-        $gc = new ApcGC(array(
+        $gc = new ApcGC([
             'trigger_percent' => 100, // trigger if less than 100% free
             'grace_period' => 1, // 1 sec. grace period to speed things up
-        ));
+        ]);
 
         // use gc and set default ttl to 1 second
         $cache = new ApcCache(1, $gc);
@@ -82,11 +83,11 @@ class ApcGCTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrottle()
     {
-        $gc = new ApcGC(array(
+        $gc = new ApcGC([
             'trigger_percent' => 100,
             'grace_period' => 1,
             'throttle' => 3,
-        ));
+        ]);
         $cache = new ApcCache(1, $gc);
         // will trigger the initial run
         $cache->save('foo', 'bar');

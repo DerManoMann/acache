@@ -39,8 +39,8 @@ class MemcacheCacheTest extends NamespaceCacheTest
             return;
         }
 
-        return array(
-            array($cache),
-        );
+        return [
+            [$cache],
+        ];
     }
 }

@@ -27,8 +27,8 @@ class ApcCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param int   $defaultTimeToLive Optional default time-to-live value.
-     * @param ApcGC $gc                Optional garbage collector.
+     * @param int   $defaultTimeToLive optional default time-to-live value
+     * @param ApcGC $gc                optional garbage collector
      */
     public function __construct($defaultTimeToLive = 0, $gc = null)
     {
@@ -123,13 +123,13 @@ class ApcCache extends AbstractPathKeyCache
             $smaInfo['avail_mem'] = isset($smaInfo['avail_mem']) ? $smaInfo['avail_mem'] : 0;
         }
 
-        return array(
+        return [
             CacheInterface::STATS_SIZE => count($cacheInfo['cache_list']),
             CacheInterface::STATS_HITS => $cacheInfo['num_hits'],
             CacheInterface::STATS_MISSES => $cacheInfo['num_misses'],
             CacheInterface::STATS_UPTIME => $cacheInfo['start_time'],
             CacheInterface::STATS_MEMORY_USAGE => $cacheInfo['mem_size'],
             CacheInterface::STATS_MEMORY_AVAILIABLE => $smaInfo['avail_mem'],
-        );
+        ];
     }
 }

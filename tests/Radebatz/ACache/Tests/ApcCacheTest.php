@@ -43,8 +43,8 @@ class ApcCacheTest extends NamespaceCacheTest
         // flush apc for each run
         $cache->flush();
 
-        return array(
-            array($cache),
-        );
+        return [
+            [$cache],
+        ];
     }
 }

@@ -49,8 +49,8 @@ class RedisCacheTest extends NamespaceCacheTest
         $redis = new Redis();
         $redis->connect('localhost');
 
-        return array(
-            array(new RedisCache($redis)),
-        );
+        return [
+            [new RedisCache($redis)],
+        ];
     }
 }

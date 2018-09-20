@@ -28,44 +28,44 @@ interface CacheInterface
     /**
      * Checks if the actual cache implementation (ie the backend used) is available.
      *
-     * @return boolean <code>true</code> if this cache implementation is available.
+     * @return bool <code>true</code> if this cache implementation is available
      */
     public function available();
 
     /**
      * Fetches an entry from the cache.
      *
-     * @param string       $id        The id of the cache entry to fetch.
-     * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
+     * @param string       $id        the id of the cache entry to fetch
+     * @param string|array $namespace optional namespace; default is <code>null</code> for none
      *
-     * @return mixed The cached data or <code>null</code>, if no cache entry exists for the given id.
+     * @return mixed the cached data or <code>null</code>, if no cache entry exists for the given id
      */
     public function fetch($id, $namespace = null);
 
     /**
      * Test if an entry exists in the cache.
      *
-     * @param string       $id        The cache id of the entry to check for.
-     * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
+     * @param string       $id        the cache id of the entry to check for
+     * @param string|array $namespace optional namespace; default is <code>null</code> for none
      *
-     * @return boolean <code>true</code> if a cache entry exists for the given cache id, <code>false</code> if not.
+     * @return bool <code>true</code> if a cache entry exists for the given cache id, <code>false</code> if not
      */
     public function contains($id, $namespace = null);
 
     /**
      * Returns the (remaining) time to live for the cache id.
      *
-     * @param string       $id        The cache id.
-     * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
+     * @param string       $id        the cache id
+     * @param string|array $namespace optional namespace; default is <code>null</code> for none
      *
-     * @return false|int The time to live in seconds or <code>false</code> if the given id does not exist in the cache.
+     * @return false|int the time to live in seconds or <code>false</code> if the given id does not exist in the cache
      */
     public function getTimeToLive($id, $namespace = null);
 
     /**
      * Returns the time to live default configured for this cache instance.
      *
-     * @return int The default time to live value to be used if <code>lifeTime</code> is set to <code>null</code>.
+     * @return int the default time to live value to be used if <code>lifeTime</code> is set to <code>null</code>
      */
     public function getDefaultTimeToLive();
 
@@ -74,13 +74,13 @@ interface CacheInterface
      *
      * Saving with a negative $lifeTime is the same as calling delete().
      *
-     * @param string       $id        The cache id.
-     * @param mixed        $data      The cache data.
+     * @param string       $id        the cache id
+     * @param mixed        $data      the cache data
      * @param int          $lifeTime  The lifetime in seconds. Set to 0 for infinite life time;
      *                                default is <code>null</code> to use the configured default life time.
-     * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
+     * @param string|array $namespace optional namespace; default is <code>null</code> for none
      *
-     * @return boolean <code>true</code> if the entry was successfully stored in the cache, <code>false</code> if not.
+     * @return bool <code>true</code> if the entry was successfully stored in the cache, <code>false</code> if not
      */
     public function save($id, $data, $lifeTime = null, $namespace = null);
 
@@ -88,18 +88,18 @@ interface CacheInterface
      * Deletes a cache entry.
      *
      * @param string       $id        cache id
-     * @param string|array $namespace Optional namespace; default is <code>null</code> for none.
+     * @param string|array $namespace optional namespace; default is <code>null</code> for none
      *
-     * @return boolean <code>true</code> if the entry was successfully deleted from the cache, <code>false</code> if not.
+     * @return bool <code>true</code> if the entry was successfully deleted from the cache, <code>false</code> if not
      */
     public function delete($id, $namespace = null);
 
     /**
      * Flushes parts or all of the cache.
      *
-     * @param string|array $namespace Optional namespace; default is <code>null</code> for all.
+     * @param string|array $namespace optional namespace; default is <code>null</code> for all
      *
-     * @return boolean <code>true</code> if the cache was successfully flushed, <code>false</code> if not.
+     * @return bool <code>true</code> if the cache was successfully flushed, <code>false</code> if not
      */
     public function flush($namespace = null);
 
@@ -113,7 +113,7 @@ interface CacheInterface
      *
      * This method is somewhat borrowed from the doctrine cache code in that it used the same stats keys.
      *
-     * @return array Map with cache stats.
+     * @return array map with cache stats
      */
     public function getStats();
 }

@@ -11,9 +11,6 @@
 
 namespace Radebatz\ACache\Decorators\Psr;
 
-use DateInterval;
-use DateTime;
-use DateTimeInterface;
 use Psr\Cache\CacheItemInterface;
 
 /**
@@ -25,11 +22,13 @@ class CacheItem implements CacheItemInterface
     protected $value;
     /** @var $cache CacheItemPool */
     protected $cacheItemPool;
-    /** @var $expiresAt DateTimeInterface */
+    /** @var $expiresAt \DateTimeInterface */
     protected $expiresAt;
 
     /**
      * Create a new cache item.
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct($key, $value, CacheItemPool $cacheItemPool, $ttl = null)
     {
@@ -70,22 +69,26 @@ class CacheItem implements CacheItemInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
      */
     public function isHit()
     {
         // underlying cache
         $cache = $this->cacheItemPool->getCache();
-        $notStale = null === $this->expiresAt || time() < $this->expiresAt->getTimestamp();
+        $notStale = (null === ($expiresAt = $this->getExpiresAt())) || (time() < $expiresAt->getTimestamp());
 
         return ($cache->contains($this->key) || $this->cacheItemPool->isDeferred($this->key)) && $notStale;
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
      */
     public function expiresAt($expiration)
     {
-        if (null === $expiration || ($expiration instanceof DateTimeInterface) || ($expiration instanceof DateTime)) {
+        if (null === $expiration || ($expiration instanceof \DateTimeInterface) || ($expiration instanceof \DateTime)) {
             $this->setExpiresAt($expiration);
 
             return $this;
@@ -96,6 +99,8 @@ class CacheItem implements CacheItemInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
      */
     public function expiresAfter($time)
     {
@@ -103,8 +108,8 @@ class CacheItem implements CacheItemInterface
             $this->setExpiresAt($time);
 
             return $this;
-        } elseif ($time instanceof DateInterval) {
-            $now = new DateTime();
+        } elseif ($time instanceof \DateInterval) {
+            $now = new \DateTime();
             $this->setExpiresAt($now->add($time));
 
             return $this;
@@ -118,7 +123,7 @@ class CacheItem implements CacheItemInterface
     /**
      * Get the value irrespective of whether it is in cache or not.
      *
-     * @return mixed The value.
+     * @return mixed the value
      */
     public function getValue()
     {
@@ -128,7 +133,7 @@ class CacheItem implements CacheItemInterface
     /**
      * Get the expires at value.
      *
-     * @return DateTimeInterface The expires at date/time.
+     * @return null|\DateTimeInterface the expires at date/time
      */
     public function getExpiresAt()
     {
@@ -143,8 +148,8 @@ class CacheItem implements CacheItemInterface
     protected function setExpiresAt($ttl)
     {
         if (is_int($ttl)) {
-            $this->expiresAt = new DateTime('@'.(time() + $ttl));
-        } elseif (($ttl instanceof DateTimeInterface) || ($ttl instanceof DateTime)) {
+            $this->expiresAt = new \DateTime('@' . (time() + $ttl));
+        } elseif (($ttl instanceof \DateTimeInterface) || ($ttl instanceof \DateTime)) {
             $this->expiresAt = $ttl;
         } else {
             $this->expiresAt = null;

@@ -36,11 +36,11 @@ class PdoCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param \PDO  $pdo               The PDO instance to use.
-     * @param array $config            Optional configuration of table/column names; default is an empty array to use the defaults.
-     * @param int   $defaultTimeToLive Optional default time-to-live value.
+     * @param \PDO  $pdo               the PDO instance to use
+     * @param array $config            optional configuration of table/column names; default is an empty array to use the defaults
+     * @param int   $defaultTimeToLive optional default time-to-live value
      */
-    public function __construct(PDO $pdo, array $config = array(), $defaultTimeToLive = 0)
+    public function __construct(PDO $pdo, array $config = [], $defaultTimeToLive = 0)
     {
         parent::__construct(self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive);
 
@@ -48,12 +48,12 @@ class PdoCache extends AbstractPathKeyCache
         // use exception error mode
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->config = array_merge(
-            array(
+            [
                 't_cache' => 'cache',
                 'c_id' => 'id',
                 'c_entry' => 'entry',
                 'c_expires' => 'expires',
-            ),
+            ],
             $config
         );
     }
@@ -177,7 +177,7 @@ class PdoCache extends AbstractPathKeyCache
             try {
                 $sql = sprintf('DELETE FROM %s WHERE %s like :id', $config['t_cache'], $config['c_id']);
                 $stmt = $this->pdo->prepare($sql);
-                $wcn = $namespace.'%';
+                $wcn = $namespace . '%';
                 $stmt->bindParam(':id', $wcn, PDO::PARAM_STR);
                 $stmt->execute();
             } catch (PDOException $e) {
@@ -216,8 +216,8 @@ class PdoCache extends AbstractPathKeyCache
             throw new RuntimeException(sprintf('Failed getting PDO stats %s', $namespace, $e->getMessage()), 0, $e);
         }
 
-        return array(
+        return [
             CacheInterface::STATS_SIZE => $size,
-        );
+        ];
     }
 }

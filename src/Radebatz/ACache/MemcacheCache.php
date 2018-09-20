@@ -35,10 +35,10 @@ class MemcacheCache extends AbstractPathKeyCache
     /**
      * Create instance.
      *
-     * @param array $config            Optional config settings; default is an empty array.
-     * @param int   $defaultTimeToLive Optional default time-to-live value.
+     * @param array $config            optional config settings; default is an empty array
+     * @param int   $defaultTimeToLive optional default time-to-live value
      */
-    public function __construct(array $config = array(), $defaultTimeToLive = 0)
+    public function __construct(array $config = [], $defaultTimeToLive = 0)
     {
         parent::__construct(self::DEFAULT_NAMESPACE_DELIMITER, $defaultTimeToLive);
 
@@ -46,11 +46,11 @@ class MemcacheCache extends AbstractPathKeyCache
             $this->memcache = new Memcache();
             // merge with some defaults
             $config = array_merge(
-                array(
+                [
                     'host' => 'localhost',
                     'port' => 11211,
                     'compress' => false,
-                ),
+                ],
                 $config
             );
             if (!($connected = @$this->memcache->connect($config['host'], $config['port']))) {
@@ -144,13 +144,13 @@ class MemcacheCache extends AbstractPathKeyCache
     {
         $stats = $this->memcache->getStats();
 
-        return array(
+        return [
             CacheInterface::STATS_SIZE => $stats['curr_items'],
             CacheInterface::STATS_HITS => $stats['get_hits'],
             CacheInterface::STATS_MISSES => $stats['get_misses'],
             CacheInterface::STATS_UPTIME => $stats['uptime'],
             CacheInterface::STATS_MEMORY_USAGE => $stats['bytes'],
             CacheInterface::STATS_MEMORY_AVAILIABLE => $stats['limit_maxbytes'],
-        );
+        ];
     }
 }
