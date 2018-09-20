@@ -147,7 +147,6 @@ class CacheItem implements CacheItemInterface
      */
     protected function setExpiresAt($ttl)
     {
-        var_dump($ttl);
         if (is_int($ttl)) {
             $this->expiresAt = new \DateTime('@' . (time() + $ttl));
         } elseif (($ttl instanceof \DateTimeInterface) || ($ttl instanceof \DateTime)) {

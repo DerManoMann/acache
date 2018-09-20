@@ -142,7 +142,6 @@ class CacheItemPool implements CacheItemPoolInterface
         $expiresAt = $item->getExpiresAt();
         $expiresAt = ($expiresAt instanceof \DateTimeInterface) || ($expiresAt instanceof \DateTime) ? $expiresAt : null;
 
-
         return $this->cache->save($item->getKey(), $item->getValue(), null === $expiresAt ? 0 : $expiresAt->getTimestamp() - time());
     }
 
