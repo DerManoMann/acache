@@ -11,9 +11,6 @@
 
 namespace Radebatz\ACache\Decorators\Psr;
 
-use DateInterval;
-use DateTime;
-use DateTimeInterface;
 use Psr\Cache\CacheItemInterface;
 
 /**
@@ -25,7 +22,7 @@ class CacheItem implements CacheItemInterface
     protected $value;
     /** @var $cache CacheItemPool */
     protected $cacheItemPool;
-    /** @var $expiresAt DateTimeInterface */
+    /** @var $expiresAt \DateTimeInterface */
     protected $expiresAt;
 
     /**
@@ -91,7 +88,7 @@ class CacheItem implements CacheItemInterface
      */
     public function expiresAt($expiration)
     {
-        if (null === $expiration || ($expiration instanceof DateTimeInterface) || ($expiration instanceof DateTime)) {
+        if (null === $expiration || ($expiration instanceof \DateTimeInterface) || ($expiration instanceof \DateTime)) {
             $this->setExpiresAt($expiration);
 
             return $this;
@@ -111,8 +108,8 @@ class CacheItem implements CacheItemInterface
             $this->setExpiresAt($time);
 
             return $this;
-        } elseif ($time instanceof DateInterval) {
-            $now = new DateTime();
+        } elseif ($time instanceof \DateInterval) {
+            $now = new \DateTime();
             $this->setExpiresAt($now->add($time));
 
             return $this;
@@ -136,7 +133,7 @@ class CacheItem implements CacheItemInterface
     /**
      * Get the expires at value.
      *
-     * @return null|DateTimeInterface the expires at date/time
+     * @return null|\DateTimeInterface the expires at date/time
      */
     public function getExpiresAt()
     {
@@ -150,9 +147,10 @@ class CacheItem implements CacheItemInterface
      */
     protected function setExpiresAt($ttl)
     {
+        var_dump($ttl);
         if (is_int($ttl)) {
-            $this->expiresAt = new DateTime('@' . (time() + $ttl));
-        } elseif (($ttl instanceof DateTimeInterface) || ($ttl instanceof DateTime)) {
+            $this->expiresAt = new \DateTime('@' . (time() + $ttl));
+        } elseif (($ttl instanceof \DateTimeInterface) || ($ttl instanceof \DateTime)) {
             $this->expiresAt = $ttl;
         } else {
             $this->expiresAt = null;
