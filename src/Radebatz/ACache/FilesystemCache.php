@@ -252,12 +252,12 @@ class FilesystemCache implements CacheInterface
         $result = (bool) file_put_contents($filename, $expires . PHP_EOL . serialize($data));
 
         $perms = $this->permissions[static::P_FILE];
-        chmod($filename, $perms['mode']);
+        @chmod($filename, $perms['mode']);
         if ($perms['owner']) {
-            chown($filename, $perms['owner']);
+            @chown($filename, $perms['owner']);
         }
         if ($perms['group']) {
-            chgrp($filename, $perms['group']);
+            @chgrp($filename, $perms['group']);
         }
 
         return $result;

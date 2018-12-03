@@ -208,5 +208,8 @@ All issues that break backwards compatibility are flagged [BC].
 * add CS rules 
 * update dev dependencies
 
+### 2.0.2
+* disable more chmod/chown/chgrp warnings in FilesystemCache
+
 ### next
 * 
