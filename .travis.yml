@@ -33,8 +33,7 @@ install:
 
 script:
   - ./vendor/bin/phpunit
-  - ./vendor/bin/php-cs-fixer fix src/ --dry-run
-  - ./vendor/bin/php-cs-fixer fix tests/ --dry-run
+  - if [[ $TRAVIS_PHP_VERSION < 7.4 ]] ; then composer run-script fix-cs; fi;
 
 after_script:
   - php vendor/bin/coveralls -v
