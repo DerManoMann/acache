@@ -11,10 +11,11 @@ services:
   - redis-server
 
 php:
-  - 5.6
-  - 7
   - 7.1
   - 7.2
+  - 7.3
+  - 7.4snapshot
+  - nightly
 
 env:
   matrix:
@@ -32,11 +33,12 @@ install:
 
 script:
   - ./vendor/bin/phpunit
-  - ./vendor/bin/php-cs-fixer fix src/ --dry-run
-  - ./vendor/bin/php-cs-fixer fix tests/ --dry-run
+  - if [[ $TRAVIS_PHP_VERSION < 7.4 ]] ; then composer run-script fix-cs; fi;
 
 after_script:
   - php vendor/bin/coveralls -v
 
-allow_failures:
-  - php: 7.2
+matrix:
+  allow_failures:
+    - php: 7.4snapshot
+    - php: nightly

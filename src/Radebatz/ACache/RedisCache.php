@@ -82,7 +82,7 @@ class RedisCache extends AbstractPathKeyCache
      */
     protected function deleteEntry($id)
     {
-        return 1 === $this->redis->delete($id);
+        return 1 === $this->redis->del($id);
     }
 
     /**
@@ -95,8 +95,8 @@ class RedisCache extends AbstractPathKeyCache
         } else {
             $namespace = implode($this->getNamespaceDelimiter(), (array) $namespace);
             // iterate over all entries and delete matching
-            foreach ($this->redis->getKeys($namespace . '*') as $key) {
-                $this->redis->delete($key);
+            foreach ($this->redis->keys($namespace . '*') as $key) {
+                $this->redis->del($key);
             }
         }
 
