@@ -17,7 +17,7 @@ $cache->save('yin', 'yang');
 echo 'yin and '.$cache->fetch('yin');
 ```
 
-ACache requires PHP 5.3 or later.
+ACache requires PHP 7.1 or later.
 
 
 ## Installation
