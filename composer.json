@@ -20,6 +20,9 @@
         "issues": "https://github.com/DerManoMann/acache/issues",
         "source": "https://github.com/DerManoMann/acache.git"
     },
+    "config": {
+        "sort-packages": true
+    },
     "scripts": {
         "fix-cs": [
             "vendor/bin/php-cs-fixer fix src",
@@ -32,12 +35,12 @@
         "psr/log": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0",
-        "doctrine/cache": "^1.3",
-        "friendsofphp/php-cs-fixer":"^2.13",
-        "satooshi/php-coveralls": "~2.0",
         "cache/integration-tests": "^0.16",
-        "cache/cache": "^1.0"
+        "cache/cache": "^1.0",
+        "php-coveralls/php-coveralls": "~2.1",
+        "phpunit/phpunit": "^7.0",
+        "friendsofphp/php-cs-fixer":"^2.13",
+        "doctrine/cache": "^1.3"
     },
     "autoload": {
         "psr-4": {
