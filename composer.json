@@ -38,6 +38,7 @@
         "cache/integration-tests": "^0.16",
         "cache/cache": "^1.0",
         "php-coveralls/php-coveralls": "~2.1",
+        "phpunit/php-code-coverage": "^6.1|^7.0.5",
         "phpunit/phpunit": "^7.0",
         "friendsofphp/php-cs-fixer":"^2.13",
         "doctrine/cache": "^1.3"
