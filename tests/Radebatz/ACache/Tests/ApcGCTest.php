@@ -29,7 +29,7 @@ class ApcGCTest extends TestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {

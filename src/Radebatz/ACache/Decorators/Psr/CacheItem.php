@@ -41,7 +41,7 @@ class CacheItem implements CacheItemInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getKey()
     {
@@ -49,7 +49,7 @@ class CacheItem implements CacheItemInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function get()
     {
@@ -57,7 +57,7 @@ class CacheItem implements CacheItemInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function set($value, $ttl = null)
     {
@@ -68,7 +68,7 @@ class CacheItem implements CacheItemInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws InvalidArgumentException
      */
@@ -82,7 +82,7 @@ class CacheItem implements CacheItemInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws InvalidArgumentException
      */
@@ -98,7 +98,7 @@ class CacheItem implements CacheItemInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws InvalidArgumentException
      */

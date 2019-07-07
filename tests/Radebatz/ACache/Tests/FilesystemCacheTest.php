@@ -19,7 +19,7 @@ use Radebatz\ACache\FilesystemCache;
 class FilesystemCacheTest extends NamespaceCacheTest
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function tearDown()
     {

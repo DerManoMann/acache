@@ -41,7 +41,7 @@ class RedisCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function available()
     {
@@ -49,7 +49,7 @@ class RedisCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function fetchEntry($id)
     {
@@ -57,7 +57,7 @@ class RedisCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function containsEntry($id)
     {
@@ -65,7 +65,7 @@ class RedisCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function saveEntry($id, $entry, $lifeTime = 0)
     {
@@ -78,7 +78,7 @@ class RedisCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function deleteEntry($id)
     {
@@ -86,7 +86,7 @@ class RedisCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function flush($namespace = null)
     {
@@ -104,7 +104,7 @@ class RedisCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getStats()
     {

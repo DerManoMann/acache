@@ -72,7 +72,7 @@ class ApcGC
 
             // calculate what is left
             $size = $mem['num_seg'] * $mem['seg_size'];
-            $avail = (double) $mem['avail_mem'];
+            $avail = (float) $mem['avail_mem'];
             $avail_p = (int) sprintf('%d', $avail * 100 / $size);
 
             // check for clear first because then we do not have to do GC...

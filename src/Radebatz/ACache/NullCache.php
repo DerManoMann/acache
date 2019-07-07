@@ -31,7 +31,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function available()
     {
@@ -39,7 +39,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetch($id, $namespace = null)
     {
@@ -47,7 +47,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function contains($id, $namespace = null)
     {
@@ -55,7 +55,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTimeToLive($id, $namespace = null)
     {
@@ -63,7 +63,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultTimeToLive()
     {
@@ -71,7 +71,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save($id, $entry, $lifeTime = null, $namespace = null)
     {
@@ -79,7 +79,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete($id, $namespace = null)
     {
@@ -87,7 +87,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function flush($namespace = null)
     {
@@ -95,7 +95,7 @@ class NullCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getStats()
     {

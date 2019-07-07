@@ -34,7 +34,7 @@ class DoctrineCache implements Cache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetch($id)
     {
@@ -46,7 +46,7 @@ class DoctrineCache implements Cache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function contains($id)
     {
@@ -54,7 +54,7 @@ class DoctrineCache implements Cache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save($id, $data, $lifeTime = 0)
     {
@@ -62,7 +62,7 @@ class DoctrineCache implements Cache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete($id)
     {
@@ -70,7 +70,7 @@ class DoctrineCache implements Cache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getStats()
     {

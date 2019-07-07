@@ -67,7 +67,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function available()
     {
@@ -95,7 +95,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetch($id, $namespace = null)
     {
@@ -118,7 +118,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function contains($id, $namespace = null)
     {
@@ -133,7 +133,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTimeToLive($id, $namespace = null)
     {
@@ -148,7 +148,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultTimeToLive()
     {
@@ -156,7 +156,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save($id, $data, $lifeTime = null, $namespace = null)
     {
@@ -171,7 +171,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete($id, $namespace = null)
     {
@@ -186,7 +186,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function flush($namespace = null)
     {
@@ -201,7 +201,7 @@ class MultiLevelCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getStats()
     {

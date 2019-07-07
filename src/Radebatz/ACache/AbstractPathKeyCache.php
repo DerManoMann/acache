@@ -37,7 +37,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     /**
      * Default implementation that always returns <code>true</code>.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function available()
     {
@@ -71,7 +71,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetch($id, $namespace = null)
     {
@@ -85,7 +85,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function contains($id, $namespace = null)
     {
@@ -93,7 +93,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTimeToLive($id, $namespace = null)
     {
@@ -107,7 +107,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultTimeToLive()
     {
@@ -115,7 +115,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save($id, $data, $lifeTime = null, $namespace = null)
     {
@@ -131,7 +131,7 @@ abstract class AbstractPathKeyCache implements CacheInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete($id, $namespace = null)
     {

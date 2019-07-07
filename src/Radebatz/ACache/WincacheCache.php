@@ -19,7 +19,7 @@ namespace Radebatz\ACache;
 class WincacheCache extends AbstractPathKeyCache
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function available()
     {
@@ -27,7 +27,7 @@ class WincacheCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function fetchEntry($id)
     {
@@ -37,7 +37,7 @@ class WincacheCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function containsEntry($id)
     {
@@ -45,7 +45,7 @@ class WincacheCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function saveEntry($id, $entry, $lifeTime = 0)
     {
@@ -53,7 +53,7 @@ class WincacheCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function deleteEntry($id)
     {
@@ -61,7 +61,7 @@ class WincacheCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function flush($namespace = null)
     {
@@ -83,7 +83,7 @@ class WincacheCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getStats()
     {

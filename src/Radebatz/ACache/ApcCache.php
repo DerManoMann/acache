@@ -38,7 +38,7 @@ class ApcCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function available()
     {
@@ -46,7 +46,7 @@ class ApcCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function fetchEntry($id)
     {
@@ -54,7 +54,7 @@ class ApcCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function containsEntry($id)
     {
@@ -62,7 +62,7 @@ class ApcCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function saveEntry($id, $entry, $lifeTime = 0)
     {
@@ -74,7 +74,7 @@ class ApcCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function deleteEntry($id)
     {
@@ -82,7 +82,7 @@ class ApcCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function flush($namespace = null)
     {
@@ -104,7 +104,7 @@ class ApcCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getStats()
     {
