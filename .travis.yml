@@ -25,7 +25,7 @@ env:
 before_install:
   - pecl channel-update pecl.php.net
   - composer self-update
-  - if [[ $TRAVIS_PHP_VERSION = 7.* ]] ; then pecl config-set preferred_state stable; echo yes | pecl --soft install apcu; fi;
+  - if [[ $TRAVIS_PHP_VERSION = 7.* ]]; then pecl config-set preferred_state stable; echo yes | pecl --soft install apcu; fi;
   - phpenv config-add ./.travis_php.ini
 
 install:
@@ -33,10 +33,10 @@ install:
 
 script:
   - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-  - if [[ $TRAVIS_PHP_VERSION < 7.4 ]] ; then composer run-script fix-cs; fi;
+  - if [[ $TRAVIS_PHP_VERSION < 7.4 ]]; then composer run-script fix-cs; fi;
 
 after_script:
-  - if [[ $TRAVIS_PHP_VERSION = 7.3] && [$PREFER_LOWEST  = "" ]] ; then php vendor/bin/php-coveralls -v; fi;
+  - if [[ $TRAVIS_PHP_VERSION = 7.3 && $PREFER_LOWEST = '' ]]; then php vendor/bin/php-coveralls -v; fi;
 
 matrix:
   allow_failures:
