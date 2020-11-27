@@ -35,7 +35,7 @@
         "psr/log": "^1.0"
     },
     "require-dev": {
-        "cache/integration-tests": "^0.16",
+        "cache/integration-tests": "^0.17",
         "cache/cache": "^1.0",
         "php-coveralls/php-coveralls": "~2.1",
         "phpunit/php-code-coverage": "^6.1|^7.0.5",
