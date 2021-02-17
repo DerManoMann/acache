@@ -21,7 +21,7 @@ class ApcCacheTest extends NamespaceCacheTest
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $cache = new ApcCache();
         if (!$cache->available()) {

@@ -1,4 +1,4 @@
-sudo: false
+udo: false
 language: php
 
 cache:

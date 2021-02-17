@@ -41,7 +41,7 @@ class MongoDBCacheTest extends NamespaceCacheTest
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!$this->hasMongo()) {
             $this->markTestSkipped('Skipping Mongo');

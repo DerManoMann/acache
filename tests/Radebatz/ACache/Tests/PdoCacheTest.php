@@ -92,10 +92,11 @@ class PdoCacheTest extends NamespaceCacheTest
      * Test invalid fetch.
      *
      * @dataProvider invalidCacheProvider
-     * @expectedException \RuntimeException
      */
     public function testInvalidFetch(PdoCache $cache)
     {
+        $this->expectException(\RuntimeException::class);
+
         $cache->fetch('foo');
     }
 
@@ -103,10 +104,11 @@ class PdoCacheTest extends NamespaceCacheTest
      * Test invalid save.
      *
      * @dataProvider invalidCacheProvider
-     * @expectedException \RuntimeException
      */
     public function testInvalidSave(PdoCache $cache)
     {
+        $this->expectException(\RuntimeException::class);
+
         $cache->save('foo', 'bar');
     }
 
@@ -114,10 +116,11 @@ class PdoCacheTest extends NamespaceCacheTest
      * Test invalid contains.
      *
      * @dataProvider invalidCacheProvider
-     * @expectedException \RuntimeException
      */
     public function testInvalidContains(PdoCache $cache)
     {
+        $this->expectException(\RuntimeException::class);
+
         $cache->contains('foo');
     }
 
@@ -125,10 +128,11 @@ class PdoCacheTest extends NamespaceCacheTest
      * Test invalid delete.
      *
      * @dataProvider invalidCacheProvider
-     * @expectedException \RuntimeException
      */
     public function testInvalidDelete(PdoCache $cache)
     {
+        $this->expectException(\RuntimeException::class);
+
         $cache->delete('foo');
     }
 }

@@ -22,7 +22,7 @@ class CacheItemPool implements CacheItemPoolInterface
 {
     const BAD_KEY_CHARS = '{}()/\@:';
 
-    /** @var $cache CacheInterface */
+    /** @var CacheInterface */
     protected $cache;
     protected $deferred;
 

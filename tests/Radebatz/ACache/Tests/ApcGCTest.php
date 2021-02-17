@@ -31,7 +31,7 @@ class ApcGCTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!$this->hasApc()) {
             $this->markTestSkipped('Skipping Apc');

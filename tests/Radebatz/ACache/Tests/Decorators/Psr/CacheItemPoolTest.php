@@ -14,6 +14,7 @@ namespace Radebatz\ACache\Tests\Decorators;
 use PHPUnit\Framework\TestCase;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\Decorators\Psr\CacheItemPool;
+use Radebatz\ACache\Decorators\Psr\InvalidArgumentException;
 
 /**
  * Psr CacheItemPool tests.
@@ -171,11 +172,11 @@ class CacheItemPoolTest extends TestCase
 
     /**
      * Test invalid key.
-     *
-     * @expectedException Radebatz\ACache\Decorators\Psr\InvalidArgumentException
      */
     public function testInvalidKey()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $cachePool = $this->getCachePool();
         $cachePool->getItem('(foo');
     }

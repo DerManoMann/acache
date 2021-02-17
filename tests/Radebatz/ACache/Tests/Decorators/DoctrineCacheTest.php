@@ -31,7 +31,7 @@ class DoctrineCacheTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!$this->hasDoctrineCache()) {
             $this->markTestSkipped('Skipping DoctrineCache');

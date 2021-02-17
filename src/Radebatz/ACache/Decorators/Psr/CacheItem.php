@@ -20,9 +20,9 @@ class CacheItem implements CacheItemInterface
 {
     protected $key;
     protected $value;
-    /** @var $cache CacheItemPool */
+    /** @var CacheItemPool */
     protected $cacheItemPool;
-    /** @var $expiresAt \DateTimeInterface */
+    /** @var \DateTimeInterface */
     protected $expiresAt;
 
     /**

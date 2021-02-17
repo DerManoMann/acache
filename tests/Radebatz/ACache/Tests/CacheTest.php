@@ -51,7 +51,7 @@ abstract class CacheTest extends TestCase
             return $property->getValue($obj);
         }
 
-        return;
+        return null;
     }
 
     /**
