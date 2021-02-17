@@ -52,7 +52,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: pdo_sqlite
+          extensions: pdo_sqlite, apcu
+          ini-values: apc.enabled=1, apc.enable_cli=1
           coverage: pcov
 
       - name: Start Redis
