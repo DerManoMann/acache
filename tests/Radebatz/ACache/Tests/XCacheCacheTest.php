@@ -21,7 +21,7 @@ class XCacheCacheTest extends NamespaceCacheTest
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $cache = new XCacheCache();
         // xcache will not work in CL mode

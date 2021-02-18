@@ -1,7 +1,7 @@
 ACache, a flexible PHP cache library
 ====================================
 
-[![Build Status](https://travis-ci.org/DerManoMann/acache.png)](https://travis-ci.org/DerManoMann/acache)
+[![Build Status](https://github.com/DerManoMann/acache/workflows/build/badge.svg)](https://github.com/DerManoMann/acache/actions?query=workflow:build)
 [![Coverage Status](https://coveralls.io/repos/DerManoMann/acache/badge.png)](https://coveralls.io/r/DerManoMann/acache)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 

@@ -30,7 +30,7 @@ class RedisCacheTest extends NamespaceCacheTest
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!$this->hasRedis()) {
             $this->markTestSkipped('Skipping Redis');

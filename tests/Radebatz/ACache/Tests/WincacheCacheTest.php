@@ -21,7 +21,7 @@ class WincacheCacheTest extends NamespaceCacheTest
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $cache = new WincacheCache();
         if (!$cache->available()) {

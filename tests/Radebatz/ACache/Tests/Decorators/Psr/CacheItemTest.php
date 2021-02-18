@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Radebatz\ACache\ArrayCache;
 use Radebatz\ACache\Decorators\Psr\CacheItem;
 use Radebatz\ACache\Decorators\Psr\CacheItemPool;
+use Radebatz\ACache\Decorators\Psr\InvalidArgumentException;
 
 /**
  * Psr CacheItem tests.
@@ -61,22 +62,22 @@ class CacheItemTest extends TestCase
 
     /**
      * Test invalid expiresAt.
-     *
-     * @expectedException Radebatz\ACache\Decorators\Psr\InvalidArgumentException
      */
     public function testInvalidExpiresAt()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $cacheItem = $this->getCacheItem('ping', 'pong');
         $cacheItem->expiresAt('yo');
     }
 
     /**
      * Test invalid key.
-     *
-     * @expectedException Radebatz\ACache\Decorators\Psr\InvalidArgumentException
      */
     public function testInvalidKey()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->getCacheItem('{ping', 'pong');
     }
 

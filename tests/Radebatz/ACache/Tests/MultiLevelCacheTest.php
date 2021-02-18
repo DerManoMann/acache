@@ -133,7 +133,7 @@ class MultiLevelCacheTest extends CacheTest
         $cache = new MultiLevelCache([new NullCache(false)], false, $logger = new TestLogger());
         $this->assertFalse($cache->available());
         $this->assertEquals(2, count($logger->lines));
-        $this->assertContains('not available', $logger->lines[0]);
+        $this->assertStringContainsString('not available', $logger->lines[0]);
     }
 
     /**

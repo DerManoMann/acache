@@ -21,7 +21,7 @@ class FilesystemCacheTest extends NamespaceCacheTest
     /**
      * {@inheritdoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         rmdir($this->getTempDir());
     }
@@ -72,11 +72,11 @@ class FilesystemCacheTest extends NamespaceCacheTest
 
     /**
      * Test not writeable folder.
-     *
-     * @expectedException InvalidArgumentException
      */
     public function testNotWriteable()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $dir = $this->getTempDir(0000);
         if (is_writeable($dir)) {
             $this->markTestSkipped('Seems chmod is not supported here.');
@@ -87,11 +87,11 @@ class FilesystemCacheTest extends NamespaceCacheTest
 
     /**
      * Test invalid directory.
-     *
-     * @expectedException InvalidArgumentException
      */
     public function testInvalid()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         new FilesystemCache(tempnam(sys_get_temp_dir(), 'acache_'));
     }
 

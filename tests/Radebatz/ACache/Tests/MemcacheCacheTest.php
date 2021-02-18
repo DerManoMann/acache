@@ -21,7 +21,7 @@ class MemcacheCacheTest extends NamespaceCacheTest
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $cache = new MemcacheCache();
         if (!$cache->available()) {
