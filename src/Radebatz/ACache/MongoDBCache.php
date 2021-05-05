@@ -37,7 +37,7 @@ class MongoDBCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function available()
     {
@@ -45,7 +45,7 @@ class MongoDBCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function fetchEntry($id)
     {
@@ -57,7 +57,7 @@ class MongoDBCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function containsEntry($id)
     {
@@ -65,7 +65,7 @@ class MongoDBCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function saveEntry($id, $entry, $lifeTime = 0)
     {
@@ -80,7 +80,7 @@ class MongoDBCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function deleteEntry($id)
     {
@@ -90,7 +90,7 @@ class MongoDBCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush($namespace = null)
     {
@@ -109,7 +109,7 @@ class MongoDBCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStats()
     {

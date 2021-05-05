@@ -19,7 +19,7 @@ use Radebatz\ACache\ApcCache;
 class ApcCacheTest extends NamespaceCacheTest
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setUp(): void
     {

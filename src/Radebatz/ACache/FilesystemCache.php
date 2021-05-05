@@ -73,7 +73,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function available()
     {
@@ -171,7 +171,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function fetch($id, $namespace = null)
     {
@@ -187,7 +187,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function contains($id, $namespace = null)
     {
@@ -201,7 +201,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTimeToLive($id, $namespace = null)
     {
@@ -215,7 +215,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDefaultTimeToLive()
     {
@@ -223,7 +223,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save($id, $data, $lifeTime = null, $namespace = null)
     {
@@ -264,7 +264,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete($id, $namespace = null)
     {
@@ -274,7 +274,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush($namespace = null)
     {
@@ -297,7 +297,7 @@ class FilesystemCache implements CacheInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStats()
     {

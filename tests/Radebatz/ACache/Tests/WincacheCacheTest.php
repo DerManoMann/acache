@@ -19,7 +19,7 @@ use Radebatz\ACache\WincacheCache;
 class WincacheCacheTest extends NamespaceCacheTest
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setUp(): void
     {
