@@ -46,7 +46,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hasItem($key)
     {
@@ -60,7 +60,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getItem($key)
     {
@@ -82,7 +82,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getItems(array $keys = [])
     {
@@ -95,7 +95,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function clear()
     {
@@ -106,7 +106,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deleteItem($key)
     {
@@ -122,7 +122,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deleteItems(array $keys)
     {
@@ -135,7 +135,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save(CacheItemInterface $item)
     {
@@ -145,7 +145,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function saveDeferred(CacheItemInterface $item)
     {
@@ -155,7 +155,7 @@ class CacheItemPool implements CacheItemPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function commit()
     {

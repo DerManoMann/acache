@@ -28,7 +28,7 @@ class RedisCacheTest extends NamespaceCacheTest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setUp(): void
     {

@@ -59,7 +59,7 @@ class PdoCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function available()
     {
@@ -67,7 +67,7 @@ class PdoCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function fetchEntry($id)
     {
@@ -90,7 +90,7 @@ class PdoCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function containsEntry($id)
     {
@@ -114,7 +114,7 @@ class PdoCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function saveEntry($id, $entry, $lifeTime = 0)
     {
@@ -139,7 +139,7 @@ class PdoCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function deleteEntry($id)
     {
@@ -158,7 +158,7 @@ class PdoCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush($namespace = null)
     {
@@ -189,7 +189,7 @@ class PdoCache extends AbstractPathKeyCache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStats()
     {

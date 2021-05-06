@@ -19,7 +19,7 @@ use Radebatz\ACache\XCacheCache;
 class XCacheCacheTest extends NamespaceCacheTest
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setUp(): void
     {

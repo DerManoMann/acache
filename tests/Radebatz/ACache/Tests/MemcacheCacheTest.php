@@ -19,7 +19,7 @@ use Radebatz\ACache\MemcacheCache;
 class MemcacheCacheTest extends NamespaceCacheTest
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setUp(): void
     {

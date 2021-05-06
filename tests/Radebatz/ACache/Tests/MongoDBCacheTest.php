@@ -39,7 +39,7 @@ class MongoDBCacheTest extends NamespaceCacheTest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setUp(): void
     {

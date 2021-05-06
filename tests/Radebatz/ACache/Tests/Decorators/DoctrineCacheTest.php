@@ -29,7 +29,7 @@ class DoctrineCacheTest extends TestCase
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setUp(): void
     {
